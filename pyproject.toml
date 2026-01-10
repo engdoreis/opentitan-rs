@@ -1,0 +1,13 @@
+[project]
+name = "opentitan-rs"
+version = "0.0.0"
+description = "Opentitan-rs"
+requires-python = ">=3.10"
+
+dependencies = [
+    "rdl2ot>=0.4.0",
+]
+
+[tool.setuptools]
+py-modules = []
+
