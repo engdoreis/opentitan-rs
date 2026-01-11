@@ -1,0 +1,13 @@
+[build]
+target = "riscv32imc-unknown-none-elf"
+
+[target.riscv32imc-unknown-none-elf]
+# runner = ""
+rustflags = [
+  "-C", "link-arg=-T./lib/linker/link.ld",
+  "-C", "link-arg=-L./lib/linker",
+]
+
+[unstable]
+build-std = ["core"]
+

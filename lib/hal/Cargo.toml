@@ -1,0 +1,12 @@
+[package]
+name = "hal"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name="hal"
+path="lib.rs"
+
+[dependencies]
+riscv = "0.16.0"
+zermio = { version = "0.1.0", path = "../zermio/earlgrey" }
