@@ -1,0 +1,29 @@
+`include "ip/rv_core_ibex.rdl"
+`include "ip/rv_timer.rdl"
+`include "ip/uart.rdl"
+`include "ip/udp.rdl"
+
+addrmap earlgrey {
+  external mem {
+    mementries = 0x8000; memwidth=8;
+  } ROM @ 0x0000_8000;
+
+  external mem {
+    mementries = 0x0002_0000; memwidth=8;
+  } SRAM @ 0x1000_0000;
+
+  external mem {
+    mementries = 0x10_0000; memwidth=8;
+  } FLASH @ 0x2000_0000;
+
+  external mem {
+    mementries = 0x1000; memwidth=8;
+  } RET_SRAM @ 0x4060_0000;
+
+  uart UART[4] @ 0x4000_0000;
+
+  rv_timer TIMER @ 0x4010_0000;
+
+  rv_core_ibex RV_CORE_IBEX @ 0x411F0000;
+};
+  

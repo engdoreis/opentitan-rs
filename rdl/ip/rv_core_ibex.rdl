@@ -1,0 +1,497 @@
+`include "udp.rdl"
+
+addrmap rv_core_ibex #(
+    longint NumSwAlerts = 2,
+    longint NumRegions = 2,
+    longint NumScratchWords = 8,
+    longint NumAlerts = 4
+){
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "logic";
+    } RST_CPU_N;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "ram_1p_cfg";
+        inter_mod_package = "prim_ram_1p_pkg";
+    } RAM_CFG_ICACHE_TAG;
+
+    signal {
+        signalwidth = 0x2;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "ram_1p_cfg_rsp";
+        inter_mod_package = "prim_ram_1p_pkg";
+    } RAM_CFG_RSP_ICACHE_TAG;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "ram_1p_cfg";
+        inter_mod_package = "prim_ram_1p_pkg";
+    } RAM_CFG_ICACHE_DATA;
+
+    signal {
+        signalwidth = 0x2;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "ram_1p_cfg_rsp";
+        inter_mod_package = "prim_ram_1p_pkg";
+    } RAM_CFG_RSP_ICACHE_DATA;
+
+    signal {
+        signalwidth = 0x20;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } HART_ID;
+
+    signal {
+        signalwidth = 0x20;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } BOOT_ADDR;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } IRQ_SOFTWARE;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } IRQ_TIMER;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } IRQ_EXTERNAL;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "esc_tx";
+        inter_mod_package = "prim_esc_pkg";
+    } ESC_TX;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "esc_rx";
+        inter_mod_package = "prim_esc_pkg";
+    } ESC_RX;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } DEBUG_REQ;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "cpu_crash_dump";
+        inter_mod_package = "rv_core_ibex_pkg";
+    } CRASH_DUMP;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "lc_tx";
+        inter_mod_package = "lc_ctrl_pkg";
+    } LC_CPU_EN;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "lc_tx";
+        inter_mod_package = "lc_ctrl_pkg";
+    } PWRMGR_CPU_EN;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "cpu_pwrmgr";
+        inter_mod_package = "rv_core_ibex_pkg";
+    } PWRMGR;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } NMI_WDOG;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReqRsp;
+        inter_mod_struct = "edn";
+        inter_mod_package = "edn_pkg";
+    } EDN;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReqRsp;
+        inter_mod_struct = "sram_otp_key";
+        inter_mod_package = "otp_ctrl_pkg";
+    } ICACHE_OTP_KEY;
+
+    signal {
+        signalwidth = 0x20;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } FPGA_INFO;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReqRsp;
+        inter_mod_struct = "tl";
+        inter_mod_package = "tlul_pkg";
+    } COREI_TL_H;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReqRsp;
+        inter_mod_struct = "tl";
+        inter_mod_package = "tlul_pkg";
+    } CORED_TL_H;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReqRsp;
+        inter_mod_struct = "tl";
+        inter_mod_package = "tlul_pkg";
+    } CFG_TL_D;
+
+    signal {
+        desc = "Software triggered alert for fatal faults";
+        signalwidth = 0x1;
+        sigtype = SigType::Alert;
+    } FATAL_SW_ERR;
+
+    signal {
+        desc = "Software triggered Alert for recoverable faults";
+        signalwidth = 0x1;
+        sigtype = SigType::Alert;
+    } RECOV_SW_ERR;
+
+    signal {
+        desc = "Triggered when- Ibex raises alert_major_internal_o- Ibex raises alert_major_bus_o- A double fault is seen (Ibex raises double_fault_seen_o)- A bus integrity error is seen";
+        signalwidth = 0x1;
+        sigtype = SigType::Alert;
+    } FATAL_HW_ERR;
+
+    signal {
+        desc = "Triggered when Ibex raises alert_minor_o";
+        signalwidth = 0x1;
+        sigtype = SigType::Alert;
+    } RECOV_HW_ERR;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } CLK_I;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } RST_NI;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } CLK_EDN_I;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } RST_EDN_NI;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } CLK_ESC_I;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } RST_ESC_NI;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } CLK_OTP_I;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } RST_OTP_NI;
+
+    addrmap {
+        bus_interface_cfg = BusInterfaceCfg'{
+            racl_support : false,
+            direction : BusDirection::Host,
+            protocol : BusProtocol::TlUl,
+            hier_path : "u_reg"
+        };
+        external reg {
+            desc = "Alert Test Register";
+            field {
+                sw = w;
+                hw = r;
+                reset = 0x0;
+                swmod = true;
+                desc = "Write 1 to trigger one alert event of this kind.";
+            } FATAL_SW_ERR[0:0];
+            field {
+                sw = w;
+                hw = r;
+                reset = 0x0;
+                swmod = true;
+                desc = "Write 1 to trigger one alert event of this kind.";
+            } RECOV_SW_ERR[1:1];
+            field {
+                sw = w;
+                hw = r;
+                reset = 0x0;
+                swmod = true;
+                desc = "Write 1 to trigger one alert event of this kind.";
+            } FATAL_HW_ERR[2:2];
+            field {
+                sw = w;
+                hw = r;
+                reset = 0x0;
+                swmod = true;
+                desc = "Write 1 to trigger one alert event of this kind.";
+            } RECOV_HW_ERR[3:3];
+        } ALERT_TEST @ 0x0;
+
+        reg {
+            desc = "Software recoverable error";
+            field {
+                sw = rw;
+                hw = rw;
+                reset = 0x9;
+                desc = "Software recoverable alert.When set to any value other than kMultiBitBool4False, a recoverable alert is sent.Once the alert is sent, the field is then reset to kMultiBitBool4False.";
+                encode = MultiBitBool4;
+            } VAL[3:0];
+        } SW_RECOV_ERR @ 0x4;
+
+        reg {
+            desc = "Software fatal error";
+            field {
+                sw = rw;
+                onwrite = woset;
+                hw = r;
+                reset = 0x9;
+                desc = "Software fatal alert.When set to any value other than kMultiBitBool4False, a fatal alert is sent.Note, this field once cleared cannot be set and will continuously cause alert events.";
+                encode = MultiBitBool4;
+            } VAL[3:0];
+        } SW_FATAL_ERR @ 0x8;
+
+        reg {
+            desc = "Enable mask for NMI.Once an enable mask is set, it cannot be disabled.";
+            field {
+                sw = rw;
+                onwrite = woset;
+                hw = r;
+                reset = 0x0;
+                desc = "Enable mask for alert NMI";
+            } ALERT_EN[0:0];
+            field {
+                sw = rw;
+                onwrite = woset;
+                hw = r;
+                reset = 0x0;
+                desc = "Enable mask for watchdog NMI";
+            } WDOG_EN[1:1];
+        } NMI_ENABLE @ 0x4C;
+
+        reg {
+            desc = "Current NMI state";
+            field {
+                sw = rw;
+                onwrite = woclr;
+                hw = rw;
+                reset = 0x0;
+                desc = "Current state for alert NMI";
+            } ALERT[0:0];
+            field {
+                sw = rw;
+                onwrite = woclr;
+                hw = rw;
+                reset = 0x0;
+                desc = "Current state for watchdog NMI";
+            } WDOG[1:1];
+        } NMI_STATE @ 0x50;
+
+        reg {
+            desc = "error status";
+            field {
+                sw = rw;
+                onwrite = woclr;
+                hw = w;
+                reset = 0x0;
+                desc = "rv_core_ibex_peri detected a register transmission integrity error";
+            } REG_INTG_ERR[0:0];
+            field {
+                sw = rw;
+                onwrite = woclr;
+                hw = w;
+                reset = 0x0;
+                desc = "rv_core_ibex detected a response integrity error";
+            } FATAL_INTG_ERR[8:8];
+            field {
+                sw = rw;
+                onwrite = woclr;
+                hw = w;
+                reset = 0x0;
+                desc = "rv_core_ibex detected a fatal internal error(alert_major_internal_o from Ibex seen)";
+            } FATAL_CORE_ERR[9:9];
+            field {
+                sw = rw;
+                onwrite = woclr;
+                hw = w;
+                reset = 0x0;
+                desc = "rv_core_ibex detected a recoverable internal error(alert_minor from Ibex seen)";
+            } RECOV_CORE_ERR[10:10];
+        } ERR_STATUS @ 0x54;
+
+        external reg {
+            hwre = true;
+            desc = "Random data from EDN";
+            field {
+                sw = r;
+                hw = rw;
+                reset = 0x0;
+                desc = "Random bits taken from the EDN. !!RND_STATUS.RND_DATA_VALIDindicates if this data is valid. When valid, reading from thisregister invalidates the data and requests new data from the EDN.The register becomes valid again when the EDN provides new data.When invalid the register value will read as 0x0 with an EDNrequest for new data pending. Upon reset the data will be invalidwith a new EDN request pending.";
+            } DATA[31:0];
+        } RND_DATA @ 0x58;
+
+        external reg {
+            desc = "Status of random data in !!RND_DATA";
+            field {
+                sw = r;
+                hw = w;
+                reset = false;
+                desc = "When set, the data in !!RND_DATA is valid. When clear an EDNrequest for new data for !!RND_DATA is pending.";
+            } RND_DATA_VALID[0:0];
+            field {
+                sw = r;
+                hw = w;
+                reset = false;
+                desc = "When !!RND_STATUS.RND_DATA_VALID is 1, this bit indicates whether!!RND_DATA is fips quality.When !!RND_STATUS.RND_DATA_VALID is 0, this bit has no meaning.";
+            } RND_DATA_FIPS[1:1];
+        } RND_STATUS @ 0x5C;
+
+        external reg {
+            desc = "FPGA build timestamp info.This register only contains valid data for fpga, for all other variants it is simply 0.";
+            field {
+                sw = r;
+                hw = w;
+                reset = 0x0;
+                desc = "FPGA build timestamp information.";
+            } VAL[31:0];
+        } FPGA_INFO @ 0x60;
+
+        reg {
+            desc = "Ibus address control regwen.";
+            field {
+                sw = rw;
+                onwrite = wzc;
+                hw = na;
+                reset = true;
+                desc = "Ibus address controls write enable.  Once set to 0, it can longer be configured to 1";
+            } EN[0:0];
+        } IBUS_REGWEN[2] @ 0xC;
+
+        reg {
+            desc = "Enable Ibus address matching";
+            field {
+                sw = rw;
+                hw = r;
+                reset = false;
+                desc = "Enable ibus address matching.";
+                swwe = true;
+            } EN[0:0];
+        } IBUS_ADDR_EN[2] @ 0x14;
+
+        reg {
+            desc = "  Matching region programming for ibus.  The value programmed is done at power-of-2 alignment.  For example, if the intended matching region is 0x8000_0000 to 0x8000_FFFF, the value programmed is 0x8000_7FFF.  The value programmed can be determined from the translation granule.  Assume the user wishes to translate a specific 64KB block to a different address:  64KB has a hex value of 0x10000.  Subtract 1 from this value and then right shift by one to obtain 0x7FFF.  This value is then logically OR'd with the upper address bits that would select which 64KB to translate.  In this example, the user wishes to translate the 0x8000-th 64KB block.  The value programmed is then 0x8000_7FFF.  If the user were to translate the 0x8001-th 64KB block, the value programmed would be 0x8001_7FFF.";
+            field {
+                sw = rw;
+                hw = r;
+                reset = false;
+                desc = "  Matching region value  ";
+                swwe = true;
+            } VAL[31:0];
+        } IBUS_ADDR_MATCHING[2] @ 0x1C;
+
+        reg {
+            desc = "  The remap address after a match has been made.  The remap bits apply only to top portion of address bits not covered by the matching region.  For example, if the translation region is 64KB, the remapped address applies only to the upper  address bits that select which 64KB to be translated.";
+            field {
+                sw = rw;
+                hw = r;
+                reset = false;
+                desc = "  Remap addr value  ";
+                swwe = true;
+            } VAL[31:0];
+        } IBUS_REMAP_ADDR[2] @ 0x24;
+
+        reg {
+            desc = "Dbus address control regwen.";
+            field {
+                sw = rw;
+                onwrite = wzc;
+                hw = na;
+                reset = true;
+                desc = "Ibus address controls write enable.  Once set to 0, it can longer be configured to 1";
+            } EN[0:0];
+        } DBUS_REGWEN[2] @ 0x2C;
+
+        reg {
+            desc = "Enable dbus address matching";
+            field {
+                sw = rw;
+                hw = r;
+                reset = false;
+                desc = "Enable dbus address matching.";
+                swwe = true;
+            } EN[0:0];
+        } DBUS_ADDR_EN[2] @ 0x34;
+
+        reg {
+            desc = "See !!IBUS_ADDR_MATCHING_0 for detailed description.";
+            field {
+                sw = rw;
+                hw = r;
+                reset = false;
+                desc = "  Matching region value  ";
+                swwe = true;
+            } VAL[31:0];
+        } DBUS_ADDR_MATCHING[2] @ 0x3C;
+
+        reg {
+            desc = "See !!IBUS_REMAP_ADDR_0 for a detailed description.";
+            field {
+                sw = rw;
+                hw = r;
+                reset = false;
+                desc = "  Remap addr value  ";
+                swwe = true;
+            } VAL[31:0];
+        } DBUS_REMAP_ADDR[2] @ 0x44;
+
+        reg {
+            desc = "See .";
+            field {
+                sw = rw;
+                desc = "sim";
+            } VAL[31:0];
+        } DV_SIM_WINDOW[8] @ 0x80;
+
+    } CFG;
+
+};
