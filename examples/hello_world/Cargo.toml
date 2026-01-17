@@ -6,6 +6,7 @@ edition = "2024"
 [dependencies]
 embedded-hal = "1.0.0"
 hal = { version = "0.1.0", path = "../../lib/hal" }
+manifest = { version = "0.1.0", path = "../../lib/manifest" }
 panic-halt = "1.0.0"
 riscv = { version = "0.16.0", features = ["critical-section-single-hart"] }
 riscv-rt = "0.17.0"

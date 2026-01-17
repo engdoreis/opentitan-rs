@@ -9,6 +9,8 @@ use embedded_hal::delay::DelayNs;
 use riscv::delay::McycleDelay;
 use riscv_rt::entry;
 
+extern crate manifest as _;
+
 const CPU_CLOCK_HZ: u32 = 500_000;
 const PERIPHERAL_CLOCK_HZ: u32 = 125_000;
 const BAUD: u32 = 7200;

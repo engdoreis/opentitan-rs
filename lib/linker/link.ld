@@ -15,7 +15,8 @@ MEMORY
 _min_stack     = 0x1000;   /* 4KiB - minimum stack space to reserve */
 _stack_start   = ORIGIN(stack) + LENGTH(stack);
 
-_entry_point = _vectors_start + 0x80 + 0x80;
+_entry_point = _vectors_start + 0x80;
+_manifest_entry_point = _entry_point - ORIGIN(flash) ;
 ENTRY(_entry_point)
 
 /* Rust dependency */
@@ -74,6 +75,10 @@ PROVIDE(hal_main = main);
 
 SECTIONS
 {
+    .manifest : ALIGN(4) {
+      KEEP(*(.manifest))
+    } > flash
+
     .text : {
         . = ALIGN(4);
     _vectors_start = .;
