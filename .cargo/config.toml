@@ -2,7 +2,7 @@
 target = "riscv32imc-unknown-none-elf"
 
 [target.riscv32imc-unknown-none-elf]
-# runner = ""
+runner = "tools/run_verilator.sh"
 rustflags = [
   "-C", "link-arg=-T./lib/linker/link.ld",
   "-C", "link-arg=-L./lib/linker",
@@ -10,4 +10,5 @@ rustflags = [
 
 [unstable]
 build-std = ["core"]
+
 
