@@ -1,48 +1,50 @@
 {
   stdenv,
-  fetchFromGitHub,
-  pythonEnv,
-  verilator,
-  libelf,
-  zlib,
-}:
+  fetchzip,
+  autoPatchelfHook,
+  openssl,
+  libusb1,
+  libgcc,
+  libftdi1,
+  makeWrapper,
+}:  
 stdenv.mkDerivation rec {
   pname = "earlgrey_verilator";
-  version = "master";
+  version = "1.0.0_artefacts_r01";
 
-  src = fetchFromGitHub {
-    owner = "lowRISC";
-    repo = "opentitan";
-    fetchSubmodules = true;
-    rev = "a18de4282866f675ae903af8425d5cf7b69fa195";
-    sha256 = "sha256-LaPJTFzyurIP+RxpiPgrZfIWD9kBXExzawyD79bjr+M=";
+  src = fetchzip {
+    url = "https://github.com/engdoreis/opentitan/releases/download/earlgrey_1.0.0_artefacts_r01/sim_verilator.tar.gz";
+    sha256 = "sha256-ZJMThEBz9li6eoQd9KRfdXxc1bVuFpHaEHowyPTOOPg=";
   };
 
   dontConfigure = true;
+  dontBuild = true;
 
   nativeBuildInputs = [
-    pythonEnv
-    verilator
+    autoPatchelfHook
+    makeWrapper
   ];
 
-  # OpenTitan requires specific Python dependencies for its build system (Mako, etc.)
   buildInputs = [
-    libelf
-    zlib
+    openssl
+    libusb1
+    libgcc
+    libftdi1
   ];
-
-  buildPhase = ''
-    export HOME=$TMPDIR
-    fusesoc --verbose --cores-root=. \
-      run --flag=fileset_top --target=sim --setup \
-      --build-root="./hw" \
-      --build lowrisc:dv:top_earlgrey_chip_verilator_sim \
-      --verilator_options="+define+RVFI -j $NIX_BUILD_CORES" \
-      --make_options="-j $NIX_BUILD_CORES"
-  '';
 
   installPhase = ''
-    mkdir -p $out/bin
-    cp hw/lowrisc_dv_top_earlgrey_chip_verilator_sim_0.1/sim-verilator/Vchip_sim_tb $out/bin/verilator_earlgrey
+    mkdir -p $out/bin $out/share
+    mv ./*.vmem $out/share/
+    cp ./* $out/bin/
+
+    wrapProgram $out/bin/Vchip_sim_tb \
+      --add-flags "--meminit=rom,$out/share/test_rom_sim_verilator.39.scr.vmem" \
+      --add-flags "--meminit=otp,$out/share/img_rma.24.vmem" \
+      --run '
+        if [ "$#" -gt 0 ]; then
+          last_arg="''${@: -1}"
+          set -- "''${@:1:($#-1)}" "--meminit=flash0,$last_arg"
+        fi
+      '
   '';
 }

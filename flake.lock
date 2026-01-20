@@ -224,11 +224,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1768012928,
-        "narHash": "sha256-HFFVQaux1JoOjEvgBT0ASk1Je+jsipyO5c91FoLMed8=",
+        "lastModified": 1768877311,
+        "narHash": "sha256-abSDl0cNr0B+YCsIDpO1SjXD9JMxE4s8EFnhLEFVovI=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "312b4371e72f644ffcff25b23615195e3b390643",
+        "rev": "59e4ab96304585fde3890025fd59bd2717985cc1",
         "type": "github"
       },
       "original": {
@@ -277,11 +277,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1767701098,
-        "narHash": "sha256-CJhKZnWb3gumR9oTRjFvCg/6lYTGbZRU7xtvcyWIRwU=",
+        "lastModified": 1768526251,
+        "narHash": "sha256-uT0ICn7tknFtdOP7zhkgOkusq38EcttqUCS5Ho7nIvc=",
         "owner": "pyproject-nix",
         "repo": "uv2nix",
-        "rev": "9d357f0d2ce6f5f35ec7959d7e704452352eb4da",
+        "rev": "1b8f4d4c874f909de24639142c1141c84119b0f0",
         "type": "github"
       },
       "original": {
@@ -297,17 +297,14 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1768067805,
-        "narHash": "sha256-Gs+D3eYCmqbnAQFGfpxXxwdohRH6uxTeR6lm4rIk/8M=",
-        "owner": "engdoreis",
-        "repo": "zermio",
-        "rev": "2c90b4640117b5d11386046c8980e381589ba21b",
-        "type": "github"
+        "lastModified": 1768860407,
+        "narHash": "sha256-vUnJmGXRpqo1d1Id+uCa5Lk0dbRW+/CqwXkAyga3mGo=",
+        "path": "/home/doreis/git/zermio",
+        "type": "path"
       },
       "original": {
-        "owner": "engdoreis",
-        "repo": "zermio",
-        "type": "github"
+        "path": "/home/doreis/git/zermio",
+        "type": "path"
       }
     }
   },

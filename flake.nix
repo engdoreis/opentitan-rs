@@ -70,10 +70,8 @@
       pythonEnv = pythonSet.mkVirtualEnv "python-env" workspace.deps.default;
 
       zermio-cli = inputs.zermio.packages.${system}.default;
-      earlgrey_verilator = pkgs.callPackage ./nix/verilator_earlgrey.nix {
-        inherit pythonEnv;
-        verilator = lrPkgs.verilator_ot;
-      };
+
+      earlgrey_verilator = pkgs.callPackage ./nix/verilator_earlgrey.nix {};
     in {
       formatter = pkgs.alejandra;
       devShells = rec {
