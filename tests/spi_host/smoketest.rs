@@ -1,0 +1,59 @@
+#![cfg(any(target_arch = "riscv32", target_arch = "riscv64"))]
+#![no_main]
+#![no_std]
+
+extern crate test_utils as _;
+use core::fmt::Write;
+use embedtrait::spi_host::{Data, Operation, SpiBus, Width};
+use test_utils::abort;
+use test_utils::test_framework;
+use test_utils::test_main;
+
+#[test_main]
+fn test_main() -> bool {
+    let peri = unsafe { zermio::earlgrey::Peripherals::steal() };
+    let mut uart = hal::uart::Uart::new(
+        peri.uart0,
+        test_framework::PERIPHERAL_CLOCK_HZ,
+        test_framework::BAUD,
+    );
+
+    let _ = writeln!(uart, "Spi test");
+
+    let config = hal::spi_host::SpiHostConfig {
+        speed: 10000,
+        clock_freq_hz: test_framework::HI_SPEED_PERIPHERAL_CLOCK_HZ,
+        chip_select: hal::spi_host::ChipSelectTiming {
+            idle: 1,
+            trail: 1,
+            lead: 1,
+        },
+        full_cycle: false,
+        cpha: false,
+        cpol: false,
+        tx_watermark: 5,
+        rx_watermark: 5,
+    };
+
+    let mut spih = hal::spi_host::SpiHost::new(peri.spi_host0);
+    spih.configure(config)
+        .unwrap_or_else(|e| {
+            let _ = writeln!(uart, "error to configure: {e:?}");
+            abort()
+        })
+        .enable(true)
+        .enable_output(true);
+    let _ = writeln!(uart, "Spi ok");
+
+    let _ = spih
+        .transfer(&mut [Operation {
+            data: Data::Write(&[0xbe, 0xba, 0xca, 0xfe, 0x55]),
+            width: Width::Single,
+        }])
+        .unwrap_or_else(|e| {
+            let _ = writeln!(uart, "Error in transaction: {e:?}");
+        });
+
+    let _ = writeln!(uart, "finished");
+    true
+}

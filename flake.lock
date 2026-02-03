@@ -224,11 +224,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1770088046,
-        "narHash": "sha256-4hfYDnUTvL1qSSZEA4CEThxfz+KlwSFQ30Z9jgDguO0=",
+        "lastModified": 1770260791,
+        "narHash": "sha256-ADTBfENFjRVDQMcCycyX/pAy6NFI/Ct6Mrar3gsmXI0=",
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "rev": "71f9daa4e05e49c434d08627e755495ae222bc34",
+        "rev": "42ec85352e419e601775c57256a52f6d48a39906",
         "type": "github"
       },
       "original": {
@@ -297,8 +297,8 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1770152071,
-        "narHash": "sha256-H/JJ4kGWQ24CYHxVg0jcLDWDOR7o3jY/lChY0fIDBZI=",
+        "lastModified": 1770328527,
+        "narHash": "sha256-j4TL3VACFDmonSdZvvy5nrbCayP5BWzMZGOE4yMghmc=",
         "path": "/home/doreis/git/zermio",
         "type": "path"
       },

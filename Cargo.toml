@@ -1,9 +1,13 @@
 [workspace]
 members = [
-  "examples/hello_world", "lib/embedtrait",
+  "examples/hello_world",
+  "tests",
+  "lib/embedtrait",
   "lib/hal",
   "lib/manifest",
   "lib/zermio/earlgrey",
+  "lib/test-utils",
+  "lib/test-utils-macros",
 ]
 resolver = "2"
 

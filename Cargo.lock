@@ -32,7 +32,6 @@ name = "hello_world"
 version = "0.1.0"
 dependencies = [
  "embedded-hal",
- "embedtrait",
  "hal",
  "manifest",
  "panic-halt",
@@ -135,6 +134,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d3f2ad9f15a07f4a0e1677124f9120ce7e83ab7e1ca7186af0ca9da529b62e80"
 
 [[package]]
+name = "spi_host_tests"
+version = "0.1.0"
+dependencies = [
+ "embedded-hal",
+ "embedtrait",
+ "hal",
+ "riscv",
+ "riscv-rt",
+ "test-utils",
+ "zermio",
+]
+
+[[package]]
 name = "syn"
 version = "2.0.114"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -143,6 +155,29 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "test-utils"
+version = "0.1.0"
+dependencies = [
+ "embedded-hal",
+ "embedtrait",
+ "hal",
+ "manifest",
+ "panic-halt",
+ "riscv",
+ "riscv-rt",
+ "test-utils-macros",
+ "zermio",
+]
+
+[[package]]
+name = "test-utils-macros"
+version = "0.1.0"
+dependencies = [
+ "quote",
+ "syn",
 ]
 
 [[package]]
