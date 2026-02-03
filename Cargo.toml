@@ -1,6 +1,6 @@
 [workspace]
 members = [
-  "examples/hello_world",
+  "examples/hello_world", "lib/embedtrait",
   "lib/hal",
   "lib/manifest",
   "lib/zermio/earlgrey",
