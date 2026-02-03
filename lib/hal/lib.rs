@@ -1,4 +1,22 @@
 #![no_std]
 
 pub mod rv_core_ibex;
+pub mod spi_host;
 pub mod uart;
+
+use spi_host::SpiError;
+
+pub type HalResult<T> = Result<T, HalError>;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum HalError {
+    Spi(SpiError),
+    ConfigInvalid,
+    BadClock,
+}
+
+impl From<SpiError> for HalError {
+    fn from(err: SpiError) -> Self {
+        HalError::Spi(err)
+    }
+}

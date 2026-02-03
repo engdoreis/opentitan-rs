@@ -8,5 +8,6 @@ name="hal"
 path="lib.rs"
 
 [dependencies]
+embedtrait = { version = "0.1.0", path = "../embedtrait" }
 riscv = "0.16.0"
 zermio = { version = "0.1.0", path = "../zermio/earlgrey" }
