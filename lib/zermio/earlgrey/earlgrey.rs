@@ -4,6 +4,7 @@
 
 use super::rv_core_ibex;
 use super::rv_timer;
+use super::spi_host;
 use super::uart;
 
 pub enum UartOffset {
@@ -15,6 +16,11 @@ pub enum UartOffset {
 
 pub enum RvTimerOffset {
     Timer = 0x40100000,
+}
+
+pub enum SpiHostOffset {
+    SpiHost0 = 0x40300000,
+    SpiHost1 = 0x40310000,
 }
 
 pub enum RvCoreIbexOffset {
@@ -32,6 +38,8 @@ pub struct Peripherals {
     pub uart2: uart::Uart,
     pub uart3: uart::Uart,
     pub timer: rv_timer::RvTimer,
+    pub spi_host0: spi_host::SpiHost,
+    pub spi_host1: spi_host::SpiHost,
     pub rv_core_ibex: rv_core_ibex::RvCoreIbex,
 }
 
@@ -61,6 +69,8 @@ impl Peripherals {
             uart2: uart::Uart::new(UartOffset::Uart2 as u32),
             uart3: uart::Uart::new(UartOffset::Uart3 as u32),
             timer: rv_timer::RvTimer::new(RvTimerOffset::Timer as u32),
+            spi_host0: spi_host::SpiHost::new(SpiHostOffset::SpiHost0 as u32),
+            spi_host1: spi_host::SpiHost::new(SpiHostOffset::SpiHost1 as u32),
             rv_core_ibex: rv_core_ibex::RvCoreIbex::new(RvCoreIbexOffset::RvCoreIbex as u32),
         }
     }

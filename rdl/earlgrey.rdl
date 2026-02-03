@@ -1,5 +1,6 @@
 `include "ip/rv_core_ibex.rdl"
 `include "ip/rv_timer.rdl"
+`include "ip/spi_host.rdl"
 `include "ip/uart.rdl"
 `include "ip/udp.rdl"
 
@@ -24,6 +25,8 @@ addrmap earlgrey {
 
   rv_timer TIMER @ 0x4010_0000;
 
-  rv_core_ibex RV_CORE_IBEX @ 0x411F0000;
+  spi_host SPI_HOST[2] @ 0x4030_0000 += 0x10000;
+
+  rv_core_ibex RV_CORE_IBEX @ 0x411F_0000;
 };
   

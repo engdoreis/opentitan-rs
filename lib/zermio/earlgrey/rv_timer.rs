@@ -101,6 +101,7 @@ mod alert_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn fatal_fault(&mut self) -> FatalFaultField {
             FatalFaultField::new(&mut self.reg)
@@ -158,6 +159,7 @@ mod ctrl {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn active(&mut self) -> ActiveField {
             ActiveField::new(&mut self.reg)
@@ -229,6 +231,7 @@ mod intr_enable0 {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn ie(&mut self) -> IeField {
             IeField::new(&mut self.reg)
@@ -300,6 +303,7 @@ mod intr_state0 {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn is(&mut self) -> IsField {
             IsField::new(&mut self.reg)
@@ -369,6 +373,7 @@ mod intr_test0 {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn t(&mut self) -> TField {
             TField::new(&mut self.reg)
@@ -422,6 +427,7 @@ mod cfg0 {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn prescale(&mut self) -> PrescaleField {
             PrescaleField::new(&mut self.reg)
@@ -438,6 +444,7 @@ mod cfg0 {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn step(&mut self) -> StepField {
             StepField::new(&mut self.reg)
@@ -505,6 +512,7 @@ mod timer_v_lower0 {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn v(&mut self) -> VField {
             VField::new(&mut self.reg)
@@ -571,6 +579,7 @@ mod timer_v_upper0 {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn v(&mut self) -> VField {
             VField::new(&mut self.reg)
@@ -637,6 +646,7 @@ mod compare_lower0_0 {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn v(&mut self) -> VField {
             VField::new(&mut self.reg)
@@ -703,6 +713,7 @@ mod compare_upper0_0 {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn v(&mut self) -> VField {
             VField::new(&mut self.reg)

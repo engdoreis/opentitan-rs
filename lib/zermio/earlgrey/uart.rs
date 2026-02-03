@@ -116,6 +116,7 @@ mod intr_state {
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn tx_watermark(&mut self) -> TxWatermarkField {
             TxWatermarkField::new(&mut self.reg)
@@ -130,6 +131,7 @@ mod intr_state {
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_watermark(&mut self) -> RxWatermarkField {
             RxWatermarkField::new(&mut self.reg)
@@ -151,6 +153,7 @@ mod intr_state {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn tx_done(&mut self) -> TxDoneField {
             TxDoneField::new(&mut self.reg)
@@ -172,6 +175,7 @@ mod intr_state {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_overflow(&mut self) -> RxOverflowField {
             RxOverflowField::new(&mut self.reg)
@@ -193,6 +197,7 @@ mod intr_state {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_frame_err(&mut self) -> RxFrameErrField {
             RxFrameErrField::new(&mut self.reg)
@@ -214,6 +219,7 @@ mod intr_state {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_break_err(&mut self) -> RxBreakErrField {
             RxBreakErrField::new(&mut self.reg)
@@ -235,6 +241,7 @@ mod intr_state {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_timeout(&mut self) -> RxTimeoutField {
             RxTimeoutField::new(&mut self.reg)
@@ -256,6 +263,7 @@ mod intr_state {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_parity_err(&mut self) -> RxParityErrField {
             RxParityErrField::new(&mut self.reg)
@@ -270,6 +278,7 @@ mod intr_state {
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn tx_empty(&mut self) -> TxEmptyField {
             TxEmptyField::new(&mut self.reg)
@@ -357,6 +366,7 @@ mod intr_enable {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn tx_watermark(&mut self) -> TxWatermarkField {
             TxWatermarkField::new(&mut self.reg)
@@ -378,6 +388,7 @@ mod intr_enable {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_watermark(&mut self) -> RxWatermarkField {
             RxWatermarkField::new(&mut self.reg)
@@ -399,6 +410,7 @@ mod intr_enable {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn tx_done(&mut self) -> TxDoneField {
             TxDoneField::new(&mut self.reg)
@@ -420,6 +432,7 @@ mod intr_enable {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_overflow(&mut self) -> RxOverflowField {
             RxOverflowField::new(&mut self.reg)
@@ -441,6 +454,7 @@ mod intr_enable {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_frame_err(&mut self) -> RxFrameErrField {
             RxFrameErrField::new(&mut self.reg)
@@ -462,6 +476,7 @@ mod intr_enable {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_break_err(&mut self) -> RxBreakErrField {
             RxBreakErrField::new(&mut self.reg)
@@ -483,6 +498,7 @@ mod intr_enable {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_timeout(&mut self) -> RxTimeoutField {
             RxTimeoutField::new(&mut self.reg)
@@ -504,6 +520,7 @@ mod intr_enable {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_parity_err(&mut self) -> RxParityErrField {
             RxParityErrField::new(&mut self.reg)
@@ -525,6 +542,7 @@ mod intr_enable {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn tx_empty(&mut self) -> TxEmptyField {
             TxEmptyField::new(&mut self.reg)
@@ -610,6 +628,7 @@ mod intr_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn tx_watermark(&mut self) -> TxWatermarkField {
             TxWatermarkField::new(&mut self.reg)
@@ -629,6 +648,7 @@ mod intr_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_watermark(&mut self) -> RxWatermarkField {
             RxWatermarkField::new(&mut self.reg)
@@ -648,6 +668,7 @@ mod intr_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn tx_done(&mut self) -> TxDoneField {
             TxDoneField::new(&mut self.reg)
@@ -667,6 +688,7 @@ mod intr_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_overflow(&mut self) -> RxOverflowField {
             RxOverflowField::new(&mut self.reg)
@@ -686,6 +708,7 @@ mod intr_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_frame_err(&mut self) -> RxFrameErrField {
             RxFrameErrField::new(&mut self.reg)
@@ -705,6 +728,7 @@ mod intr_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_break_err(&mut self) -> RxBreakErrField {
             RxBreakErrField::new(&mut self.reg)
@@ -724,6 +748,7 @@ mod intr_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_timeout(&mut self) -> RxTimeoutField {
             RxTimeoutField::new(&mut self.reg)
@@ -743,6 +768,7 @@ mod intr_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx_parity_err(&mut self) -> RxParityErrField {
             RxParityErrField::new(&mut self.reg)
@@ -762,6 +788,7 @@ mod intr_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn tx_empty(&mut self) -> TxEmptyField {
             TxEmptyField::new(&mut self.reg)
@@ -825,6 +852,7 @@ mod alert_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn fatal_fault(&mut self) -> FatalFaultField {
             FatalFaultField::new(&mut self.reg)
@@ -890,6 +918,7 @@ mod ctrl {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn tx(&mut self) -> TxField {
             TxField::new(&mut self.reg)
@@ -911,6 +940,7 @@ mod ctrl {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx(&mut self) -> RxField {
             RxField::new(&mut self.reg)
@@ -932,6 +962,7 @@ mod ctrl {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn nf(&mut self) -> NfField {
             NfField::new(&mut self.reg)
@@ -953,6 +984,7 @@ mod ctrl {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn slpbk(&mut self) -> SlpbkField {
             SlpbkField::new(&mut self.reg)
@@ -974,6 +1006,7 @@ mod ctrl {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn llpbk(&mut self) -> LlpbkField {
             LlpbkField::new(&mut self.reg)
@@ -995,6 +1028,7 @@ mod ctrl {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn parity_en(&mut self) -> ParityEnField {
             ParityEnField::new(&mut self.reg)
@@ -1016,6 +1050,7 @@ mod ctrl {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn parity_odd(&mut self) -> ParityOddField {
             ParityOddField::new(&mut self.reg)
@@ -1032,6 +1067,7 @@ mod ctrl {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rxblvl(&mut self) -> RxblvlField {
             RxblvlField::new(&mut self.reg)
@@ -1048,6 +1084,7 @@ mod ctrl {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn nco(&mut self) -> NcoField {
             NcoField::new(&mut self.reg)
@@ -1125,6 +1162,7 @@ mod status {
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn txfull(&mut self) -> TxfullField {
             TxfullField::new(&mut self.reg)
@@ -1139,6 +1177,7 @@ mod status {
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rxfull(&mut self) -> RxfullField {
             RxfullField::new(&mut self.reg)
@@ -1153,6 +1192,7 @@ mod status {
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn txempty(&mut self) -> TxemptyField {
             TxemptyField::new(&mut self.reg)
@@ -1167,6 +1207,7 @@ mod status {
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn txidle(&mut self) -> TxidleField {
             TxidleField::new(&mut self.reg)
@@ -1181,6 +1222,7 @@ mod status {
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rxidle(&mut self) -> RxidleField {
             RxidleField::new(&mut self.reg)
@@ -1195,6 +1237,7 @@ mod status {
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rxempty(&mut self) -> RxemptyField {
             RxemptyField::new(&mut self.reg)
@@ -1242,6 +1285,7 @@ mod rdata {
         /// | **`get()`**           | Returns the current value of the field.         |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rdata(&mut self) -> RdataField {
             RdataField::new(&mut self.reg)
@@ -1286,6 +1330,7 @@ mod wdata {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn wdata(&mut self) -> WdataField {
             WdataField::new(&mut self.reg)
@@ -1344,6 +1389,7 @@ mod fifo_ctrl {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rxrst(&mut self) -> RxrstField {
             RxrstField::new(&mut self.reg)
@@ -1363,6 +1409,7 @@ mod fifo_ctrl {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn txrst(&mut self) -> TxrstField {
             TxrstField::new(&mut self.reg)
@@ -1379,6 +1426,7 @@ mod fifo_ctrl {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rxilvl(&mut self) -> RxilvlField {
             RxilvlField::new(&mut self.reg)
@@ -1395,6 +1443,7 @@ mod fifo_ctrl {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn txilvl(&mut self) -> TxilvlField {
             TxilvlField::new(&mut self.reg)
@@ -1462,6 +1511,7 @@ mod fifo_status {
         /// | **`get()`**           | Returns the current value of the field.         |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn txlvl(&mut self) -> TxlvlField {
             TxlvlField::new(&mut self.reg)
@@ -1475,6 +1525,7 @@ mod fifo_status {
         /// | **`get()`**           | Returns the current value of the field.         |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rxlvl(&mut self) -> RxlvlField {
             RxlvlField::new(&mut self.reg)
@@ -1527,6 +1578,7 @@ mod ovrd {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn txen(&mut self) -> TxenField {
             TxenField::new(&mut self.reg)
@@ -1548,6 +1600,7 @@ mod ovrd {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn txval(&mut self) -> TxvalField {
             TxvalField::new(&mut self.reg)
@@ -1612,6 +1665,7 @@ mod val {
         /// | **`get()`**           | Returns the current value of the field.         |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rx(&mut self) -> RxField {
             RxField::new(&mut self.reg)
@@ -1658,6 +1712,7 @@ mod timeout_ctrl {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn val(&mut self) -> ValField {
             ValField::new(&mut self.reg)
@@ -1679,6 +1734,7 @@ mod timeout_ctrl {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn en(&mut self) -> EnField {
             EnField::new(&mut self.reg)

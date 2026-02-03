@@ -196,6 +196,7 @@ mod alert_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn fatal_sw_err(&mut self) -> FatalSwErrField {
             FatalSwErrField::new(&mut self.reg)
@@ -215,6 +216,7 @@ mod alert_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn recov_sw_err(&mut self) -> RecovSwErrField {
             RecovSwErrField::new(&mut self.reg)
@@ -234,6 +236,7 @@ mod alert_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn fatal_hw_err(&mut self) -> FatalHwErrField {
             FatalHwErrField::new(&mut self.reg)
@@ -253,6 +256,7 @@ mod alert_test {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn recov_hw_err(&mut self) -> RecovHwErrField {
             RecovHwErrField::new(&mut self.reg)
@@ -308,6 +312,7 @@ mod sw_recov_err {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn val(&mut self) -> ValField {
             ValField::new(&mut self.reg)
@@ -374,6 +379,7 @@ mod sw_fatal_err {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn val(&mut self) -> ValField {
             ValField::new(&mut self.reg)
@@ -445,6 +451,7 @@ mod ibus_regwen {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn en(&mut self) -> EnField {
             EnField::new(&mut self.reg)
@@ -516,6 +523,7 @@ mod ibus_addr_en {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn en(&mut self) -> EnField {
             EnField::new(&mut self.reg)
@@ -582,6 +590,7 @@ mod ibus_addr_matching {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn val(&mut self) -> ValField {
             ValField::new(&mut self.reg)
@@ -648,6 +657,7 @@ mod ibus_remap_addr {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn val(&mut self) -> ValField {
             ValField::new(&mut self.reg)
@@ -719,6 +729,7 @@ mod dbus_regwen {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn en(&mut self) -> EnField {
             EnField::new(&mut self.reg)
@@ -790,6 +801,7 @@ mod dbus_addr_en {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn en(&mut self) -> EnField {
             EnField::new(&mut self.reg)
@@ -856,6 +868,7 @@ mod dbus_addr_matching {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn val(&mut self) -> ValField {
             ValField::new(&mut self.reg)
@@ -922,6 +935,7 @@ mod dbus_remap_addr {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn val(&mut self) -> ValField {
             ValField::new(&mut self.reg)
@@ -994,6 +1008,7 @@ mod nmi_enable {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn alert_en(&mut self) -> AlertEnField {
             AlertEnField::new(&mut self.reg)
@@ -1015,6 +1030,7 @@ mod nmi_enable {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn wdog_en(&mut self) -> WdogEnField {
             WdogEnField::new(&mut self.reg)
@@ -1088,6 +1104,7 @@ mod nmi_state {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn alert(&mut self) -> AlertField {
             AlertField::new(&mut self.reg)
@@ -1109,6 +1126,7 @@ mod nmi_state {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn wdog(&mut self) -> WdogField {
             WdogField::new(&mut self.reg)
@@ -1184,6 +1202,7 @@ mod err_status {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn reg_intg_err(&mut self) -> RegIntgErrField {
             RegIntgErrField::new(&mut self.reg)
@@ -1205,6 +1224,7 @@ mod err_status {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn fatal_intg_err(&mut self) -> FatalIntgErrField {
             FatalIntgErrField::new(&mut self.reg)
@@ -1226,6 +1246,7 @@ mod err_status {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn fatal_core_err(&mut self) -> FatalCoreErrField {
             FatalCoreErrField::new(&mut self.reg)
@@ -1247,6 +1268,7 @@ mod err_status {
         /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn recov_core_err(&mut self) -> RecovCoreErrField {
             RecovCoreErrField::new(&mut self.reg)
@@ -1313,6 +1335,7 @@ mod rnd_data {
         /// | **`get()`**           | Returns the current value of the field.         |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn data(&mut self) -> DataField {
             DataField::new(&mut self.reg)
@@ -1357,6 +1380,7 @@ mod rnd_status {
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rnd_data_valid(&mut self) -> RndDataValidField {
             RndDataValidField::new(&mut self.reg)
@@ -1371,6 +1395,7 @@ mod rnd_status {
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn rnd_data_fips(&mut self) -> RndDataFipsField {
             RndDataFipsField::new(&mut self.reg)
@@ -1414,6 +1439,7 @@ mod fpga_info {
         /// | **`get()`**           | Returns the current value of the field.         |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn val(&mut self) -> ValField {
             ValField::new(&mut self.reg)
@@ -1459,6 +1485,7 @@ mod dv_sim_window {
         /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
         pub fn val(&mut self) -> ValField {
             ValField::new(&mut self.reg)

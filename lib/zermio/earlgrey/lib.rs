@@ -5,7 +5,7 @@
 /* The best way to read and explor this documentation is by rendering it with:*/
 /*`cargo doc --open`*/
 
-#![no_std]
+#![cfg_attr(not(test), no_std)]
 
 //! # earlgrey Zermio
 //!
@@ -67,6 +67,7 @@
 //! | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   | `bool`| W |
 //! | **`mask()`**          | Returns the bitmask for this field.             | `u32` | - |
 //! | **`max()`**           | Returns the maximum value this field can hold.  | `u32` | - |
+//! | **`in_range(val)`**   | Returns true if val fits in the field.          | `u32` | - |
 //!
 //! ## Example
 //! The following example is for the Opentitan Uart.
@@ -92,5 +93,6 @@
 pub mod earlgrey;
 pub mod rv_core_ibex;
 pub mod rv_timer;
+pub mod spi_host;
 pub mod uart;
 pub mod zermio;
