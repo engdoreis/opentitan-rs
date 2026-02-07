@@ -10,6 +10,7 @@ members = [
   "lib/zermio/earlgrey",
   "lib/test-utils",
   "lib/test-utils-macros",
+  "xtask",
 ]
 resolver = "2"
 
