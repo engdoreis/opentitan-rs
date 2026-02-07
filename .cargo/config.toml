@@ -1,6 +1,3 @@
-[build]
-target = "riscv32imc-unknown-none-elf"
-
 [target.riscv32imc-unknown-none-elf]
 runner = "tools/run_verilator.sh"
 rustflags = [
@@ -8,7 +5,5 @@ rustflags = [
   "-C", "link-arg=-L./lib/linker",
 ]
 
-[unstable]
-build-std = ["core"]
-
-
+[alias]
+xtask = "run --package xtask --"
