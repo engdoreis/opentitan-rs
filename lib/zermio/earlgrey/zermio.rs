@@ -69,16 +69,19 @@ impl<'a, const OFFSET: usize, const BITS: usize, T, ACCESS> BitField<'a, OFFSET,
 where
     T: UnsignedInteger,
 {
-    const _CHECK: () = assert!(
-        BITS <= core::mem::size_of::<T>() * 8,
-        "Bitfield width exceeds type size"
-    );
-    const _CHECK2: () = assert!(
-        (BITS + OFFSET) > core::mem::size_of::<T>() * 8,
-        "Offset exceeds type size"
-    );
-
     pub fn new(reg: &'a mut Register<T>) -> Self {
+        const {
+            core::assert!(
+                BITS <= core::mem::size_of::<T>() * 8,
+                "Bitfield width exceeds type size"
+            );
+        }
+        const {
+            core::assert!(
+                (BITS + OFFSET) <= core::mem::size_of::<T>() * 8,
+                "Offset exceeds type size"
+            );
+        }
         Self {
             reg,
             _data: core::marker::PhantomData::<ACCESS>,
@@ -412,10 +415,6 @@ mod unittest {
         let mut reg = Register::<u64>::new((&mem as *const u64) as usize);
         assert_eq!(
             BitField::<0, 64, u64, access::ReadWrite>::new(&mut reg).max(),
-            u64::MAX
-        );
-        assert_eq!(
-            BitField::<1, 64, u64, access::ReadWrite>::new(&mut reg).max(),
             u64::MAX
         );
     }

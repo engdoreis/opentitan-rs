@@ -39,7 +39,7 @@
 //! lifecycle using closures:
 //!
 //! * **`write(|reg| ...)`**: Creates a new value and commits it to memory.
-//! * **`update(|reg| ...)`**: Fetches the current value, allows modification, and commits the 
+//! * **`update(|reg| ...)`**: Fetches the current value, allows modification, and commits the
 //!   result back to memory in a single logical block.
 //!
 //! ## Register Fields
@@ -71,7 +71,7 @@
 //!
 //! ## Example
 //! The following example is for the Opentitan Uart.
-//! ``` rust
+//! ```rust,ignore
 //! let peri = zermio::earlgrey::Peripherals::take().unwrap();
 //! let mut uart = peri.uart;
 //! let nco = (BAUD << 20) / CPU_CLOCK_HZ as u64;

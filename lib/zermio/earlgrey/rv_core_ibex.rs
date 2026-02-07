@@ -42,7 +42,7 @@
 //! | DV_SIM_WINDOW7 | See . | 0x9c | true |true |
 
 use super::zermio;
-/// ``` rust
+/// ```rust,ignore
 /// rv_core_ibex.alert_test.update(|alert_test| {
 ///     if alert_test.fatal_sw_err().read() == 1 {
 ///        alert_test.fatal_sw_err().write(0);

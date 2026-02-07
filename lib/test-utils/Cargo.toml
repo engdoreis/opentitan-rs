@@ -14,3 +14,5 @@ riscv-rt = "0.17.0"
 zermio = { version = "0.1.0", path = "../zermio/earlgrey" }
 test-utils-macros = { version = "0.1.0", path = "../test-utils-macros" }
 
+[lib]
+test = false

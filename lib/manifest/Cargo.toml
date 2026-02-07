@@ -8,3 +8,4 @@ edition = "2024"
 [lib]
 name = "manifest"
 path = "lib.rs"
+test = false

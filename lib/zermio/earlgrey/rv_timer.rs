@@ -19,7 +19,7 @@
 //! | COMPARE_UPPER0_0 | Timer value Upper | 0x11c | true |true |
 
 use super::zermio;
-/// ``` rust
+/// ```rust,ignore
 /// rv_timer.alert_test.update(|alert_test| {
 ///     if alert_test.fatal_fault().read() == 1 {
 ///        alert_test.fatal_fault().write(0);

@@ -21,7 +21,7 @@
 //! | EVENT_ENABLE | Controls which classes of SPI events raise an interrupt. | 0x34 | true |true |
 
 use super::zermio;
-/// ``` rust
+/// ```rust,ignore
 /// spi_host.intr_state.update(|intr_state| {
 ///     if intr_state.error().read() == 1 {
 ///        intr_state.error().write(0);

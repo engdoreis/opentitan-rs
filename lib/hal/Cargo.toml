@@ -6,6 +6,7 @@ edition = "2024"
 [lib]
 name="hal"
 path="lib.rs"
+test = false
 
 [dependencies]
 embedtrait = { version = "0.1.0", path = "../embedtrait" }

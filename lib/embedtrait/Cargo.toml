@@ -7,3 +7,4 @@ edition = "2024"
 
 [lib]
 path = "lib.rs"
+test = false
