@@ -3,12 +3,14 @@
 // SPDX-License-Identifier: Apache-2.0
 
 pub mod build;
+pub mod lint;
 pub mod test;
 
 #[derive(clap::Parser, Debug)]
 pub enum Command {
     Build,
     Test,
+    Lint,
 }
 
 impl Command {
@@ -16,6 +18,7 @@ impl Command {
         match self {
             Command::Build => build::build(),
             Command::Test => test::test(),
+            Command::Lint => lint::lint(),
         }
     }
 }
