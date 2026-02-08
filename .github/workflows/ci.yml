@@ -1,0 +1,35 @@
+# Copyright (c) Douglas Reis.
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
+
+name: CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  ubuntu-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: "nix develop -c bash -e {0}"
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: cachix/install-nix-action@v31
+      with:
+        extra_nix_config: |
+          substituters = https://cache.nixos.org/
+          trusted-public-keys = cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=
+
+    - name: lint
+      run: cargo xtask lint 
+
+    - name: test
+      run: cargo xtask test 
