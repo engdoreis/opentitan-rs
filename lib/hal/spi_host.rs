@@ -64,13 +64,13 @@ impl SpiHost {
         self
     }
 
-    fn is_ready(&mut self) -> bool {
-        self.regs.status.ready().is_set()
-    }
-
-    fn wait_ready(&mut self) {
-        while !self.is_ready() {}
-    }
+    // fn is_ready(&mut self) -> bool {
+    //     self.regs.status.ready().is_set()
+    // }
+    //
+    // fn wait_ready(&mut self) {
+    //     while !self.is_ready() {}
+    // }
 
     fn wait_tx_fifo_free(&mut self) {
         while self.regs.status.txqd().get() == self.regs.status.txqd().max() {}
