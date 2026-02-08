@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: Apache-2.0
 
 pub mod build;
+pub mod generate;
 pub mod lint;
 pub mod test;
 
@@ -11,6 +12,7 @@ pub enum Command {
     Build,
     Test,
     Lint,
+    GenerateZermio,
 }
 
 impl Command {
@@ -19,6 +21,7 @@ impl Command {
             Command::Build => build::build(),
             Command::Test => test::test(),
             Command::Lint => lint::lint(),
+            Command::GenerateZermio => generate::generate_zermio(),
         }
     }
 }

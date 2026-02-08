@@ -2,7 +2,7 @@
 Licensed under the Apache License, Version 2.0, see LICENSE for details.
 SPDX-License-Identifier: Apache-2.0
 */
-/* Auto-generated: `tools/rdlgenerator.py gen-linker-script build/rdl/rdl.json lib/linker/memory.ld` */
+/* Auto-generated: `tools/rdlgenerator.py gen-linker-script build/rdl.json lib/linker/memory.ld` */
 MEMORY
 {
     ROM       : ORIGIN = 0x00008000, LENGTH = 0x008000 /*  32.0 KiB */
