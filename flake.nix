@@ -1,3 +1,7 @@
+# Copyright (c) Douglas Reis.
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
+
 {
   description = "Opentitan-rs environment.";
   inputs = {
@@ -83,6 +87,7 @@
             picocom
             openocd
             uv
+            reuse
             pythonEnv
             zermio-cli
             earlgrey_verilator

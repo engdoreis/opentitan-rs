@@ -1,4 +1,6 @@
-#![cfg(any(target_arch = "riscv32", target_arch = "riscv64"))]
+// Copyright (c) Douglas Reis.
+// Licensed under the Apache License, Version 2.0, see LICENSE for details.
+// SPDX-License-Identifier: Apache-2.0
 
 extern crate panic_halt as _;
 

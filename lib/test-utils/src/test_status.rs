@@ -1,3 +1,7 @@
+// Copyright (c) Douglas Reis.
+// Licensed under the Apache License, Version 2.0, see LICENSE for details.
+// SPDX-License-Identifier: Apache-2.0
+
 //! Indicates the status of the software running on the CPU, from a testing
 //! perspective.
 //!
