@@ -96,6 +96,7 @@
 
 pub mod earlgrey;
 pub mod rv_core_ibex;
+pub mod rv_plic;
 pub mod rv_timer;
 pub mod spi_host;
 pub mod uart;

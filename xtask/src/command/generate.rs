@@ -32,5 +32,8 @@ pub fn generate_zermio() -> anyhow::Result<()> {
         ])
         .status()?;
 
+    println!("[Xtask] Formating ...");
+    std::process::Command::new("cargo").args(["fmt"]).status()?;
+
     Ok(())
 }

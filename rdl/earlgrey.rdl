@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
 
+`include "ip/plic.rdl"
 `include "ip/rv_core_ibex.rdl"
 `include "ip/rv_timer.rdl"
 `include "ip/spi_host.rdl"
@@ -32,5 +33,7 @@ addrmap earlgrey {
   spi_host SPI_HOST[2] @ 0x4030_0000 += 0x10000;
 
   rv_core_ibex RV_CORE_IBEX @ 0x411F_0000;
+  
+  rv_plic PLIC @ 0x48000000;
 };
   

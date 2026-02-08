@@ -7,6 +7,7 @@
  */
 
 use super::rv_core_ibex;
+use super::rv_plic;
 use super::rv_timer;
 use super::spi_host;
 use super::uart;
@@ -31,6 +32,10 @@ pub enum RvCoreIbexOffset {
     RvCoreIbex = 0x411f0000,
 }
 
+pub enum RvPlicOffset {
+    Plic = 0x48000000,
+}
+
 pub enum Interrupt {}
 
 #[unsafe(no_mangle)]
@@ -45,6 +50,7 @@ pub struct Peripherals {
     pub spi_host0: spi_host::SpiHost,
     pub spi_host1: spi_host::SpiHost,
     pub rv_core_ibex: rv_core_ibex::RvCoreIbex,
+    pub plic: rv_plic::RvPlic,
 }
 
 impl Peripherals {
@@ -76,6 +82,7 @@ impl Peripherals {
             spi_host0: spi_host::SpiHost::new(SpiHostOffset::SpiHost0 as u32),
             spi_host1: spi_host::SpiHost::new(SpiHostOffset::SpiHost1 as u32),
             rv_core_ibex: rv_core_ibex::RvCoreIbex::new(RvCoreIbexOffset::RvCoreIbex as u32),
+            plic: rv_plic::RvPlic::new(RvPlicOffset::Plic as u32),
         }
     }
 }
