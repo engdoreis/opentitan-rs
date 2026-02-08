@@ -5,4 +5,3 @@ pub fn build() -> anyhow::Result<()> {
         .status()?;
     Ok(())
 }
-
