@@ -25,3 +25,8 @@ test-utils =  {path = "../lib/test-utils"}
 name = "spi_smoketest"
 path = "spi_host/smoketest.rs"
 harness = false
+
+[[test]]
+name = "timer_smoketest"
+path = "timer/smoketest.rs"
+harness = false
