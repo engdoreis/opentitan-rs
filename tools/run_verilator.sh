@@ -8,8 +8,10 @@ set -e
 
 ROOT_DIR=$(dirname "$0")/..
 BIN=$1.bin
+ASSEMBLY=$1.dump
 VMEM=$1.vmem
 
+llvm-objdump --disassemble --demangle $1 > $ASSEMBLY &
 llvm-objcopy -O binary $1 $BIN
 srec_cat $BIN --binary --offset 0x0 --byte-swap 8 --fill 0xff \
   -within $BIN  -binary -range-pad 8 --output $VMEM --vmem 64
