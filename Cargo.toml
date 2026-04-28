@@ -11,6 +11,7 @@ members = [
   "lib/embedtrait",
   "lib/hal",
   "lib/manifest",
+  "lib/bsp",
   "lib/zermio/earlgrey",
   "lib/test-utils",
   "lib/test-utils-macros",

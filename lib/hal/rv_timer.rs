@@ -10,7 +10,10 @@ pub struct RvTimer {
 impl RvTimer {
     #[inline]
     pub fn new(regs: zermio::rv_timer::RvTimer, clock: u32) -> Self {
-        let mut this = RvTimer{regs, clock: clock as u64};
+        let mut this = RvTimer {
+            regs,
+            clock: clock as u64,
+        };
         this.stop();
         this.set_interrupt(false);
         this.configure_tick();
@@ -19,12 +22,11 @@ impl RvTimer {
 
     fn configure_tick(&mut self) {
         let target_tick_hz = 1_000_000u64; // 1us
-        let prescale: u32 = ((self.clock + target_tick_hz)  / target_tick_hz) as u32;
+        let prescale: u32 = ((self.clock + target_tick_hz) / target_tick_hz) as u32;
         self.regs.cfg0.write(|cfg| {
             cfg.prescale().write(prescale - 1);
             cfg.step().write(1);
         });
-
     }
 
     fn set_interrupt(&mut self, enable: bool) {
@@ -44,7 +46,10 @@ impl RvTimer {
     }
 
     pub fn get_prescale(&mut self) -> (u32, u32) {
-        (self.regs.cfg0.fetch().prescale().get() , self.regs.cfg0.step().get() )
+        (
+            self.regs.cfg0.fetch().prescale().get(),
+            self.regs.cfg0.step().get(),
+        )
     }
 
     pub fn get_ticks(&mut self) -> u64 {

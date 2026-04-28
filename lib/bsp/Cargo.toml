@@ -1,0 +1,19 @@
+# Copyright (c) Douglas Reis.
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "bsp"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+riscv = { version = "0.16.0", features = ["critical-section-single-hart"] }
+hal = { version = "0.1.0", path = "../../lib/hal" }
+zermio = { version = "0.1.0", path = "../../lib/zermio/earlgrey" }
+manifest = { version = "0.1.0", path = "../../lib/manifest" }
+
+[lib]
+name = "bsp"
+path = "lib.rs"
+test = false

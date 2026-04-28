@@ -7,7 +7,7 @@ OUTPUT_ARCH(riscv)
 
 INCLUDE memory.ld
 
-_stack_len     = 0x1000;
+_stack_len     = 0x8000;
 _heap_len      = 0x0;
 __romext_size_ = 0x10000;
 

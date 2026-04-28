@@ -59,6 +59,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5f0e0fee31ef5ed1ba1316088939cea399010ed7731dba877ed44aeb407a75ea"
 
 [[package]]
+name = "bsp"
+version = "0.1.0"
+
+[[package]]
 name = "clap"
 version = "4.5.57"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -139,6 +143,7 @@ checksum = "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
 name = "hello_world"
 version = "0.1.0"
 dependencies = [
+ "bsp",
  "embedded-hal",
  "hal",
  "manifest",
@@ -257,6 +262,7 @@ checksum = "d3f2ad9f15a07f4a0e1677124f9120ce7e83ab7e1ca7186af0ca9da529b62e80"
 name = "spi_host_tests"
 version = "0.1.0"
 dependencies = [
+ "bsp",
  "embedded-hal",
  "embedtrait",
  "hal",
@@ -287,6 +293,7 @@ dependencies = [
 name = "test-utils"
 version = "0.1.0"
 dependencies = [
+ "bsp",
  "embedded-hal",
  "embedtrait",
  "hal",

@@ -6,8 +6,7 @@
 #![no_main]
 #![no_std]
 
-extern crate panic_halt as _;
-
+use bsp::Device;
 use core::fmt::Write;
 use embedded_hal::delay::DelayNs;
 use riscv::delay::McycleDelay;
@@ -15,15 +14,15 @@ use riscv_rt::entry;
 
 extern crate manifest as _;
 
-const CPU_CLOCK_HZ: u32 = 500_000;
-const PERIPHERAL_CLOCK_HZ: u32 = 125_000;
-const BAUD: u32 = 7200;
-
 #[entry]
 fn main() -> ! {
-    let mut delay = McycleDelay::new(CPU_CLOCK_HZ);
+    let mut delay = McycleDelay::new(bsp::Silicon::CPU_CLOCK_HZ);
     let peri = zermio::earlgrey::Peripherals::take().unwrap();
-    let mut uart = hal::uart::Uart::new(peri.uart0, PERIPHERAL_CLOCK_HZ, BAUD);
+    let mut uart = hal::uart::Uart::new(
+        peri.uart0,
+        bsp::Silicon::PERIPHERAL_CLOCK_HZ,
+        bsp::Silicon::BAUD,
+    );
 
     loop {
         let _ = writeln!(uart, "Hello World!!");

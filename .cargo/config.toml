@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 [target.riscv32imc-unknown-none-elf]
-runner = "tools/run_verilator.sh"
+runner = "tools/run_voyager.sh"
 rustflags = [
   "-C", "link-arg=-T./lib/linker/link.ld",
   "-C", "link-arg=-L./lib/linker",
