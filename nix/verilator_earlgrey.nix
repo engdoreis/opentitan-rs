@@ -1,7 +1,6 @@
 # Copyright (c) Douglas Reis.
 # Licensed under the Apache License, Version 2.0, see LICENSE for details.
 # SPDX-License-Identifier: Apache-2.0
-
 {
   stdenv,
   fetchzip,
@@ -11,7 +10,7 @@
   libgcc,
   libftdi1,
   makeWrapper,
-}:  
+}:
 stdenv.mkDerivation rec {
   pname = "earlgrey_verilator";
   version = "1.0.0_artefacts_r01";

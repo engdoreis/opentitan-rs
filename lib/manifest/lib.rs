@@ -59,8 +59,8 @@ pub struct Manifest {
     pub timestamp: ManifestTimestamp, // Unix epoch timestamp
     pub binding_value: [u32; 8],      // for key manager binding
     pub max_key_version: u32,
-    pub code_start: u32,        // offset of executable code
-    pub code_end: u32,          // end (exclusive) of code
+    pub code_start: *const u8,        // offset of executable code
+    pub code_end: *const u8,          // end (exclusive) of code
     pub entry_point: *const u8, // entry offset
     pub extensions: [u32; 30],  // extension table
 }
@@ -70,11 +70,17 @@ unsafe impl Sync for Manifest {}
 
 unsafe extern "C" {
     static _manifest_entry_point: u8;
+    static _manifest_code_start: u8;
+    static _manifest_code_end: u8;
 }
 
 #[unsafe(link_section = ".manifest")]
 #[used]
 pub static MANIFEST: Manifest = Manifest {
     entry_point: unsafe { &_manifest_entry_point as *const u8 },
+    manifest_version: ManifestVersion{minor: 0x6c47, major: 0x71c3},
+    address_translation: 0x1d4,
+    code_start: unsafe { &_manifest_code_start as *const u8 },
+    code_end: unsafe { &_manifest_code_end as *const u8 },
     ..unsafe { core::mem::zeroed() }
 };
