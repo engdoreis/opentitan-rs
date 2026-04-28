@@ -17,10 +17,8 @@ MEMORY
     non_volatile_mem : ORIGIN = ORIGIN(FLASH) + __romext_size_, LENGTH = LENGTH(FLASH) - __romext_size_
 }
 
-_entry_point = _vectors_start + 0x80;
-
 _manifest_entry_point = _entry_point - ORIGIN(non_volatile_mem) ;
-_manifest_code_start = _vectors_start - ORIGIN(non_volatile_mem);
+_manifest_code_start = _entry_point - ORIGIN(non_volatile_mem);
 _manifest_code_end = __eidata - ORIGIN(non_volatile_mem);
 
 ENTRY(_entry_point)
@@ -87,22 +85,19 @@ SECTIONS
     } > non_volatile_mem
 
     .text : {
+        . = ALIGN(256);
+        KEEP(*(.trap.vector));
         . = ALIGN(4);
-    _vectors_start = .;
-        KEEP(*(.vectors))
-    _vectors_end = .;
-        . += 0x80;
+        _entry_point = .;
         /* Rust dependency */
         KEEP(*(.init));
         KEEP(*(.init.rust));
-        KEEP(*(.trap.vector));
         KEEP(*(.trap.start));
         KEEP(*(.trap.start.*));
         KEEP(*(.trap.continue));
         KEEP(*(.trap.rust));   
         KEEP(*(.trap .trap.*));
-
-        *(.text.abort);
+         *(.text.abort);
         *(.text)
         *(.text.*)
         . = ALIGN(4);
