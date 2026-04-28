@@ -9,27 +9,29 @@ INCLUDE memory.ld
 
 _stack_len     = 0x1000;
 _heap_len      = 0x0;
+__romext_size_ = 0x10000;
 
 MEMORY
 {
-    stack       : ORIGIN = ORIGIN(SRAM) + LENGTH(SRAM) - _stack_len, LENGTH = _stack_len
-    heap        : ORIGIN = ORIGIN(stack) - _heap_len, LENGTH = _heap_len
-    ram         : ORIGIN = ORIGIN(SRAM), LENGTH = LENGTH(SRAM) - _stack_len - _heap_len 
-    flash       : ORIGIN = ORIGIN(FLASH), LENGTH = LENGTH(FLASH) 
+    volatile_mem     : ORIGIN = ORIGIN(SRAM), LENGTH = LENGTH(SRAM) - _stack_len - _heap_len 
+    non_volatile_mem : ORIGIN = ORIGIN(FLASH) + __romext_size_, LENGTH = LENGTH(FLASH) - __romext_size_
 }
-_min_stack     = 0x1000;   /* 4KiB - minimum stack space to reserve */
-_stack_start   = ORIGIN(stack) + LENGTH(stack);
 
 _entry_point = _vectors_start + 0x80;
-_manifest_entry_point = _entry_point - ORIGIN(flash) ;
+
+_manifest_entry_point = _entry_point - ORIGIN(non_volatile_mem) ;
+_manifest_code_start = _vectors_start - ORIGIN(non_volatile_mem);
+_manifest_code_end = __eidata - ORIGIN(non_volatile_mem);
+
 ENTRY(_entry_point)
 
 /* Rust dependency */
-PROVIDE(_stext = ORIGIN(ram) + 0x80);
-PROVIDE(_stack_start = ORIGIN(stack) + LENGTH(stack));
+PROVIDE(_stext = ORIGIN(volatile_mem) + 0x80);
+PROVIDE(_stack_start = __stack_start);
 PROVIDE(_max_hart_id = 0);
-PROVIDE(_hart_stack_size = LENGTH(stack));
-PROVIDE(_heap_size = LENGTH(heap));
+PROVIDE(_hart_stack_size = _stack_len);
+PROVIDE(__stack_size_ = _stack_len);
+PROVIDE(_heap_size = _heap_len);
 PROVIDE(__pre_init = default_pre_init);
 
 PROVIDE(_default_mp_hook = abort);
@@ -82,7 +84,7 @@ SECTIONS
 {
     .manifest : ALIGN(4) {
       KEEP(*(.manifest))
-    } > flash
+    } > non_volatile_mem
 
     .text : {
         . = ALIGN(4);
@@ -104,7 +106,7 @@ SECTIONS
         *(.text)
         *(.text.*)
         . = ALIGN(4);
-    }  > flash
+    }  > non_volatile_mem
 
     .rodata : {
         . = ALIGN(4);
@@ -114,7 +116,7 @@ SECTIONS
         *(.rodata);
         *(.rodata.*)
         . = ALIGN(4);
-    } > flash
+    } > non_volatile_mem
 
     .data : {
         . = ALIGN(4);
@@ -131,9 +133,10 @@ SECTIONS
         . = ALIGN(4);
         /* _edata = .; */
         __edata = .;
-    } > ram
+        __eidata = LOADADDR(.data);
+    } > volatile_mem AT> non_volatile_mem
 
-    .bss :
+    .bss (NOLOAD):
     {
         . = ALIGN(4);
         _bss_start = .;
@@ -145,7 +148,7 @@ SECTIONS
         *(COMMON)
         _bss_end = .;
         . = ALIGN(4);
-    } > ram
+    } > volatile_mem
 
 
     /* Rust dependency */
@@ -161,15 +164,17 @@ SECTIONS
         . = . + _heap_size ;
         __heap_end = .;
         . = ALIGN(4);
-    } > heap
+    } > volatile_mem
 
     /* ensure there is enough room for stack */
     .stack (NOLOAD): {
         . = ALIGN(4);
-        . = . + _min_stack ;
+        _stack_end = .;
+        . = . + __stack_size_ ;
         . = ALIGN(4);
         stack = . ;
         _stack = . ;
-    } > stack
+        __stack_start = .;
+    } > volatile_mem
 }
 
