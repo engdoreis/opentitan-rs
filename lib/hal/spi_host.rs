@@ -47,9 +47,9 @@ impl SpiHost {
             ctrl.sw_rst().set();
         });
 
-        while self.regs.status.active().is_set() {}
+        while self.regs.status.fetch().active().is_set() {}
 
-        while self.regs.status.txqd().get() + self.regs.status.rxqd().get() > 0 {}
+        while self.regs.status.fetch().txqd().get() + self.regs.status.rxqd().get() > 0 {}
 
         self.regs.control.update(|ctrl| {
             ctrl.sw_rst().reset();
@@ -64,20 +64,20 @@ impl SpiHost {
         self
     }
 
-    // fn is_ready(&mut self) -> bool {
-    //     self.regs.status.ready().is_set()
-    // }
-    //
-    // fn wait_ready(&mut self) {
-    //     while !self.is_ready() {}
-    // }
-
-    fn wait_tx_fifo_free(&mut self) {
-        while self.regs.status.txqd().get() == self.regs.status.txqd().max() {}
+    fn is_ready(&mut self) -> bool {
+        self.regs.status.fetch().ready().is_set()
     }
 
-    fn wait_rx_fifo_free(&mut self) {
-        while self.regs.status.rxqd().get() == self.regs.status.rxqd().max() {}
+    fn wait_ready(&mut self) {
+        while !self.is_ready() {}
+    }
+
+    fn wait_tx_fifo_free(&mut self) {
+        while self.regs.status.fetch().txqd().get() == self.regs.status.txqd().max() {}
+    }
+
+    fn wait_rx_fifo(&mut self) {
+        while self.regs.status.fetch().rxempty().is_set() {}
     }
 
     fn write_fifo(&mut self, data: &[u8]) {
@@ -89,8 +89,10 @@ impl SpiHost {
 
     fn read_fifo(&mut self, data: &mut [u8]) {
         for chunk in data.chunks_mut(4) {
-            self.wait_rx_fifo_free();
-            self.regs.rxdata.read(chunk);
+            self.wait_rx_fifo();
+            chunk.copy_from_slice(
+                &self.regs.rxdata.fetch().val().get().to_le_bytes()[0..chunk.len()],
+            );
         }
     }
 
@@ -99,16 +101,20 @@ impl SpiHost {
             cmd.direction().write(dir);
             cmd.speed().write(speed);
             cmd.csaat().assign(!last);
-            cmd.len().write(len).commit();
+            cmd.len().write(len - 1);
         });
     }
 }
 
 use embedtrait::spi_host::{Data, Operation, SpiBus, Width};
+
 impl SpiBus for SpiHost {
     type Error = HalError;
+
     fn transfer(&mut self, operations: &mut [Operation<'_, '_>]) -> HalResult<()> {
-        for op in operations.iter_mut() {
+        let last = operations.len() - 1;
+        for (i, op) in operations.iter_mut().enumerate() {
+            self.wait_ready();
             let (dir, len) = match &op.data {
                 Data::Dummy(len) => (0, *len as usize),
                 Data::Read(data) => (1, data.len()),
@@ -120,7 +126,7 @@ impl SpiBus for SpiHost {
                 Width::Dual => 1,
                 Width::Quad => 2,
             };
-            self.issue_command(dir, len as u32, speed, false);
+            self.issue_command(dir, len as u32, speed, i == last);
 
             match &mut op.data {
                 Data::Write(data) => self.write_fifo(data),

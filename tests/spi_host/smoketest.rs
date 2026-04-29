@@ -47,15 +47,24 @@ fn test_main() -> bool {
         .enable_output(true);
     let _ = writeln!(uart, "Spi ok");
 
+    let mut jedec_id = [0x00; 4];
+
     let _ = spih
-        .transfer(&mut [Operation {
-            data: Data::Write(&[0xbe, 0xba, 0xca, 0xfe, 0x55]),
-            width: Width::Single,
-        }])
+        .transfer(&mut [
+            Operation {
+                data: Data::Write(&[0x9f]),
+                width: Width::Single,
+            },
+            Operation {
+                data: Data::Read(&mut jedec_id),
+                width: Width::Single,
+            },
+        ])
         .unwrap_or_else(|e| {
             panic!("Error in transaction: {e:?}");
         });
+    let _ = writeln!(uart, "jedec id: {:?}", jedec_id);
 
     let _ = writeln!(uart, "finished");
-    true
+    jedec_id == [0xef, 0x40, 0x18, 0x00]
 }

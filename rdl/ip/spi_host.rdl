@@ -6,13 +6,14 @@
 
 addrmap spi_host #(
     longint ByteOrder = 1,
+    longint NumCS = 1,
     longint TxDepth = 72,
     longint RxDepth = 64,
     longint CmdDepth = 4,
     longint NumAlerts = 1
 ){
     bus_interface_cfg = BusInterfaceCfg'{
-        racl_support : true,
+        racl_support : false,
         direction : BusDirection::Device,
         protocol : BusProtocol::TlUl,
         hier_path : "u_reg"
@@ -23,29 +24,6 @@ addrmap spi_host #(
         inter_mod_struct = "passthrough";
         inter_mod_package = "spi_device_pkg";
     } PASSTHROUGH;
-
-    signal {
-        desc = "Self-clearing status trigger for the DMA.Set when RX or TX FIFOs are past their configured watermarks matching watermark interrupt behaviour.";
-        signalwidth = 0x1;
-        sigtype = SigType::InterModReq;
-        inter_mod_struct = "logic";
-    } LSIO_TRIGGER;
-
-    signal {
-        desc = "Incoming RACL policy vector from a racl_ctrl instance.The policy selection vector (parameter) selects the policy for each register.";
-        signalwidth = 0x1;
-        sigtype = SigType::InterModRecv;
-        inter_mod_struct = "racl_policy_vec";
-        inter_mod_package = "top_racl_pkg";
-    } RACL_POLICIES;
-
-    signal {
-        desc = "RACL error log information of this module.";
-        signalwidth = 0x1;
-        sigtype = SigType::InterModReq;
-        inter_mod_struct = "racl_error_log";
-        inter_mod_package = "top_racl_pkg";
-    } RACL_ERROR;
 
     signal {
         signalwidth = 0x1;
@@ -110,7 +88,8 @@ addrmap spi_host #(
             desc = "Error-related interrupts, see !!ERROR_ENABLE register for more   information.";
         } ERROR[0:0];
         field {
-            sw = r;
+            sw = rw;
+            onwrite = woclr;
             hw = rw;
             reset = false;
             desc = "Event-related interrupts, see !!EVENT_ENABLE register for more   information.";
@@ -186,7 +165,7 @@ addrmap spi_host #(
             sw = rw;
             hw = r;
             reset = 0x0;
-            desc = "Clears the internal state (not registers) to the reset state when set to 1,   including the FIFOs, the CDC's, the core state machine and the shift register.   In the current implementation, the CDC FIFOs are drained not reset.   Therefore software must confirm that both FIFO's empty before releasing   the IP from reset.";
+            desc = "Clears the entire IP to the reset state when set to 1, including   the FIFOs, the CDC's, the core state machine and the shift register.   In the current implementation, the CDC FIFOs are drained not reset.   Therefore software must confirm that both FIFO's empty before releasing   the IP from reset.";
         } SW_RST[30:30];
         field {
             sw = rw;
@@ -202,7 +181,7 @@ addrmap spi_host #(
             sw = r;
             hw = w;
             reset = 0x0;
-            desc = "Transmit queue depth.   Indicates how many unsent 32-bit words are currently in the TX FIFO.   When active, this result may be an overestimate due to synchronization delays.";
+            desc = "Transmit queue depth.   Indicates how many unsent 32-bit words are currently in the TX FIFO.   When active, this result may be an overestimate due to synchronization delays.   It may also be an underestimate by 1 because of one pending transmit packet in the internal transmit datapath (inside the spi_host_byte_select module).";
         } TXQD[7:0];
         field {
             sw = r;
@@ -262,13 +241,13 @@ addrmap spi_host #(
             sw = r;
             hw = w;
             reset = 0x0;
-            desc = "When high, indicates that the transmit data fifo is empty.";
+            desc = "When high, indicates that the transmit data fifo is empty.   Note, one transmit item can be pending in the internal transmit datapath (inside the spi_host_byte_select module).   This means the transmit data fifo is empty and TXEMTPY will be high, while there is still one packet that needs to be transmitted.";
         } TXEMPTY[28:28];
         field {
             sw = r;
             hw = w;
             reset = 0x0;
-            desc = "When high, indicates that the transmit data fifo is full.   Any further writes to !!TXDATA will create an error interrupt.";
+            desc = "When high, indicates that the transmit data fifo is full.   Any further writes to !!RXDATA will create an error interrupt.";
         } TXFULL[29:29];
         field {
             sw = r;
@@ -283,52 +262,6 @@ addrmap spi_host #(
             desc = "When high, indicates the SPI host is ready to receive   commands. Writing to COMMAND when READY is low is   an error, and will trigger an interrupt.";
         } READY[31:31];
     } STATUS @ 0x14;
-
-    reg {
-        desc = "Configuration options register.   Contains options for controlling the current peripheral.   Firmware needs to configure the options before the transfer.";
-        field {
-            sw = rw;
-            hw = r;
-            reset = 0x0;
-            desc = "Core clock divider.  Slows down subsequent SPI transactions by a    factor of (CLKDIV+1) relative to the core clock frequency.  The    period of sck, T(sck) then becomes 2*(CLK_DIV+1)*T(core)";
-        } CLKDIV[15:0];
-        field {
-            sw = rw;
-            hw = r;
-            reset = 0x0;
-            desc = "Minimum idle time between commands. Indicates the minimum    number of sck half-cycles to hold cs_n high between commands.    Setting this register to zero creates a minimally-wide CS_N-high    pulse of one-half sck cycle.";
-        } CSNIDLE[19:16];
-        field {
-            sw = rw;
-            hw = r;
-            reset = 0x0;
-            desc = "CS_N Trailing Time.  Indicates the number of half sck cycles,    CSNTRAIL+1, to leave between last edge of sck and the rising    edge of cs_n. Setting this register to zero corresponds    to the minimum delay of one-half sck cycle.";
-        } CSNTRAIL[23:20];
-        field {
-            sw = rw;
-            hw = r;
-            reset = 0x0;
-            desc = "CS_N Leading Time.  Indicates the number of half sck cycles,    CSNLEAD+1, to leave between the falling edge of cs_n and    the first edge of sck.  Setting this register to zero    corresponds to the minimum delay of one-half sck cycle";
-        } CSNLEAD[27:24];
-        field {
-            sw = rw;
-            hw = r;
-            reset = 0x0;
-            desc = "Full cycle.  Modifies the CPHA sampling behaviour to allow    for longer device logic setup times.  Rather than sampling the SD    bus a half cycle after shifting out data, the data is sampled    a full cycle after shifting data out.  This means that if    CPHA = 0, data is shifted out on the trailing edge, and    sampled a full cycle later.  If CPHA = 1, data is shifted and    sampled with the trailing edge, also separated by a    full cycle.";
-        } FULLCYC[29:29];
-        field {
-            sw = rw;
-            hw = r;
-            reset = 0x0;
-            desc = "The phase of the sck clock signal relative to the data. When    CPHA = 0, the data changes on the trailing edge of sck    and is typically sampled on the leading edge.  Conversely    if CPHA = 1 high, data lines change on the leading edge of    sck and are typically sampled on the trailing edge.    CPHA should be chosen to match the phase of the selected    device.  The sampling behavior is modified by the    !!CONFIGOPTS.FULLCYC bit.";
-        } CPHA[30:30];
-        field {
-            sw = rw;
-            hw = r;
-            reset = 0x0;
-            desc = "The polarity of the sck clock signal.  When CPOL is 0,    sck is low when idle, and emits high pulses.   When CPOL    is 1, sck is high when idle, and emits a series of low    pulses.";
-        } CPOL[31:31];
-    } CONFIGOPTS @ 0x18;
 
     reg {
         desc = "Chip-Select ID   Controls which device to target with the next command.  This register   is passed to the core whenever !!COMMAND is written.  The core then   asserts cio_csb_o[!!CSID] during the execution of the command.";
@@ -347,29 +280,29 @@ addrmap spi_host #(
             hw = r;
             reset = 0x0;
             swmod = true;
-            desc = "**C**hip **S**elect **A**ctive **A**fter **T**ransaction.   If !!COMMAND.CSAAT = 0, the chip select line is raised immediately   at the end of the command segment.   If !!COMMAND.CSAAT = 1, the chip select line is left low at the   end of the current transaction segment.   This allows the creation of longer, more complete SPI transactions,   consisting of several separate segments for issuing instructions,   pausing for dummy cycles, and transmitting or receiving data from   the device.";
-        } CSAAT[0:0];
+            desc = "Segment Length.   For read or write segments, this field controls the   number of 1-byte bursts to transmit and or receive in   this command segment.  The number of cyles required   to send or received a byte will depend on !!COMMAND.SPEED.   For dummy segments, (!!COMMAND.DIRECTION == 0), this register   controls the number of dummy cycles to issue.   The number of bytes (or dummy cycles) in the segment will be   equal to !!COMMAND.LEN + 1.";
+        } LEN[8:0];
+        field {
+            sw = w;
+            hw = r;
+            reset = 0x0;
+            swmod = true;
+            desc = "Chip select active after transaction.  If CSAAT = 0, the   chip select line is raised immediately at the end of the   command segment.   If !!COMMAND.CSAAT = 1, the chip select   line is left low at the end of the current transaction   segment.  This allows the creation longer, more   complete SPI transactions, consisting of several separate   segments for issuing instructions, pausing for dummy cycles,   and transmitting or receiving data from the device.";
+        } CSAAT[9:9];
         field {
             sw = w;
             hw = r;
             reset = 0x0;
             swmod = true;
             desc = "The speed for this command segment: \"0\" = Standard SPI. \"1\" = Dual SPI.   \"2\"=Quad SPI,  \"3\": RESERVED.";
-        } SPEED[2:1];
+        } SPEED[11:10];
         field {
             sw = w;
             hw = r;
             reset = 0x0;
             swmod = true;
             desc = "The direction for the following command: \"0\" = Dummy cycles   (no TX/RX). \"1\" = Rx only, \"2\" = Tx only, \"3\" = Bidirectional   Tx/Rx (Standard SPI mode only).";
-        } DIRECTION[4:3];
-        field {
-            sw = w;
-            hw = r;
-            reset = 0x0;
-            swmod = true;
-            desc = "Segment Length.   For read or write segments, this field controls the   number of 1-byte bursts to transmit and or receive in   this command segment.  The number of cycles required   to send or received a byte will depend on !!COMMAND.SPEED.   For dummy segments, (!!COMMAND.DIRECTION == 0), this register   controls the number of dummy cycles to issue.   The number of bytes (or dummy cycles) in the segment will be   equal to !!COMMAND.LEN + 1.";
-        } LEN[24:5];
+        } DIRECTION[13:12];
     } COMMAND @ 0x20;
 
     reg {
@@ -492,10 +425,59 @@ addrmap spi_host #(
         } IDLE[5:5];
     } EVENT_ENABLE @ 0x34;
 
-    external mem {
-        memwidth = 0x20;
-        mementries = 0x1;
-        sw = r;
+    reg {
+        desc = "Configuration options register.   Contains options for controlling each peripheral. One register per   cs_n line";
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "Core clock divider.  Slows down subsequent SPI transactions by a   factor of (CLKDIV+1) relative to the core clock frequency.  The   period of sck, T(sck) then becomes 2*(CLK_DIV+1)*T(core)";
+        } CLKDIV[15:0];
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "Minimum idle time between commands. Indicates the minimum   number of sck half-cycles to hold cs_n high between commands.   Setting this register to zero creates a minimally-wide CS_N-high   pulse of one-half sck cycle.";
+        } CSNIDLE[19:16];
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "CS_N Trailing Time.  Indicates the number of half sck cycles,   CSNTRAIL+1, to leave between last edge of sck and the rising   edge of cs_n. Setting this register to zero corresponds   to the minimum delay of one-half sck cycle.";
+        } CSNTRAIL[23:20];
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "CS_N Leading Time.  Indicates the number of half sck cycles,   CSNLEAD+1, to leave between the falling edge of cs_n and   the first edge of sck.  Setting this register to zero   corresponds to the minimum delay of one-half sck cycle";
+        } CSNLEAD[27:24];
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "Full cycle.  Modifies the CPHA sampling behaviour to allow   for longer device logic setup times.  Rather than sampling the SD   bus a half cycle after shifting out data, the data is sampled   a full cycle after shifting data out.  This means that if   CPHA = 0, data is shifted out on the trailing edge, and   sampled a full cycle later.  If CPHA = 1, data is shifted and   sampled with the trailing edge, also separated by a   full cycle.";
+        } FULLCYC[29:29];
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "The phase of the sck clock signal relative to the data. When   CPHA = 0, the data changes on the trailing edge of sck   and is typically sampled on the leading edge.  Conversely   if CPHA = 1 high, data lines change on the leading edge of   sck and are typically sampled on the trailing edge.   CPHA should be chosen to match the phase of the selected   device.  The sampling behavior is modified by the   !!CONFIGOPTS.FULLCYC bit.";
+        } CPHA[30:30];
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "The polarity of the sck clock signal.  When CPOL is 0,   sck is low when idle, and emits high pulses.   When CPOL   is 1, sck is high when idle, and emits a series of low   pulses.";
+        } CPOL[31:31];
+    } CONFIGOPTS[1] @ 0x18;
+
+    external reg {
+        hwre = true;
+        field {
+            sw = r;
+            hw = rw;
+            desc = "Receive data buffer.";
+        } val[31:0];
     } RXDATA @ 0x24;
 
     external mem {
