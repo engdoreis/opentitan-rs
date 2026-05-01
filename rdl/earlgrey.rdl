@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
 
+`include "ip/pinmux.rdl"
 `include "ip/plic.rdl"
 `include "ip/rv_core_ibex.rdl"
 `include "ip/rv_timer.rdl"
@@ -27,6 +28,8 @@ addrmap earlgrey {
   } RET_SRAM @ 0x4060_0000;
 
   uart UART[4] @ 0x4000_0000;
+
+  pinmux PINMUX @ 0x4046_0000;
 
   rv_timer TIMER @ 0x4010_0000;
 

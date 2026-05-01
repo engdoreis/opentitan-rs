@@ -34,31 +34,31 @@ use super::zermio;
 /// });
 /// ```
 pub struct Uart {
-    /// Interrupt State Register  
+    /// Interrupt State Register
     pub intr_state: intr_state::IntrState,
-    /// Interrupt Enable Register  
+    /// Interrupt Enable Register
     pub intr_enable: intr_enable::IntrEnable,
-    /// Interrupt Test Register  
+    /// Interrupt Test Register
     pub intr_test: intr_test::IntrTest,
-    /// Alert Test Register  
+    /// Alert Test Register
     pub alert_test: alert_test::AlertTest,
-    /// UART control register  
+    /// UART control register
     pub ctrl: ctrl::Ctrl,
-    /// UART live status register  
+    /// UART live status register
     pub status: status::Status,
-    /// UART read data  
+    /// UART read data
     pub rdata: rdata::Rdata,
-    /// UART write data  
+    /// UART write data
     pub wdata: wdata::Wdata,
-    /// UART FIFO control register  
+    /// UART FIFO control register
     pub fifo_ctrl: fifo_ctrl::FifoCtrl,
-    /// UART FIFO status register  
+    /// UART FIFO status register
     pub fifo_status: fifo_status::FifoStatus,
-    /// TX pin override control. Gives direct SW control over TX pin state  
+    /// TX pin override control. Gives direct SW control over TX pin state
     pub ovrd: ovrd::Ovrd,
-    /// UART oversampled values  
+    /// UART oversampled values
     pub val: val::Val,
-    /// UART RX timeout control  
+    /// UART RX timeout control
     pub timeout_ctrl: timeout_ctrl::TimeoutCtrl,
 }
 

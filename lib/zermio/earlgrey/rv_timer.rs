@@ -31,25 +31,25 @@ use super::zermio;
 /// });
 /// ```
 pub struct RvTimer {
-    /// Alert Test Register  
+    /// Alert Test Register
     pub alert_test: alert_test::AlertTest,
-    /// Control register  
+    /// Control register
     pub ctrl: ctrl::Ctrl,
-    /// Interrupt Enable  
+    /// Interrupt Enable
     pub intr_enable0: intr_enable0::IntrEnable0,
-    /// Interrupt Status  
+    /// Interrupt Status
     pub intr_state0: intr_state0::IntrState0,
-    /// Interrupt test register  
+    /// Interrupt test register
     pub intr_test0: intr_test0::IntrTest0,
-    /// Configuration for Hart 0  
+    /// Configuration for Hart 0
     pub cfg0: cfg0::Cfg0,
-    /// Timer value Lower  
+    /// Timer value Lower
     pub timer_v_lower0: timer_v_lower0::TimerVLower0,
-    /// Timer value Upper  
+    /// Timer value Upper
     pub timer_v_upper0: timer_v_upper0::TimerVUpper0,
-    /// Timer value Lower  
+    /// Timer value Lower
     pub compare_lower0_0: compare_lower0_0::CompareLower00,
-    /// Timer value Upper  
+    /// Timer value Upper
     pub compare_upper0_0: compare_upper0_0::CompareUpper00,
 }
 

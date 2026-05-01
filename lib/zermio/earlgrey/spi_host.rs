@@ -34,31 +34,31 @@ use super::zermio;
 /// });
 /// ```
 pub struct SpiHost {
-    /// Interrupt State Register  
+    /// Interrupt State Register
     pub intr_state: intr_state::IntrState,
-    /// Interrupt Enable Register  
+    /// Interrupt Enable Register
     pub intr_enable: intr_enable::IntrEnable,
-    /// Interrupt Test Register  
+    /// Interrupt Test Register
     pub intr_test: intr_test::IntrTest,
-    /// Alert Test Register  
+    /// Alert Test Register
     pub alert_test: alert_test::AlertTest,
-    /// Control register  
+    /// Control register
     pub control: control::Control,
-    /// Status register  
+    /// Status register
     pub status: status::Status,
-    /// Configuration options register.   Contains options for controlling each peripheral. One register per   cs_n line  
+    /// Configuration options register.   Contains options for controlling each peripheral. One register per   cs_n line
     pub configopts: configopts::Configopts,
-    /// Chip-Select ID   Controls which device to target with the next command.  This register   is passed to the core whenever !!COMMAND is written.  The core then   asserts cio_csb_o[!!CSID] during the execution of the command.  
+    /// Chip-Select ID   Controls which device to target with the next command.  This register   is passed to the core whenever !!COMMAND is written.  The core then   asserts cio_csb_o[!!CSID] during the execution of the command.
     pub csid: csid::Csid,
-    /// Command Register   Parameters specific to each command segment.  Unlike the !!CONFIGOPTS multi-register,   there is only one command register for controlling all attached SPI devices  
+    /// Command Register   Parameters specific to each command segment.  Unlike the !!CONFIGOPTS multi-register,   there is only one command register for controlling all attached SPI devices
     pub command: command::Command,
-    ///   
+    ///
     pub rxdata: rxdata::Rxdata,
-    /// Controls which classes of errors raise an interrupt.  
+    /// Controls which classes of errors raise an interrupt.
     pub error_enable: error_enable::ErrorEnable,
-    /// Indicates that any errors that have occurred.   When an error   occurs, the corresponding bit must be cleared here before   issuing any further commands.  
+    /// Indicates that any errors that have occurred.   When an error   occurs, the corresponding bit must be cleared here before   issuing any further commands.
     pub error_status: error_status::ErrorStatus,
-    /// Controls which classes of SPI events raise an interrupt.  
+    /// Controls which classes of SPI events raise an interrupt.
     pub event_enable: event_enable::EventEnable,
     pub txdata: txdata::Txdata,
 }

@@ -95,6 +95,7 @@
 //! See the documentation at [`crate::earlgrey`] for all the peripherals available.
 
 pub mod earlgrey;
+pub mod pinmux;
 pub mod rv_core_ibex;
 pub mod rv_plic;
 pub mod rv_timer;

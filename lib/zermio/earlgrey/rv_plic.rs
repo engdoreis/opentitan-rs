@@ -11,38 +11,7 @@
 //! These are the registers present in the rv_plic
 //! | Register name      | Description  | Offset | Write | Read|
 //! | :---               | :---         | :---   | :--   | :-- |
-//! | PRIO0 | Interrupt Source Priority | 0x0 | true |true |
-//! | PRIO1 | Interrupt Source Priority | 0x4 | true |true |
-//! | PRIO2 | Interrupt Source Priority | 0x8 | true |true |
-//! | PRIO3 | Interrupt Source Priority | 0xc | true |true |
-//! | PRIO4 | Interrupt Source Priority | 0x10 | true |true |
-//! | PRIO5 | Interrupt Source Priority | 0x14 | true |true |
-//! | PRIO6 | Interrupt Source Priority | 0x18 | true |true |
-//! | PRIO7 | Interrupt Source Priority | 0x1c | true |true |
-//! | PRIO8 | Interrupt Source Priority | 0x20 | true |true |
-//! | PRIO9 | Interrupt Source Priority | 0x24 | true |true |
-//! | PRIO10 | Interrupt Source Priority | 0x28 | true |true |
-//! | PRIO11 | Interrupt Source Priority | 0x2c | true |true |
-//! | PRIO12 | Interrupt Source Priority | 0x30 | true |true |
-//! | PRIO13 | Interrupt Source Priority | 0x34 | true |true |
-//! | PRIO14 | Interrupt Source Priority | 0x38 | true |true |
-//! | PRIO15 | Interrupt Source Priority | 0x3c | true |true |
-//! | PRIO16 | Interrupt Source Priority | 0x40 | true |true |
-//! | PRIO17 | Interrupt Source Priority | 0x44 | true |true |
-//! | PRIO18 | Interrupt Source Priority | 0x48 | true |true |
-//! | PRIO19 | Interrupt Source Priority | 0x4c | true |true |
-//! | PRIO20 | Interrupt Source Priority | 0x50 | true |true |
-//! | PRIO21 | Interrupt Source Priority | 0x54 | true |true |
-//! | PRIO22 | Interrupt Source Priority | 0x58 | true |true |
-//! | PRIO23 | Interrupt Source Priority | 0x5c | true |true |
-//! | PRIO24 | Interrupt Source Priority | 0x60 | true |true |
-//! | PRIO25 | Interrupt Source Priority | 0x64 | true |true |
-//! | PRIO26 | Interrupt Source Priority | 0x68 | true |true |
-//! | PRIO27 | Interrupt Source Priority | 0x6c | true |true |
-//! | PRIO28 | Interrupt Source Priority | 0x70 | true |true |
-//! | PRIO29 | Interrupt Source Priority | 0x74 | true |true |
-//! | PRIO30 | Interrupt Source Priority | 0x78 | true |true |
-//! | PRIO31 | Interrupt Source Priority | 0x7c | true |true |
+//! | PRIO[0..32] | Interrupt Source Priority | 0x0 | true |true |
 //! | IP | Interrupt Pending | 0x1000 | false |true |
 //! | IE0 | Interrupt Enable for Target 0 | 0x2000 | true |true |
 //! | IE1 | Interrupt Enable for Target 1 | 0x2100 | true |true |
@@ -63,89 +32,27 @@ use super::zermio;
 /// });
 /// ```
 pub struct RvPlic {
-    /// Interrupt Source Priority  
-    pub prio0: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio1: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio2: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio3: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio4: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio5: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio6: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio7: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio8: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio9: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio10: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio11: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio12: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio13: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio14: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio15: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio16: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio17: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio18: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio19: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio20: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio21: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio22: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio23: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio24: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio25: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio26: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio27: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio28: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio29: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio30: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio31: prio::Prio,
-    /// Interrupt Pending  
+    /// Interrupt Source Priority
+    pub prio: [prio::Prio; 32],
+    /// Interrupt Pending
     pub ip: ip::Ip,
-    /// Interrupt Enable for Target 0  
+    /// Interrupt Enable for Target 0
     pub ie0: ie0::Ie0,
-    /// Interrupt Enable for Target 1  
+    /// Interrupt Enable for Target 1
     pub ie1: ie1::Ie1,
-    /// Threshold of priority for Target 0  
+    /// Threshold of priority for Target 0
     pub threshold0: threshold0::Threshold0,
-    /// Claim interrupt by read, complete interrupt by write for Target 0.Value read/written is interrupt ID. Reading a value of 0 means no pending interrupts.  
+    /// Claim interrupt by read, complete interrupt by write for Target 0.Value read/written is interrupt ID. Reading a value of 0 means no pending interrupts.
     pub cc0: cc0::Cc0,
-    /// Threshold of priority for Target 1  
+    /// Threshold of priority for Target 1
     pub threshold1: threshold1::Threshold1,
-    /// Claim interrupt by read, complete interrupt by write for Target 1.Value read/written is interrupt ID. Reading a value of 0 means no pending interrupts.  
+    /// Claim interrupt by read, complete interrupt by write for Target 1.Value read/written is interrupt ID. Reading a value of 0 means no pending interrupts.
     pub cc1: cc1::Cc1,
-    /// msip for Hart 0.Write 1 to here asserts software interrupt for Hart msip_o[0], write 0 to clear.  
+    /// msip for Hart 0.Write 1 to here asserts software interrupt for Hart msip_o[0], write 0 to clear.
     pub msip0: msip0::Msip0,
-    /// msip for Hart 1.Write 1 to here asserts software interrupt for Hart msip_o[1], write 0 to clear.  
+    /// msip for Hart 1.Write 1 to here asserts software interrupt for Hart msip_o[1], write 0 to clear.
     pub msip1: msip1::Msip1,
-    /// Alert Test Register.  
+    /// Alert Test Register.
     pub alert_test: alert_test::AlertTest,
 }
 
@@ -153,38 +60,40 @@ impl RvPlic {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
-            prio0: prio::Prio::new(addr),
-            prio1: prio::Prio::new(addr + 0x4),
-            prio2: prio::Prio::new(addr + 0x8),
-            prio3: prio::Prio::new(addr + 0xc),
-            prio4: prio::Prio::new(addr + 0x10),
-            prio5: prio::Prio::new(addr + 0x14),
-            prio6: prio::Prio::new(addr + 0x18),
-            prio7: prio::Prio::new(addr + 0x1c),
-            prio8: prio::Prio::new(addr + 0x20),
-            prio9: prio::Prio::new(addr + 0x24),
-            prio10: prio::Prio::new(addr + 0x28),
-            prio11: prio::Prio::new(addr + 0x2c),
-            prio12: prio::Prio::new(addr + 0x30),
-            prio13: prio::Prio::new(addr + 0x34),
-            prio14: prio::Prio::new(addr + 0x38),
-            prio15: prio::Prio::new(addr + 0x3c),
-            prio16: prio::Prio::new(addr + 0x40),
-            prio17: prio::Prio::new(addr + 0x44),
-            prio18: prio::Prio::new(addr + 0x48),
-            prio19: prio::Prio::new(addr + 0x4c),
-            prio20: prio::Prio::new(addr + 0x50),
-            prio21: prio::Prio::new(addr + 0x54),
-            prio22: prio::Prio::new(addr + 0x58),
-            prio23: prio::Prio::new(addr + 0x5c),
-            prio24: prio::Prio::new(addr + 0x60),
-            prio25: prio::Prio::new(addr + 0x64),
-            prio26: prio::Prio::new(addr + 0x68),
-            prio27: prio::Prio::new(addr + 0x6c),
-            prio28: prio::Prio::new(addr + 0x70),
-            prio29: prio::Prio::new(addr + 0x74),
-            prio30: prio::Prio::new(addr + 0x78),
-            prio31: prio::Prio::new(addr + 0x7c),
+            prio: [
+                prio::Prio::new(addr),
+                prio::Prio::new(addr + 0x4),
+                prio::Prio::new(addr + 0x8),
+                prio::Prio::new(addr + 0xc),
+                prio::Prio::new(addr + 0x10),
+                prio::Prio::new(addr + 0x14),
+                prio::Prio::new(addr + 0x18),
+                prio::Prio::new(addr + 0x1c),
+                prio::Prio::new(addr + 0x20),
+                prio::Prio::new(addr + 0x24),
+                prio::Prio::new(addr + 0x28),
+                prio::Prio::new(addr + 0x2c),
+                prio::Prio::new(addr + 0x30),
+                prio::Prio::new(addr + 0x34),
+                prio::Prio::new(addr + 0x38),
+                prio::Prio::new(addr + 0x3c),
+                prio::Prio::new(addr + 0x40),
+                prio::Prio::new(addr + 0x44),
+                prio::Prio::new(addr + 0x48),
+                prio::Prio::new(addr + 0x4c),
+                prio::Prio::new(addr + 0x50),
+                prio::Prio::new(addr + 0x54),
+                prio::Prio::new(addr + 0x58),
+                prio::Prio::new(addr + 0x5c),
+                prio::Prio::new(addr + 0x60),
+                prio::Prio::new(addr + 0x64),
+                prio::Prio::new(addr + 0x68),
+                prio::Prio::new(addr + 0x6c),
+                prio::Prio::new(addr + 0x70),
+                prio::Prio::new(addr + 0x74),
+                prio::Prio::new(addr + 0x78),
+                prio::Prio::new(addr + 0x7c),
+            ],
             ip: ip::Ip::new(addr + 0x1000),
             ie0: ie0::Ie0::new(addr + 0x2000),
             ie1: ie1::Ie1::new(addr + 0x2100),
