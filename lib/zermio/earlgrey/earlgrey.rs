@@ -7,6 +7,7 @@
  */
 
 use super::pinmux;
+use super::gpio;
 use super::rv_core_ibex;
 use super::rv_plic;
 use super::rv_timer;
@@ -18,6 +19,10 @@ pub enum UartOffset {
     Uart1 = 0x40000034,
     Uart2 = 0x40000068,
     Uart3 = 0x4000009c,
+}
+
+pub enum GpioOffset {
+    Gpio = 0x40040000,
 }
 
 pub enum RvTimerOffset {
@@ -51,6 +56,7 @@ pub struct Peripherals {
     pub uart1: uart::Uart,
     pub uart2: uart::Uart,
     pub uart3: uart::Uart,
+    pub gpio: gpio::Gpio,
     pub timer: rv_timer::RvTimer,
     pub spi_host0: spi_host::SpiHost,
     pub spi_host1: spi_host::SpiHost,
@@ -84,6 +90,7 @@ impl Peripherals {
             uart1: uart::Uart::new(UartOffset::Uart1 as u32),
             uart2: uart::Uart::new(UartOffset::Uart2 as u32),
             uart3: uart::Uart::new(UartOffset::Uart3 as u32),
+            gpio: gpio::Gpio::new(GpioOffset::Gpio as u32),
             timer: rv_timer::RvTimer::new(RvTimerOffset::Timer as u32),
             spi_host0: spi_host::SpiHost::new(SpiHostOffset::SpiHost0 as u32),
             spi_host1: spi_host::SpiHost::new(SpiHostOffset::SpiHost1 as u32),
