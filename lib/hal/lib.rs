@@ -4,6 +4,7 @@
 
 #![no_std]
 
+pub mod gpio;
 pub mod pinmux;
 pub mod rv_core_ibex;
 pub mod rv_timer;
