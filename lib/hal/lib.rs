@@ -13,7 +13,11 @@ pub mod spi_host;
 pub mod uart;
 
 pub use gpio::*;
+pub use pinmux::*;
+pub use rv_core_ibex::*;
+pub use rv_timer::*;
 pub use spi_host::*;
+pub use uart::*;
 
 pub type HalResult<T> = Result<T, HalError>;
 
