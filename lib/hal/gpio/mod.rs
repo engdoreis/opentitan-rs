@@ -2,6 +2,9 @@
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
 
+pub mod pin;
+pub mod static_pin;
+
 pub struct Gpio {
     regs: zermio::gpio::Gpio,
 }
@@ -10,6 +13,11 @@ impl Gpio {
     #[inline]
     pub fn new(regs: zermio::gpio::Gpio) -> Self {
         Self { regs }
+    }
+
+    #[inline]
+    pub fn from_addr(addr: usize) -> Self {
+        Self::new(zermio::gpio::Gpio::new(addr as u32))
     }
 
     #[inline]
@@ -36,5 +44,12 @@ impl Gpio {
     pub fn pin_read(&mut self, pin: usize) -> bool {
         let mask = 0x01 << pin;
         (self.regs.data_in.fetch().data_in().get() & mask) == mask
+    }
+}
+
+impl pin::GpioExt for zermio::gpio::Gpio {
+    type Pins = static_pin::GpioPins;
+    fn pins(self) -> Self::Pins {
+        Self::Pins::new(self.destroy() as usize)
     }
 }

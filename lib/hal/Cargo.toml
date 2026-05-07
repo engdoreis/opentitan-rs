@@ -13,6 +13,8 @@ path="lib.rs"
 test = false
 
 [dependencies]
+embedded-hal = "1.0.0"
 embedtrait = { version = "0.1.0", path = "../embedtrait" }
 riscv = "0.16.0"
+seq-macro = "0.3.6"
 zermio = { version = "0.1.0", path = "../zermio/earlgrey" }
