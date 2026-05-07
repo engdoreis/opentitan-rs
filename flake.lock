@@ -297,11 +297,11 @@
         "nixpkgs": "nixpkgs_4"
       },
       "locked": {
-        "lastModified": 1770545220,
-        "narHash": "sha256-hChQ1QhLzfDo1H2yQZbKWFJFN9qYJSRgeWjjz4tvdVw=",
+        "lastModified": 1778184980,
+        "narHash": "sha256-xJg5rHcq8z90cFs9sz9mzMrkRvg+4PAEWJKqrSJjTDs=",
         "owner": "engdoreis",
         "repo": "zermio",
-        "rev": "e50bf0c7b4fc96a4c8813f4e60081661619f464f",
+        "rev": "d718f6d393cdc05c47fde72ad0f1654f46cc8fe8",
         "type": "github"
       },
       "original": {
