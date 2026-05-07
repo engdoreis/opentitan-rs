@@ -32,6 +32,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct RvPlic {
+    addr: u32,
     /// Interrupt Source Priority
     pub prio: [prio::Prio; 32],
     /// Interrupt Pending
@@ -60,6 +61,7 @@ impl RvPlic {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
+            addr,
             prio: [
                 prio::Prio::new(addr),
                 prio::Prio::new(addr + 0x4),
@@ -105,6 +107,10 @@ impl RvPlic {
             msip1: msip1::Msip1::new(addr + 0x4000004),
             alert_test: alert_test::AlertTest::new(addr + 0x4004000),
         }
+    }
+
+    pub fn destroy(self) -> u32 {
+        self.addr
     }
 }
 

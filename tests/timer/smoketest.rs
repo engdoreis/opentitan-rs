@@ -7,7 +7,8 @@
 #![no_std]
 
 extern crate test_utils as _;
-use bsp::Device;
+use bsp::earlgrey_es::*;
+use bsp::prelude::*;
 use core::fmt::Write;
 use embedded_hal::delay::DelayNs;
 use riscv::delay::McycleDelay;
@@ -16,15 +17,11 @@ use test_utils::test_main;
 #[test_main]
 fn test_main() -> bool {
     let peri = unsafe { zermio::earlgrey::Peripherals::steal() };
-    let mut uart = hal::uart::Uart::new(
-        peri.uart0,
-        bsp::Silicon::PERIPHERAL_CLOCK_HZ,
-        bsp::Silicon::BAUD,
-    );
+    let mut uart = hal::uart::Uart::new(peri.uart0, Silicon::PERIPHERAL_CLOCK_HZ, Silicon::BAUD);
 
     let _ = writeln!(uart, "Timer smoketest");
-    let mut delay = McycleDelay::new(bsp::Silicon::CPU_CLOCK_HZ);
-    let mut timer = hal::rv_timer::RvTimer::new(peri.timer, bsp::Silicon::PERIPHERAL_CLOCK_HZ);
+    let mut delay = McycleDelay::new(Silicon::CPU_CLOCK_HZ);
+    let mut timer = hal::rv_timer::RvTimer::new(peri.timer, Silicon::PERIPHERAL_CLOCK_HZ);
 
     timer.start();
     let start = timer.get_time_ms();

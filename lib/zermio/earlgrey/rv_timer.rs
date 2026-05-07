@@ -31,6 +31,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct RvTimer {
+    addr: u32,
     /// Alert Test Register
     pub alert_test: alert_test::AlertTest,
     /// Control register
@@ -57,6 +58,7 @@ impl RvTimer {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
+            addr,
             alert_test: alert_test::AlertTest::new(addr),
             ctrl: ctrl::Ctrl::new(addr + 0x4),
             intr_enable0: intr_enable0::IntrEnable0::new(addr + 0x100),
@@ -68,6 +70,10 @@ impl RvTimer {
             compare_lower0_0: compare_lower0_0::CompareLower00::new(addr + 0x118),
             compare_upper0_0: compare_upper0_0::CompareUpper00::new(addr + 0x11c),
         }
+    }
+
+    pub fn destroy(self) -> u32 {
+        self.addr
     }
 }
 

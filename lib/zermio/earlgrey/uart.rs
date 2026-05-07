@@ -34,6 +34,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct Uart {
+    addr: u32,
     /// Interrupt State Register
     pub intr_state: intr_state::IntrState,
     /// Interrupt Enable Register
@@ -66,6 +67,7 @@ impl Uart {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
+            addr,
             intr_state: intr_state::IntrState::new(addr),
             intr_enable: intr_enable::IntrEnable::new(addr + 0x4),
             intr_test: intr_test::IntrTest::new(addr + 0x8),
@@ -80,6 +82,10 @@ impl Uart {
             val: val::Val::new(addr + 0x2c),
             timeout_ctrl: timeout_ctrl::TimeoutCtrl::new(addr + 0x30),
         }
+    }
+
+    pub fn destroy(self) -> u32 {
+        self.addr
     }
 }
 

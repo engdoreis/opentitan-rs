@@ -39,6 +39,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct RvCoreIbex {
+    addr: u32,
     /// Alert Test Register
     pub alert_test: alert_test::AlertTest,
     /// Software recoverable error
@@ -81,6 +82,7 @@ impl RvCoreIbex {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
+            addr,
             alert_test: alert_test::AlertTest::new(addr),
             sw_recov_err: sw_recov_err::SwRecovErr::new(addr + 0x4),
             sw_fatal_err: sw_fatal_err::SwFatalErr::new(addr + 0x8),
@@ -133,6 +135,10 @@ impl RvCoreIbex {
                 dv_sim_window::DvSimWindow::new(addr + 0x9c),
             ],
         }
+    }
+
+    pub fn destroy(self) -> u32 {
+        self.addr
     }
 }
 

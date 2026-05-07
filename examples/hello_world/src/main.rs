@@ -6,7 +6,9 @@
 #![no_main]
 #![no_std]
 
-use bsp::Device;
+use bsp::earlgrey_es::*;
+use bsp::prelude::*;
+
 use core::fmt::Write;
 use embedded_hal::delay::DelayNs;
 use riscv::delay::McycleDelay;
@@ -16,13 +18,9 @@ extern crate manifest as _;
 
 #[entry]
 fn main() -> ! {
-    let mut delay = McycleDelay::new(bsp::Silicon::CPU_CLOCK_HZ);
+    let mut delay = McycleDelay::new(Silicon::CPU_CLOCK_HZ);
     let peri = zermio::earlgrey::Peripherals::take().unwrap();
-    let mut uart = hal::uart::Uart::new(
-        peri.uart0,
-        bsp::Silicon::PERIPHERAL_CLOCK_HZ,
-        bsp::Silicon::BAUD,
-    );
+    let mut uart = hal::uart::Uart::new(peri.uart0, Silicon::PERIPHERAL_CLOCK_HZ, Silicon::BAUD);
 
     loop {
         let _ = writeln!(uart, "Hello World!!");

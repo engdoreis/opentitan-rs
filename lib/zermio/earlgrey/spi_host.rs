@@ -34,6 +34,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct SpiHost {
+    addr: u32,
     /// Interrupt State Register
     pub intr_state: intr_state::IntrState,
     /// Interrupt Enable Register
@@ -67,6 +68,7 @@ impl SpiHost {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
+            addr,
             intr_state: intr_state::IntrState::new(addr),
             intr_enable: intr_enable::IntrEnable::new(addr + 0x4),
             intr_test: intr_test::IntrTest::new(addr + 0x8),
@@ -82,6 +84,10 @@ impl SpiHost {
             event_enable: event_enable::EventEnable::new(addr + 0x34),
             txdata: txdata::Txdata::new(addr + 0x28),
         }
+    }
+
+    pub fn destroy(self) -> u32 {
+        self.addr
     }
 }
 

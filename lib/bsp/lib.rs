@@ -3,35 +3,29 @@
 // SPDX-License-Identifier: Apache-2.0
 
 #![no_std]
+pub mod earlgrey_es;
+pub mod voyager;
 
-//export
-// pub use abort as _;
+pub mod chip;
+
+pub use chip::*;
+
+pub use earlgrey_es::EarlgreyEs;
+pub use voyager::*;
+
+pub mod prelude {
+    pub use crate::Clocks;
+    pub use crate::PadInput;
+    pub use crate::PadOutput;
+    pub use crate::PeripheralInput;
+    pub use crate::PeripheralOutput;
+}
+
 extern crate manifest as _;
-
-pub trait Device {
-    const CPU_CLOCK_HZ: u32 = 500_000;
-    const PERIPHERAL_CLOCK_HZ: u32 = 125_000;
-    const HI_SPEED_PERIPHERAL_CLOCK_HZ: u32 = 500_000;
-    const BAUD: u32 = 7200;
-}
-
-pub struct Verilator;
-impl Device for Verilator {}
-
-pub struct Silicon;
-impl Device for Silicon {
-    const CPU_CLOCK_HZ: u32 = 100_000_000;
-    const PERIPHERAL_CLOCK_HZ: u32 = 24_000_000;
-    const HI_SPEED_PERIPHERAL_CLOCK_HZ: u32 = 96_000_000;
-    const BAUD: u32 = 115200;
-}
 
 use core::fmt::Write;
 use core::panic::PanicInfo;
-
-pub fn abort() -> ! {
-    panic!("Aborting");
-}
+use earlgrey_es::Silicon;
 
 #[panic_handler]
 fn custom_panic_handler(info: &PanicInfo) -> ! {
@@ -47,6 +41,7 @@ fn custom_panic_handler(info: &PanicInfo) -> ! {
         );
     }
 
+    let _ = writeln!(uart, "looping",);
     loop {
         riscv::asm::wfi();
     }

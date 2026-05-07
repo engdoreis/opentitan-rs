@@ -45,6 +45,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct Pinmux {
+    addr: u32,
     /// Alert Test Register
     pub alert_test : alert_test::AlertTest,
     /// Register write enable for MIO peripheral input selects.
@@ -99,6 +100,7 @@ impl Pinmux {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
+      addr,
       alert_test : alert_test::AlertTest::new(addr),
       mio_periph_insel_regwen : [
       mio_periph_insel_regwen::MioPeriphInselRegwen::new(addr + 0x4),
@@ -706,6 +708,10 @@ impl Pinmux {
       ],
       wkup_cause : wkup_cause_async_clk_5a71f5de_async_rst_4c25c355::WkupCauseAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x8dc),
     }
+    }
+
+    pub fn destroy(self) -> u32 {
+        self.addr
     }
 }
 

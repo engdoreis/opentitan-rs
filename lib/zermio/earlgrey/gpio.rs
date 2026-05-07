@@ -37,6 +37,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct Gpio {
+    addr: u32,
     /// Interrupt State Register
     pub intr_state: intr_state::IntrState,
     /// Interrupt Enable Register
@@ -75,6 +76,7 @@ impl Gpio {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
+            addr,
             intr_state: intr_state::IntrState::new(addr),
             intr_enable: intr_enable::IntrEnable::new(addr + 0x4),
             intr_test: intr_test::IntrTest::new(addr + 0x8),
@@ -92,6 +94,10 @@ impl Gpio {
             intr_ctrl_en_lvllow: intr_ctrl_en_lvllow::IntrCtrlEnLvllow::new(addr + 0x38),
             ctrl_en_input_filter: ctrl_en_input_filter::CtrlEnInputFilter::new(addr + 0x3c),
         }
+    }
+
+    pub fn destroy(self) -> u32 {
+        self.addr
     }
 }
 
