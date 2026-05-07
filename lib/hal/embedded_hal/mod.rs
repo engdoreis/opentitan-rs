@@ -4,6 +4,7 @@
 
 /// This module implements the crate embedded hal traits.
 pub mod gpio;
+pub mod spi;
 use crate::HalError;
 
 impl embedded_hal::digital::Error for HalError {
