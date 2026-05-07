@@ -12,8 +12,8 @@ pub mod rv_timer;
 pub mod spi_host;
 pub mod uart;
 
-use spi_host::SpiError;
 pub use gpio::*;
+pub use spi_host::*;
 
 pub type HalResult<T> = Result<T, HalError>;
 
@@ -22,6 +22,8 @@ pub enum HalError {
     Spi(SpiError),
     ConfigInvalid,
     BadClock,
+    BadSize,
+    NotSupported,
 }
 
 impl From<SpiError> for HalError {

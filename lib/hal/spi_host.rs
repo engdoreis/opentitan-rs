@@ -14,7 +14,7 @@ impl SpiHost {
         Self { regs }
     }
 
-    pub fn configure(&mut self, config: SpiHostConfig) -> HalResult<&mut Self> {
+    pub fn configure(&mut self, config: Config) -> HalResult<&mut Self> {
         config.validate(&mut self.regs)?;
         self.reset();
 
@@ -64,25 +64,45 @@ impl SpiHost {
         self
     }
 
-    fn is_ready(&mut self) -> bool {
+    pub fn is_active(&mut self) -> bool {
+        self.regs.status.fetch().active().is_set()
+    }
+
+    pub fn wait_idle(&mut self) {
+        while self.is_active() {}
+    }
+
+    pub fn is_ready(&mut self) -> bool {
         self.regs.status.fetch().ready().is_set()
     }
 
-    fn wait_ready(&mut self) {
+    pub fn wait_ready(&mut self) {
         while !self.is_ready() {}
     }
 
-    fn wait_tx_fifo_free(&mut self) {
-        while self.regs.status.fetch().txqd().get() == self.regs.status.txqd().max() {}
+    pub fn wait_tx_fifo_empty(&mut self) {
+        while !self.regs.status.fetch().txempty().is_set() {}
     }
 
-    fn wait_rx_fifo(&mut self) {
+    pub fn wait_tx_fifo_free(&mut self) {
+        while self.regs.status.fetch().txfull().is_set() {}
+    }
+
+    pub fn wait_rx_fifo(&mut self) {
         while self.regs.status.fetch().rxempty().is_set() {}
     }
 
     fn write_fifo(&mut self, data: &[u8]) {
-        for chunk in data.chunks(4) {
+        let mut src = data;
+        let align_offset = data.as_ptr().align_offset(4);
+        if align_offset > 0 && align_offset <= src.len() {
             self.wait_tx_fifo_free();
+            self.regs.txdata.write_fifo(&src[..align_offset]);
+            src = &src[align_offset..];
+        }
+
+        for chunk in src.chunks(32) {
+            self.wait_tx_fifo_empty();
             self.regs.txdata.write_fifo(chunk);
         }
     }
@@ -120,20 +140,33 @@ impl SpiBus for SpiHost {
                 Data::Read(data) => (1, data.len()),
                 Data::Write(data) => (2, data.len()),
                 Data::Both { w, .. } => (3, w.len()),
+                Data::BothInPlace { w } => (3, w.len()),
             };
             let speed = match op.width {
                 Width::Single => 0,
                 Width::Dual => 1,
                 Width::Quad => 2,
+                Width::Octo => return Err(HalError::NotSupported),
             };
+
+            if len == 0 {
+                return Err(HalError::BadSize);
+            }
+
             self.issue_command(dir, len as u32, speed, i == last);
 
             match &mut op.data {
-                Data::Write(data) => self.write_fifo(data),
+                Data::Write(data) => {
+                    self.write_fifo(data);
+                }
                 Data::Read(data) => self.read_fifo(data),
                 Data::Both { w, r } => {
                     self.write_fifo(w);
                     self.read_fifo(r)
+                }
+                Data::BothInPlace { w } => {
+                    self.write_fifo(w);
+                    self.read_fifo(w)
                 }
                 Data::Dummy(_) => (),
             };
@@ -159,7 +192,7 @@ pub struct ChipSelectTiming {
 
 /// Configuration for the SPI host peripheral.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
-pub struct SpiHostConfig {
+pub struct Config {
     pub speed: u32,
     pub clock_freq_hz: u32,
     pub chip_select: ChipSelectTiming,
@@ -175,7 +208,7 @@ pub struct SpiHostConfig {
     pub rx_watermark: u32,
 }
 
-impl SpiHostConfig {
+impl Config {
     pub fn validate(&self, regs: &mut zermio::spi_host::SpiHost) -> HalResult<()> {
         if self.clock_freq_hz + self.speed == 0
             || !regs.configopts.clkdiv().in_range(self.clk_divider())
