@@ -1,0 +1,21 @@
+cargo-features = ["per-package-target"]
+
+[package]
+name = "simple_display"
+version = "0.1.0"
+edition = "2024"
+forced-target = "riscv32imc-unknown-none-elf"
+
+[dependencies]
+embedded-hal = "1.0.0"
+hal = { version = "0.1.0", path = "../../lib/hal" }
+embedtrait = { version = "0.1.0", path = "../../lib/embedtrait" }
+bsp = { version = "0.1.0", path = "../../lib/bsp" }
+panic-halt = "1.0.0"
+riscv = { version = "0.16.0", features = ["critical-section-single-hart"] }
+riscv-rt = "0.17.0"
+zermio = { version = "0.1.0", path = "../../lib/zermio/earlgrey" }
+embedded-graphics = "0.8.2"
+embedded-menu = "0.6.1"
+fugit = "0.4.0"
+
