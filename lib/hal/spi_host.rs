@@ -93,18 +93,19 @@ impl SpiHost {
     }
 
     fn write_fifo(&mut self, data: &[u8]) {
-        let mut src = data;
-        let align_offset = data.as_ptr().align_offset(4);
-        if align_offset > 0 && align_offset <= src.len() {
-            self.wait_tx_fifo_free();
-            self.regs.txdata.write_fifo(&src[..align_offset]);
-            src = &src[align_offset..];
-        }
-
-        for chunk in src.chunks(32) {
-            self.wait_tx_fifo_empty();
-            self.regs.txdata.write_fifo(chunk);
-        }
+        self.regs.txdata.write_fifo(data);
+        // let mut src = data;
+        // let align_offset = data.as_ptr().align_offset(4);
+        // if align_offset > 0 && align_offset <= src.len() {
+        //     self.wait_tx_fifo_free();
+        //     self.regs.txdata.write_fifo(&src[..align_offset]);
+        //     src = &src[align_offset..];
+        // }
+        //
+        // for chunk in src.chunks(32) {
+        //     self.wait_tx_fifo_empty();
+        //     self.regs.txdata.write_fifo(chunk);
+        // }
     }
 
     fn read_fifo(&mut self, data: &mut [u8]) {
