@@ -745,7 +745,7 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField {
+        pub fn fatal_fault(&mut self) -> FatalFaultField<'_> {
             FatalFaultField::new(&mut self.reg)
         }
 
@@ -803,7 +803,7 @@ mod mio_periph_insel_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
+        pub fn en(&mut self) -> EnField<'_> {
             EnField::new(&mut self.reg)
         }
 
@@ -870,7 +870,7 @@ mod mio_periph_insel {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn insel(&mut self) -> InselField {
+        pub fn insel(&mut self) -> InselField<'_> {
             InselField::new(&mut self.reg)
         }
 
@@ -942,7 +942,7 @@ mod mio_outsel_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
+        pub fn en(&mut self) -> EnField<'_> {
             EnField::new(&mut self.reg)
         }
 
@@ -1009,7 +1009,7 @@ mod mio_outsel {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn out(&mut self) -> OutField {
+        pub fn out(&mut self) -> OutField<'_> {
             OutField::new(&mut self.reg)
         }
 
@@ -1081,7 +1081,7 @@ mod mio_pad_attr_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
+        pub fn en(&mut self) -> EnField<'_> {
             EnField::new(&mut self.reg)
         }
 
@@ -1161,7 +1161,7 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn invert(&mut self) -> InvertField {
+        pub fn invert(&mut self) -> InvertField<'_> {
             InvertField::new(&mut self.reg)
         }
 
@@ -1183,7 +1183,7 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn virtual_od_en(&mut self) -> VirtualOdEnField {
+        pub fn virtual_od_en(&mut self) -> VirtualOdEnField<'_> {
             VirtualOdEnField::new(&mut self.reg)
         }
 
@@ -1205,7 +1205,7 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn pull_en(&mut self) -> PullEnField {
+        pub fn pull_en(&mut self) -> PullEnField<'_> {
             PullEnField::new(&mut self.reg)
         }
 
@@ -1227,7 +1227,7 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn pull_select(&mut self) -> PullSelectField {
+        pub fn pull_select(&mut self) -> PullSelectField<'_> {
             PullSelectField::new(&mut self.reg)
         }
 
@@ -1249,7 +1249,7 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn keeper_en(&mut self) -> KeeperEnField {
+        pub fn keeper_en(&mut self) -> KeeperEnField<'_> {
             KeeperEnField::new(&mut self.reg)
         }
 
@@ -1271,7 +1271,7 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn schmitt_en(&mut self) -> SchmittEnField {
+        pub fn schmitt_en(&mut self) -> SchmittEnField<'_> {
             SchmittEnField::new(&mut self.reg)
         }
 
@@ -1293,7 +1293,7 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn od_en(&mut self) -> OdEnField {
+        pub fn od_en(&mut self) -> OdEnField<'_> {
             OdEnField::new(&mut self.reg)
         }
 
@@ -1310,7 +1310,7 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn slew_rate(&mut self) -> SlewRateField {
+        pub fn slew_rate(&mut self) -> SlewRateField<'_> {
             SlewRateField::new(&mut self.reg)
         }
 
@@ -1327,7 +1327,7 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn drive_strength(&mut self) -> DriveStrengthField {
+        pub fn drive_strength(&mut self) -> DriveStrengthField<'_> {
             DriveStrengthField::new(&mut self.reg)
         }
 
@@ -1407,7 +1407,7 @@ mod dio_pad_attr_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
+        pub fn en(&mut self) -> EnField<'_> {
             EnField::new(&mut self.reg)
         }
 
@@ -1487,7 +1487,7 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn invert(&mut self) -> InvertField {
+        pub fn invert(&mut self) -> InvertField<'_> {
             InvertField::new(&mut self.reg)
         }
 
@@ -1509,7 +1509,7 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn virtual_od_en(&mut self) -> VirtualOdEnField {
+        pub fn virtual_od_en(&mut self) -> VirtualOdEnField<'_> {
             VirtualOdEnField::new(&mut self.reg)
         }
 
@@ -1531,7 +1531,7 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn pull_en(&mut self) -> PullEnField {
+        pub fn pull_en(&mut self) -> PullEnField<'_> {
             PullEnField::new(&mut self.reg)
         }
 
@@ -1553,7 +1553,7 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn pull_select(&mut self) -> PullSelectField {
+        pub fn pull_select(&mut self) -> PullSelectField<'_> {
             PullSelectField::new(&mut self.reg)
         }
 
@@ -1575,7 +1575,7 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn keeper_en(&mut self) -> KeeperEnField {
+        pub fn keeper_en(&mut self) -> KeeperEnField<'_> {
             KeeperEnField::new(&mut self.reg)
         }
 
@@ -1597,7 +1597,7 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn schmitt_en(&mut self) -> SchmittEnField {
+        pub fn schmitt_en(&mut self) -> SchmittEnField<'_> {
             SchmittEnField::new(&mut self.reg)
         }
 
@@ -1619,7 +1619,7 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn od_en(&mut self) -> OdEnField {
+        pub fn od_en(&mut self) -> OdEnField<'_> {
             OdEnField::new(&mut self.reg)
         }
 
@@ -1636,7 +1636,7 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn slew_rate(&mut self) -> SlewRateField {
+        pub fn slew_rate(&mut self) -> SlewRateField<'_> {
             SlewRateField::new(&mut self.reg)
         }
 
@@ -1653,7 +1653,7 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn drive_strength(&mut self) -> DriveStrengthField {
+        pub fn drive_strength(&mut self) -> DriveStrengthField<'_> {
             DriveStrengthField::new(&mut self.reg)
         }
 
@@ -1764,7 +1764,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_0(&mut self) -> En0Field {
+        pub fn en_0(&mut self) -> En0Field<'_> {
             En0Field::new(&mut self.reg)
         }
 
@@ -1786,7 +1786,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_1(&mut self) -> En1Field {
+        pub fn en_1(&mut self) -> En1Field<'_> {
             En1Field::new(&mut self.reg)
         }
 
@@ -1808,7 +1808,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_2(&mut self) -> En2Field {
+        pub fn en_2(&mut self) -> En2Field<'_> {
             En2Field::new(&mut self.reg)
         }
 
@@ -1830,7 +1830,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_3(&mut self) -> En3Field {
+        pub fn en_3(&mut self) -> En3Field<'_> {
             En3Field::new(&mut self.reg)
         }
 
@@ -1852,7 +1852,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_4(&mut self) -> En4Field {
+        pub fn en_4(&mut self) -> En4Field<'_> {
             En4Field::new(&mut self.reg)
         }
 
@@ -1874,7 +1874,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_5(&mut self) -> En5Field {
+        pub fn en_5(&mut self) -> En5Field<'_> {
             En5Field::new(&mut self.reg)
         }
 
@@ -1896,7 +1896,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_6(&mut self) -> En6Field {
+        pub fn en_6(&mut self) -> En6Field<'_> {
             En6Field::new(&mut self.reg)
         }
 
@@ -1918,7 +1918,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_7(&mut self) -> En7Field {
+        pub fn en_7(&mut self) -> En7Field<'_> {
             En7Field::new(&mut self.reg)
         }
 
@@ -1940,7 +1940,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_8(&mut self) -> En8Field {
+        pub fn en_8(&mut self) -> En8Field<'_> {
             En8Field::new(&mut self.reg)
         }
 
@@ -1962,7 +1962,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_9(&mut self) -> En9Field {
+        pub fn en_9(&mut self) -> En9Field<'_> {
             En9Field::new(&mut self.reg)
         }
 
@@ -1984,7 +1984,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_10(&mut self) -> En10Field {
+        pub fn en_10(&mut self) -> En10Field<'_> {
             En10Field::new(&mut self.reg)
         }
 
@@ -2006,7 +2006,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_11(&mut self) -> En11Field {
+        pub fn en_11(&mut self) -> En11Field<'_> {
             En11Field::new(&mut self.reg)
         }
 
@@ -2028,7 +2028,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_12(&mut self) -> En12Field {
+        pub fn en_12(&mut self) -> En12Field<'_> {
             En12Field::new(&mut self.reg)
         }
 
@@ -2050,7 +2050,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_13(&mut self) -> En13Field {
+        pub fn en_13(&mut self) -> En13Field<'_> {
             En13Field::new(&mut self.reg)
         }
 
@@ -2072,7 +2072,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_14(&mut self) -> En14Field {
+        pub fn en_14(&mut self) -> En14Field<'_> {
             En14Field::new(&mut self.reg)
         }
 
@@ -2094,7 +2094,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_15(&mut self) -> En15Field {
+        pub fn en_15(&mut self) -> En15Field<'_> {
             En15Field::new(&mut self.reg)
         }
 
@@ -2116,7 +2116,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_16(&mut self) -> En16Field {
+        pub fn en_16(&mut self) -> En16Field<'_> {
             En16Field::new(&mut self.reg)
         }
 
@@ -2138,7 +2138,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_17(&mut self) -> En17Field {
+        pub fn en_17(&mut self) -> En17Field<'_> {
             En17Field::new(&mut self.reg)
         }
 
@@ -2160,7 +2160,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_18(&mut self) -> En18Field {
+        pub fn en_18(&mut self) -> En18Field<'_> {
             En18Field::new(&mut self.reg)
         }
 
@@ -2182,7 +2182,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_19(&mut self) -> En19Field {
+        pub fn en_19(&mut self) -> En19Field<'_> {
             En19Field::new(&mut self.reg)
         }
 
@@ -2204,7 +2204,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_20(&mut self) -> En20Field {
+        pub fn en_20(&mut self) -> En20Field<'_> {
             En20Field::new(&mut self.reg)
         }
 
@@ -2226,7 +2226,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_21(&mut self) -> En21Field {
+        pub fn en_21(&mut self) -> En21Field<'_> {
             En21Field::new(&mut self.reg)
         }
 
@@ -2248,7 +2248,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_22(&mut self) -> En22Field {
+        pub fn en_22(&mut self) -> En22Field<'_> {
             En22Field::new(&mut self.reg)
         }
 
@@ -2270,7 +2270,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_23(&mut self) -> En23Field {
+        pub fn en_23(&mut self) -> En23Field<'_> {
             En23Field::new(&mut self.reg)
         }
 
@@ -2292,7 +2292,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_24(&mut self) -> En24Field {
+        pub fn en_24(&mut self) -> En24Field<'_> {
             En24Field::new(&mut self.reg)
         }
 
@@ -2314,7 +2314,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_25(&mut self) -> En25Field {
+        pub fn en_25(&mut self) -> En25Field<'_> {
             En25Field::new(&mut self.reg)
         }
 
@@ -2336,7 +2336,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_26(&mut self) -> En26Field {
+        pub fn en_26(&mut self) -> En26Field<'_> {
             En26Field::new(&mut self.reg)
         }
 
@@ -2358,7 +2358,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_27(&mut self) -> En27Field {
+        pub fn en_27(&mut self) -> En27Field<'_> {
             En27Field::new(&mut self.reg)
         }
 
@@ -2380,7 +2380,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_28(&mut self) -> En28Field {
+        pub fn en_28(&mut self) -> En28Field<'_> {
             En28Field::new(&mut self.reg)
         }
 
@@ -2402,7 +2402,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_29(&mut self) -> En29Field {
+        pub fn en_29(&mut self) -> En29Field<'_> {
             En29Field::new(&mut self.reg)
         }
 
@@ -2424,7 +2424,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_30(&mut self) -> En30Field {
+        pub fn en_30(&mut self) -> En30Field<'_> {
             En30Field::new(&mut self.reg)
         }
 
@@ -2446,7 +2446,7 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_31(&mut self) -> En31Field {
+        pub fn en_31(&mut self) -> En31Field<'_> {
             En31Field::new(&mut self.reg)
         }
 
@@ -2563,7 +2563,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_32(&mut self) -> En32Field {
+        pub fn en_32(&mut self) -> En32Field<'_> {
             En32Field::new(&mut self.reg)
         }
 
@@ -2585,7 +2585,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_33(&mut self) -> En33Field {
+        pub fn en_33(&mut self) -> En33Field<'_> {
             En33Field::new(&mut self.reg)
         }
 
@@ -2607,7 +2607,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_34(&mut self) -> En34Field {
+        pub fn en_34(&mut self) -> En34Field<'_> {
             En34Field::new(&mut self.reg)
         }
 
@@ -2629,7 +2629,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_35(&mut self) -> En35Field {
+        pub fn en_35(&mut self) -> En35Field<'_> {
             En35Field::new(&mut self.reg)
         }
 
@@ -2651,7 +2651,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_36(&mut self) -> En36Field {
+        pub fn en_36(&mut self) -> En36Field<'_> {
             En36Field::new(&mut self.reg)
         }
 
@@ -2673,7 +2673,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_37(&mut self) -> En37Field {
+        pub fn en_37(&mut self) -> En37Field<'_> {
             En37Field::new(&mut self.reg)
         }
 
@@ -2695,7 +2695,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_38(&mut self) -> En38Field {
+        pub fn en_38(&mut self) -> En38Field<'_> {
             En38Field::new(&mut self.reg)
         }
 
@@ -2717,7 +2717,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_39(&mut self) -> En39Field {
+        pub fn en_39(&mut self) -> En39Field<'_> {
             En39Field::new(&mut self.reg)
         }
 
@@ -2739,7 +2739,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_40(&mut self) -> En40Field {
+        pub fn en_40(&mut self) -> En40Field<'_> {
             En40Field::new(&mut self.reg)
         }
 
@@ -2761,7 +2761,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_41(&mut self) -> En41Field {
+        pub fn en_41(&mut self) -> En41Field<'_> {
             En41Field::new(&mut self.reg)
         }
 
@@ -2783,7 +2783,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_42(&mut self) -> En42Field {
+        pub fn en_42(&mut self) -> En42Field<'_> {
             En42Field::new(&mut self.reg)
         }
 
@@ -2805,7 +2805,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_43(&mut self) -> En43Field {
+        pub fn en_43(&mut self) -> En43Field<'_> {
             En43Field::new(&mut self.reg)
         }
 
@@ -2827,7 +2827,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_44(&mut self) -> En44Field {
+        pub fn en_44(&mut self) -> En44Field<'_> {
             En44Field::new(&mut self.reg)
         }
 
@@ -2849,7 +2849,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_45(&mut self) -> En45Field {
+        pub fn en_45(&mut self) -> En45Field<'_> {
             En45Field::new(&mut self.reg)
         }
 
@@ -2871,7 +2871,7 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_46(&mut self) -> En46Field {
+        pub fn en_46(&mut self) -> En46Field<'_> {
             En46Field::new(&mut self.reg)
         }
 
@@ -2957,7 +2957,7 @@ mod mio_pad_sleep_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
+        pub fn en(&mut self) -> EnField<'_> {
             EnField::new(&mut self.reg)
         }
 
@@ -3029,7 +3029,7 @@ mod mio_pad_sleep_en {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
+        pub fn en(&mut self) -> EnField<'_> {
             EnField::new(&mut self.reg)
         }
 
@@ -3096,7 +3096,7 @@ mod mio_pad_sleep_mode {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn out(&mut self) -> OutField {
+        pub fn out(&mut self) -> OutField<'_> {
             OutField::new(&mut self.reg)
         }
 
@@ -3183,7 +3183,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_0(&mut self) -> En0Field {
+        pub fn en_0(&mut self) -> En0Field<'_> {
             En0Field::new(&mut self.reg)
         }
 
@@ -3205,7 +3205,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_1(&mut self) -> En1Field {
+        pub fn en_1(&mut self) -> En1Field<'_> {
             En1Field::new(&mut self.reg)
         }
 
@@ -3227,7 +3227,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_2(&mut self) -> En2Field {
+        pub fn en_2(&mut self) -> En2Field<'_> {
             En2Field::new(&mut self.reg)
         }
 
@@ -3249,7 +3249,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_3(&mut self) -> En3Field {
+        pub fn en_3(&mut self) -> En3Field<'_> {
             En3Field::new(&mut self.reg)
         }
 
@@ -3271,7 +3271,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_4(&mut self) -> En4Field {
+        pub fn en_4(&mut self) -> En4Field<'_> {
             En4Field::new(&mut self.reg)
         }
 
@@ -3293,7 +3293,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_5(&mut self) -> En5Field {
+        pub fn en_5(&mut self) -> En5Field<'_> {
             En5Field::new(&mut self.reg)
         }
 
@@ -3315,7 +3315,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_6(&mut self) -> En6Field {
+        pub fn en_6(&mut self) -> En6Field<'_> {
             En6Field::new(&mut self.reg)
         }
 
@@ -3337,7 +3337,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_7(&mut self) -> En7Field {
+        pub fn en_7(&mut self) -> En7Field<'_> {
             En7Field::new(&mut self.reg)
         }
 
@@ -3359,7 +3359,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_8(&mut self) -> En8Field {
+        pub fn en_8(&mut self) -> En8Field<'_> {
             En8Field::new(&mut self.reg)
         }
 
@@ -3381,7 +3381,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_9(&mut self) -> En9Field {
+        pub fn en_9(&mut self) -> En9Field<'_> {
             En9Field::new(&mut self.reg)
         }
 
@@ -3403,7 +3403,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_10(&mut self) -> En10Field {
+        pub fn en_10(&mut self) -> En10Field<'_> {
             En10Field::new(&mut self.reg)
         }
 
@@ -3425,7 +3425,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_11(&mut self) -> En11Field {
+        pub fn en_11(&mut self) -> En11Field<'_> {
             En11Field::new(&mut self.reg)
         }
 
@@ -3447,7 +3447,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_12(&mut self) -> En12Field {
+        pub fn en_12(&mut self) -> En12Field<'_> {
             En12Field::new(&mut self.reg)
         }
 
@@ -3469,7 +3469,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_13(&mut self) -> En13Field {
+        pub fn en_13(&mut self) -> En13Field<'_> {
             En13Field::new(&mut self.reg)
         }
 
@@ -3491,7 +3491,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_14(&mut self) -> En14Field {
+        pub fn en_14(&mut self) -> En14Field<'_> {
             En14Field::new(&mut self.reg)
         }
 
@@ -3513,7 +3513,7 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_15(&mut self) -> En15Field {
+        pub fn en_15(&mut self) -> En15Field<'_> {
             En15Field::new(&mut self.reg)
         }
 
@@ -3600,7 +3600,7 @@ mod dio_pad_sleep_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
+        pub fn en(&mut self) -> EnField<'_> {
             EnField::new(&mut self.reg)
         }
 
@@ -3672,7 +3672,7 @@ mod dio_pad_sleep_en {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
+        pub fn en(&mut self) -> EnField<'_> {
             EnField::new(&mut self.reg)
         }
 
@@ -3739,7 +3739,7 @@ mod dio_pad_sleep_mode {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn out(&mut self) -> OutField {
+        pub fn out(&mut self) -> OutField<'_> {
             OutField::new(&mut self.reg)
         }
 
@@ -3811,7 +3811,7 @@ mod wkup_detector_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
+        pub fn en(&mut self) -> EnField<'_> {
             EnField::new(&mut self.reg)
         }
 
@@ -3883,7 +3883,7 @@ mod wkup_detector_en_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
+        pub fn en(&mut self) -> EnField<'_> {
             EnField::new(&mut self.reg)
         }
 
@@ -3952,7 +3952,7 @@ mod wkup_detector_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn mode(&mut self) -> ModeField {
+        pub fn mode(&mut self) -> ModeField<'_> {
             ModeField::new(&mut self.reg)
         }
 
@@ -3974,7 +3974,7 @@ mod wkup_detector_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn filter(&mut self) -> FilterField {
+        pub fn filter(&mut self) -> FilterField<'_> {
             FilterField::new(&mut self.reg)
         }
 
@@ -3996,7 +3996,7 @@ mod wkup_detector_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn miodio(&mut self) -> MiodioField {
+        pub fn miodio(&mut self) -> MiodioField<'_> {
             MiodioField::new(&mut self.reg)
         }
 
@@ -4065,7 +4065,7 @@ mod wkup_detector_cnt_th_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn th(&mut self) -> ThField {
+        pub fn th(&mut self) -> ThField<'_> {
             ThField::new(&mut self.reg)
         }
 
@@ -4132,7 +4132,7 @@ mod wkup_detector_padsel {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn sel(&mut self) -> SelField {
+        pub fn sel(&mut self) -> SelField<'_> {
             SelField::new(&mut self.reg)
         }
 
@@ -4211,7 +4211,7 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_0(&mut self) -> Cause0Field {
+        pub fn cause_0(&mut self) -> Cause0Field<'_> {
             Cause0Field::new(&mut self.reg)
         }
 
@@ -4233,7 +4233,7 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_1(&mut self) -> Cause1Field {
+        pub fn cause_1(&mut self) -> Cause1Field<'_> {
             Cause1Field::new(&mut self.reg)
         }
 
@@ -4255,7 +4255,7 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_2(&mut self) -> Cause2Field {
+        pub fn cause_2(&mut self) -> Cause2Field<'_> {
             Cause2Field::new(&mut self.reg)
         }
 
@@ -4277,7 +4277,7 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_3(&mut self) -> Cause3Field {
+        pub fn cause_3(&mut self) -> Cause3Field<'_> {
             Cause3Field::new(&mut self.reg)
         }
 
@@ -4299,7 +4299,7 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_4(&mut self) -> Cause4Field {
+        pub fn cause_4(&mut self) -> Cause4Field<'_> {
             Cause4Field::new(&mut self.reg)
         }
 
@@ -4321,7 +4321,7 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_5(&mut self) -> Cause5Field {
+        pub fn cause_5(&mut self) -> Cause5Field<'_> {
             Cause5Field::new(&mut self.reg)
         }
 
@@ -4343,7 +4343,7 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_6(&mut self) -> Cause6Field {
+        pub fn cause_6(&mut self) -> Cause6Field<'_> {
             Cause6Field::new(&mut self.reg)
         }
 
@@ -4365,7 +4365,7 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_7(&mut self) -> Cause7Field {
+        pub fn cause_7(&mut self) -> Cause7Field<'_> {
             Cause7Field::new(&mut self.reg)
         }
 

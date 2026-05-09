@@ -107,7 +107,7 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField {
+        pub fn fatal_fault(&mut self) -> FatalFaultField<'_> {
             FatalFaultField::new(&mut self.reg)
         }
 
@@ -165,7 +165,7 @@ mod ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn active(&mut self) -> ActiveField {
+        pub fn active(&mut self) -> ActiveField<'_> {
             ActiveField::new(&mut self.reg)
         }
 
@@ -237,7 +237,7 @@ mod intr_enable0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn ie(&mut self) -> IeField {
+        pub fn ie(&mut self) -> IeField<'_> {
             IeField::new(&mut self.reg)
         }
 
@@ -309,7 +309,7 @@ mod intr_state0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn is(&mut self) -> IsField {
+        pub fn is(&mut self) -> IsField<'_> {
             IsField::new(&mut self.reg)
         }
 
@@ -379,7 +379,7 @@ mod intr_test0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn t(&mut self) -> TField {
+        pub fn t(&mut self) -> TField<'_> {
             TField::new(&mut self.reg)
         }
 
@@ -433,7 +433,7 @@ mod cfg0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn prescale(&mut self) -> PrescaleField {
+        pub fn prescale(&mut self) -> PrescaleField<'_> {
             PrescaleField::new(&mut self.reg)
         }
 
@@ -450,7 +450,7 @@ mod cfg0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn step(&mut self) -> StepField {
+        pub fn step(&mut self) -> StepField<'_> {
             StepField::new(&mut self.reg)
         }
 
@@ -518,7 +518,7 @@ mod timer_v_lower0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn v(&mut self) -> VField {
+        pub fn v(&mut self) -> VField<'_> {
             VField::new(&mut self.reg)
         }
 
@@ -585,7 +585,7 @@ mod timer_v_upper0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn v(&mut self) -> VField {
+        pub fn v(&mut self) -> VField<'_> {
             VField::new(&mut self.reg)
         }
 
@@ -652,7 +652,7 @@ mod compare_lower0_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn v(&mut self) -> VField {
+        pub fn v(&mut self) -> VField<'_> {
             VField::new(&mut self.reg)
         }
 
@@ -719,7 +719,7 @@ mod compare_upper0_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn v(&mut self) -> VField {
+        pub fn v(&mut self) -> VField<'_> {
             VField::new(&mut self.reg)
         }
 

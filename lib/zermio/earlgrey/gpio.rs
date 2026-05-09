@@ -128,7 +128,7 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn gpio(&mut self) -> GpioField {
+        pub fn gpio(&mut self) -> GpioField<'_> {
             GpioField::new(&mut self.reg)
         }
 
@@ -195,7 +195,7 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn gpio(&mut self) -> GpioField {
+        pub fn gpio(&mut self) -> GpioField<'_> {
             GpioField::new(&mut self.reg)
         }
 
@@ -261,7 +261,7 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn gpio(&mut self) -> GpioField {
+        pub fn gpio(&mut self) -> GpioField<'_> {
             GpioField::new(&mut self.reg)
         }
 
@@ -317,7 +317,7 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField {
+        pub fn fatal_fault(&mut self) -> FatalFaultField<'_> {
             FatalFaultField::new(&mut self.reg)
         }
 
@@ -367,7 +367,7 @@ mod data_in {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data_in(&mut self) -> DataInField {
+        pub fn data_in(&mut self) -> DataInField<'_> {
             DataInField::new(&mut self.reg)
         }
 
@@ -413,7 +413,7 @@ mod direct_out {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn direct_out(&mut self) -> DirectOutField {
+        pub fn direct_out(&mut self) -> DirectOutField<'_> {
             DirectOutField::new(&mut self.reg)
         }
 
@@ -481,7 +481,7 @@ mod masked_out_lower {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data(&mut self) -> DataField {
+        pub fn data(&mut self) -> DataField<'_> {
             DataField::new(&mut self.reg)
         }
 
@@ -497,7 +497,7 @@ mod masked_out_lower {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn mask(&mut self) -> MaskField {
+        pub fn mask(&mut self) -> MaskField<'_> {
             MaskField::new(&mut self.reg)
         }
 
@@ -566,7 +566,7 @@ mod masked_out_upper {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data(&mut self) -> DataField {
+        pub fn data(&mut self) -> DataField<'_> {
             DataField::new(&mut self.reg)
         }
 
@@ -582,7 +582,7 @@ mod masked_out_upper {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn mask(&mut self) -> MaskField {
+        pub fn mask(&mut self) -> MaskField<'_> {
             MaskField::new(&mut self.reg)
         }
 
@@ -650,7 +650,7 @@ mod direct_oe {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn direct_oe(&mut self) -> DirectOeField {
+        pub fn direct_oe(&mut self) -> DirectOeField<'_> {
             DirectOeField::new(&mut self.reg)
         }
 
@@ -718,7 +718,7 @@ mod masked_oe_lower {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data(&mut self) -> DataField {
+        pub fn data(&mut self) -> DataField<'_> {
             DataField::new(&mut self.reg)
         }
 
@@ -735,7 +735,7 @@ mod masked_oe_lower {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn mask(&mut self) -> MaskField {
+        pub fn mask(&mut self) -> MaskField<'_> {
             MaskField::new(&mut self.reg)
         }
 
@@ -804,7 +804,7 @@ mod masked_oe_upper {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data(&mut self) -> DataField {
+        pub fn data(&mut self) -> DataField<'_> {
             DataField::new(&mut self.reg)
         }
 
@@ -821,7 +821,7 @@ mod masked_oe_upper {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn mask(&mut self) -> MaskField {
+        pub fn mask(&mut self) -> MaskField<'_> {
             MaskField::new(&mut self.reg)
         }
 
@@ -889,7 +889,7 @@ mod intr_ctrl_en_rising {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn intr_ctrl_en_rising(&mut self) -> IntrCtrlEnRisingField {
+        pub fn intr_ctrl_en_rising(&mut self) -> IntrCtrlEnRisingField<'_> {
             IntrCtrlEnRisingField::new(&mut self.reg)
         }
 
@@ -956,7 +956,7 @@ mod intr_ctrl_en_falling {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn intr_ctrl_en_falling(&mut self) -> IntrCtrlEnFallingField {
+        pub fn intr_ctrl_en_falling(&mut self) -> IntrCtrlEnFallingField<'_> {
             IntrCtrlEnFallingField::new(&mut self.reg)
         }
 
@@ -1023,7 +1023,7 @@ mod intr_ctrl_en_lvlhigh {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn intr_ctrl_en_lvlhigh(&mut self) -> IntrCtrlEnLvlhighField {
+        pub fn intr_ctrl_en_lvlhigh(&mut self) -> IntrCtrlEnLvlhighField<'_> {
             IntrCtrlEnLvlhighField::new(&mut self.reg)
         }
 
@@ -1090,7 +1090,7 @@ mod intr_ctrl_en_lvllow {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn intr_ctrl_en_lvllow(&mut self) -> IntrCtrlEnLvllowField {
+        pub fn intr_ctrl_en_lvllow(&mut self) -> IntrCtrlEnLvllowField<'_> {
             IntrCtrlEnLvllowField::new(&mut self.reg)
         }
 
@@ -1157,7 +1157,7 @@ mod ctrl_en_input_filter {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn ctrl_en_input_filter(&mut self) -> CtrlEnInputFilterField {
+        pub fn ctrl_en_input_filter(&mut self) -> CtrlEnInputFilterField<'_> {
             CtrlEnInputFilterField::new(&mut self.reg)
         }
 

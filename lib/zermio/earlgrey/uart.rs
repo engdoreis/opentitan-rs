@@ -122,7 +122,7 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx_watermark(&mut self) -> TxWatermarkField {
+        pub fn tx_watermark(&mut self) -> TxWatermarkField<'_> {
             TxWatermarkField::new(&mut self.reg)
         }
 
@@ -137,7 +137,7 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_watermark(&mut self) -> RxWatermarkField {
+        pub fn rx_watermark(&mut self) -> RxWatermarkField<'_> {
             RxWatermarkField::new(&mut self.reg)
         }
 
@@ -159,7 +159,7 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx_done(&mut self) -> TxDoneField {
+        pub fn tx_done(&mut self) -> TxDoneField<'_> {
             TxDoneField::new(&mut self.reg)
         }
 
@@ -181,7 +181,7 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_overflow(&mut self) -> RxOverflowField {
+        pub fn rx_overflow(&mut self) -> RxOverflowField<'_> {
             RxOverflowField::new(&mut self.reg)
         }
 
@@ -203,7 +203,7 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_frame_err(&mut self) -> RxFrameErrField {
+        pub fn rx_frame_err(&mut self) -> RxFrameErrField<'_> {
             RxFrameErrField::new(&mut self.reg)
         }
 
@@ -225,7 +225,7 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_break_err(&mut self) -> RxBreakErrField {
+        pub fn rx_break_err(&mut self) -> RxBreakErrField<'_> {
             RxBreakErrField::new(&mut self.reg)
         }
 
@@ -247,7 +247,7 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_timeout(&mut self) -> RxTimeoutField {
+        pub fn rx_timeout(&mut self) -> RxTimeoutField<'_> {
             RxTimeoutField::new(&mut self.reg)
         }
 
@@ -269,7 +269,7 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_parity_err(&mut self) -> RxParityErrField {
+        pub fn rx_parity_err(&mut self) -> RxParityErrField<'_> {
             RxParityErrField::new(&mut self.reg)
         }
 
@@ -284,7 +284,7 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx_empty(&mut self) -> TxEmptyField {
+        pub fn tx_empty(&mut self) -> TxEmptyField<'_> {
             TxEmptyField::new(&mut self.reg)
         }
 
@@ -372,7 +372,7 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx_watermark(&mut self) -> TxWatermarkField {
+        pub fn tx_watermark(&mut self) -> TxWatermarkField<'_> {
             TxWatermarkField::new(&mut self.reg)
         }
 
@@ -394,7 +394,7 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_watermark(&mut self) -> RxWatermarkField {
+        pub fn rx_watermark(&mut self) -> RxWatermarkField<'_> {
             RxWatermarkField::new(&mut self.reg)
         }
 
@@ -416,7 +416,7 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx_done(&mut self) -> TxDoneField {
+        pub fn tx_done(&mut self) -> TxDoneField<'_> {
             TxDoneField::new(&mut self.reg)
         }
 
@@ -438,7 +438,7 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_overflow(&mut self) -> RxOverflowField {
+        pub fn rx_overflow(&mut self) -> RxOverflowField<'_> {
             RxOverflowField::new(&mut self.reg)
         }
 
@@ -460,7 +460,7 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_frame_err(&mut self) -> RxFrameErrField {
+        pub fn rx_frame_err(&mut self) -> RxFrameErrField<'_> {
             RxFrameErrField::new(&mut self.reg)
         }
 
@@ -482,7 +482,7 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_break_err(&mut self) -> RxBreakErrField {
+        pub fn rx_break_err(&mut self) -> RxBreakErrField<'_> {
             RxBreakErrField::new(&mut self.reg)
         }
 
@@ -504,7 +504,7 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_timeout(&mut self) -> RxTimeoutField {
+        pub fn rx_timeout(&mut self) -> RxTimeoutField<'_> {
             RxTimeoutField::new(&mut self.reg)
         }
 
@@ -526,7 +526,7 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_parity_err(&mut self) -> RxParityErrField {
+        pub fn rx_parity_err(&mut self) -> RxParityErrField<'_> {
             RxParityErrField::new(&mut self.reg)
         }
 
@@ -548,7 +548,7 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx_empty(&mut self) -> TxEmptyField {
+        pub fn tx_empty(&mut self) -> TxEmptyField<'_> {
             TxEmptyField::new(&mut self.reg)
         }
 
@@ -634,7 +634,7 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx_watermark(&mut self) -> TxWatermarkField {
+        pub fn tx_watermark(&mut self) -> TxWatermarkField<'_> {
             TxWatermarkField::new(&mut self.reg)
         }
 
@@ -654,7 +654,7 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_watermark(&mut self) -> RxWatermarkField {
+        pub fn rx_watermark(&mut self) -> RxWatermarkField<'_> {
             RxWatermarkField::new(&mut self.reg)
         }
 
@@ -674,7 +674,7 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx_done(&mut self) -> TxDoneField {
+        pub fn tx_done(&mut self) -> TxDoneField<'_> {
             TxDoneField::new(&mut self.reg)
         }
 
@@ -694,7 +694,7 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_overflow(&mut self) -> RxOverflowField {
+        pub fn rx_overflow(&mut self) -> RxOverflowField<'_> {
             RxOverflowField::new(&mut self.reg)
         }
 
@@ -714,7 +714,7 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_frame_err(&mut self) -> RxFrameErrField {
+        pub fn rx_frame_err(&mut self) -> RxFrameErrField<'_> {
             RxFrameErrField::new(&mut self.reg)
         }
 
@@ -734,7 +734,7 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_break_err(&mut self) -> RxBreakErrField {
+        pub fn rx_break_err(&mut self) -> RxBreakErrField<'_> {
             RxBreakErrField::new(&mut self.reg)
         }
 
@@ -754,7 +754,7 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_timeout(&mut self) -> RxTimeoutField {
+        pub fn rx_timeout(&mut self) -> RxTimeoutField<'_> {
             RxTimeoutField::new(&mut self.reg)
         }
 
@@ -774,7 +774,7 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_parity_err(&mut self) -> RxParityErrField {
+        pub fn rx_parity_err(&mut self) -> RxParityErrField<'_> {
             RxParityErrField::new(&mut self.reg)
         }
 
@@ -794,7 +794,7 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx_empty(&mut self) -> TxEmptyField {
+        pub fn tx_empty(&mut self) -> TxEmptyField<'_> {
             TxEmptyField::new(&mut self.reg)
         }
 
@@ -858,7 +858,7 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField {
+        pub fn fatal_fault(&mut self) -> FatalFaultField<'_> {
             FatalFaultField::new(&mut self.reg)
         }
 
@@ -924,7 +924,7 @@ mod ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx(&mut self) -> TxField {
+        pub fn tx(&mut self) -> TxField<'_> {
             TxField::new(&mut self.reg)
         }
 
@@ -946,7 +946,7 @@ mod ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx(&mut self) -> RxField {
+        pub fn rx(&mut self) -> RxField<'_> {
             RxField::new(&mut self.reg)
         }
 
@@ -968,7 +968,7 @@ mod ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn nf(&mut self) -> NfField {
+        pub fn nf(&mut self) -> NfField<'_> {
             NfField::new(&mut self.reg)
         }
 
@@ -990,7 +990,7 @@ mod ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn slpbk(&mut self) -> SlpbkField {
+        pub fn slpbk(&mut self) -> SlpbkField<'_> {
             SlpbkField::new(&mut self.reg)
         }
 
@@ -1012,7 +1012,7 @@ mod ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn llpbk(&mut self) -> LlpbkField {
+        pub fn llpbk(&mut self) -> LlpbkField<'_> {
             LlpbkField::new(&mut self.reg)
         }
 
@@ -1034,7 +1034,7 @@ mod ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn parity_en(&mut self) -> ParityEnField {
+        pub fn parity_en(&mut self) -> ParityEnField<'_> {
             ParityEnField::new(&mut self.reg)
         }
 
@@ -1056,7 +1056,7 @@ mod ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn parity_odd(&mut self) -> ParityOddField {
+        pub fn parity_odd(&mut self) -> ParityOddField<'_> {
             ParityOddField::new(&mut self.reg)
         }
 
@@ -1073,7 +1073,7 @@ mod ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxblvl(&mut self) -> RxblvlField {
+        pub fn rxblvl(&mut self) -> RxblvlField<'_> {
             RxblvlField::new(&mut self.reg)
         }
 
@@ -1090,7 +1090,7 @@ mod ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn nco(&mut self) -> NcoField {
+        pub fn nco(&mut self) -> NcoField<'_> {
             NcoField::new(&mut self.reg)
         }
 
@@ -1168,7 +1168,7 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txfull(&mut self) -> TxfullField {
+        pub fn txfull(&mut self) -> TxfullField<'_> {
             TxfullField::new(&mut self.reg)
         }
 
@@ -1183,7 +1183,7 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxfull(&mut self) -> RxfullField {
+        pub fn rxfull(&mut self) -> RxfullField<'_> {
             RxfullField::new(&mut self.reg)
         }
 
@@ -1198,7 +1198,7 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txempty(&mut self) -> TxemptyField {
+        pub fn txempty(&mut self) -> TxemptyField<'_> {
             TxemptyField::new(&mut self.reg)
         }
 
@@ -1213,7 +1213,7 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txidle(&mut self) -> TxidleField {
+        pub fn txidle(&mut self) -> TxidleField<'_> {
             TxidleField::new(&mut self.reg)
         }
 
@@ -1228,7 +1228,7 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxidle(&mut self) -> RxidleField {
+        pub fn rxidle(&mut self) -> RxidleField<'_> {
             RxidleField::new(&mut self.reg)
         }
 
@@ -1243,7 +1243,7 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxempty(&mut self) -> RxemptyField {
+        pub fn rxempty(&mut self) -> RxemptyField<'_> {
             RxemptyField::new(&mut self.reg)
         }
 
@@ -1291,7 +1291,7 @@ mod rdata {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rdata(&mut self) -> RdataField {
+        pub fn rdata(&mut self) -> RdataField<'_> {
             RdataField::new(&mut self.reg)
         }
 
@@ -1336,7 +1336,7 @@ mod wdata {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn wdata(&mut self) -> WdataField {
+        pub fn wdata(&mut self) -> WdataField<'_> {
             WdataField::new(&mut self.reg)
         }
 
@@ -1395,7 +1395,7 @@ mod fifo_ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxrst(&mut self) -> RxrstField {
+        pub fn rxrst(&mut self) -> RxrstField<'_> {
             RxrstField::new(&mut self.reg)
         }
 
@@ -1415,7 +1415,7 @@ mod fifo_ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txrst(&mut self) -> TxrstField {
+        pub fn txrst(&mut self) -> TxrstField<'_> {
             TxrstField::new(&mut self.reg)
         }
 
@@ -1432,7 +1432,7 @@ mod fifo_ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxilvl(&mut self) -> RxilvlField {
+        pub fn rxilvl(&mut self) -> RxilvlField<'_> {
             RxilvlField::new(&mut self.reg)
         }
 
@@ -1449,7 +1449,7 @@ mod fifo_ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txilvl(&mut self) -> TxilvlField {
+        pub fn txilvl(&mut self) -> TxilvlField<'_> {
             TxilvlField::new(&mut self.reg)
         }
 
@@ -1517,7 +1517,7 @@ mod fifo_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txlvl(&mut self) -> TxlvlField {
+        pub fn txlvl(&mut self) -> TxlvlField<'_> {
             TxlvlField::new(&mut self.reg)
         }
 
@@ -1531,7 +1531,7 @@ mod fifo_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxlvl(&mut self) -> RxlvlField {
+        pub fn rxlvl(&mut self) -> RxlvlField<'_> {
             RxlvlField::new(&mut self.reg)
         }
 
@@ -1584,7 +1584,7 @@ mod ovrd {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txen(&mut self) -> TxenField {
+        pub fn txen(&mut self) -> TxenField<'_> {
             TxenField::new(&mut self.reg)
         }
 
@@ -1606,7 +1606,7 @@ mod ovrd {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txval(&mut self) -> TxvalField {
+        pub fn txval(&mut self) -> TxvalField<'_> {
             TxvalField::new(&mut self.reg)
         }
 
@@ -1671,7 +1671,7 @@ mod val {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx(&mut self) -> RxField {
+        pub fn rx(&mut self) -> RxField<'_> {
             RxField::new(&mut self.reg)
         }
 
@@ -1718,7 +1718,7 @@ mod timeout_ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField {
+        pub fn val(&mut self) -> ValField<'_> {
             ValField::new(&mut self.reg)
         }
 
@@ -1740,7 +1740,7 @@ mod timeout_ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
+        pub fn en(&mut self) -> EnField<'_> {
             EnField::new(&mut self.reg)
         }
 

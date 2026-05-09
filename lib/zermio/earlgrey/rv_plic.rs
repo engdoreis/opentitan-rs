@@ -141,7 +141,7 @@ mod prio {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn prio(&mut self) -> PrioField {
+        pub fn prio(&mut self) -> PrioField<'_> {
             PrioField::new(&mut self.reg)
         }
 
@@ -237,7 +237,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_0(&mut self) -> P0Field {
+        pub fn p_0(&mut self) -> P0Field<'_> {
             P0Field::new(&mut self.reg)
         }
 
@@ -252,7 +252,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_1(&mut self) -> P1Field {
+        pub fn p_1(&mut self) -> P1Field<'_> {
             P1Field::new(&mut self.reg)
         }
 
@@ -267,7 +267,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_2(&mut self) -> P2Field {
+        pub fn p_2(&mut self) -> P2Field<'_> {
             P2Field::new(&mut self.reg)
         }
 
@@ -282,7 +282,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_3(&mut self) -> P3Field {
+        pub fn p_3(&mut self) -> P3Field<'_> {
             P3Field::new(&mut self.reg)
         }
 
@@ -297,7 +297,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_4(&mut self) -> P4Field {
+        pub fn p_4(&mut self) -> P4Field<'_> {
             P4Field::new(&mut self.reg)
         }
 
@@ -312,7 +312,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_5(&mut self) -> P5Field {
+        pub fn p_5(&mut self) -> P5Field<'_> {
             P5Field::new(&mut self.reg)
         }
 
@@ -327,7 +327,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_6(&mut self) -> P6Field {
+        pub fn p_6(&mut self) -> P6Field<'_> {
             P6Field::new(&mut self.reg)
         }
 
@@ -342,7 +342,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_7(&mut self) -> P7Field {
+        pub fn p_7(&mut self) -> P7Field<'_> {
             P7Field::new(&mut self.reg)
         }
 
@@ -357,7 +357,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_8(&mut self) -> P8Field {
+        pub fn p_8(&mut self) -> P8Field<'_> {
             P8Field::new(&mut self.reg)
         }
 
@@ -372,7 +372,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_9(&mut self) -> P9Field {
+        pub fn p_9(&mut self) -> P9Field<'_> {
             P9Field::new(&mut self.reg)
         }
 
@@ -387,7 +387,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_10(&mut self) -> P10Field {
+        pub fn p_10(&mut self) -> P10Field<'_> {
             P10Field::new(&mut self.reg)
         }
 
@@ -402,7 +402,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_11(&mut self) -> P11Field {
+        pub fn p_11(&mut self) -> P11Field<'_> {
             P11Field::new(&mut self.reg)
         }
 
@@ -417,7 +417,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_12(&mut self) -> P12Field {
+        pub fn p_12(&mut self) -> P12Field<'_> {
             P12Field::new(&mut self.reg)
         }
 
@@ -432,7 +432,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_13(&mut self) -> P13Field {
+        pub fn p_13(&mut self) -> P13Field<'_> {
             P13Field::new(&mut self.reg)
         }
 
@@ -447,7 +447,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_14(&mut self) -> P14Field {
+        pub fn p_14(&mut self) -> P14Field<'_> {
             P14Field::new(&mut self.reg)
         }
 
@@ -462,7 +462,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_15(&mut self) -> P15Field {
+        pub fn p_15(&mut self) -> P15Field<'_> {
             P15Field::new(&mut self.reg)
         }
 
@@ -477,7 +477,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_16(&mut self) -> P16Field {
+        pub fn p_16(&mut self) -> P16Field<'_> {
             P16Field::new(&mut self.reg)
         }
 
@@ -492,7 +492,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_17(&mut self) -> P17Field {
+        pub fn p_17(&mut self) -> P17Field<'_> {
             P17Field::new(&mut self.reg)
         }
 
@@ -507,7 +507,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_18(&mut self) -> P18Field {
+        pub fn p_18(&mut self) -> P18Field<'_> {
             P18Field::new(&mut self.reg)
         }
 
@@ -522,7 +522,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_19(&mut self) -> P19Field {
+        pub fn p_19(&mut self) -> P19Field<'_> {
             P19Field::new(&mut self.reg)
         }
 
@@ -537,7 +537,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_20(&mut self) -> P20Field {
+        pub fn p_20(&mut self) -> P20Field<'_> {
             P20Field::new(&mut self.reg)
         }
 
@@ -552,7 +552,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_21(&mut self) -> P21Field {
+        pub fn p_21(&mut self) -> P21Field<'_> {
             P21Field::new(&mut self.reg)
         }
 
@@ -567,7 +567,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_22(&mut self) -> P22Field {
+        pub fn p_22(&mut self) -> P22Field<'_> {
             P22Field::new(&mut self.reg)
         }
 
@@ -582,7 +582,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_23(&mut self) -> P23Field {
+        pub fn p_23(&mut self) -> P23Field<'_> {
             P23Field::new(&mut self.reg)
         }
 
@@ -597,7 +597,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_24(&mut self) -> P24Field {
+        pub fn p_24(&mut self) -> P24Field<'_> {
             P24Field::new(&mut self.reg)
         }
 
@@ -612,7 +612,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_25(&mut self) -> P25Field {
+        pub fn p_25(&mut self) -> P25Field<'_> {
             P25Field::new(&mut self.reg)
         }
 
@@ -627,7 +627,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_26(&mut self) -> P26Field {
+        pub fn p_26(&mut self) -> P26Field<'_> {
             P26Field::new(&mut self.reg)
         }
 
@@ -642,7 +642,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_27(&mut self) -> P27Field {
+        pub fn p_27(&mut self) -> P27Field<'_> {
             P27Field::new(&mut self.reg)
         }
 
@@ -657,7 +657,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_28(&mut self) -> P28Field {
+        pub fn p_28(&mut self) -> P28Field<'_> {
             P28Field::new(&mut self.reg)
         }
 
@@ -672,7 +672,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_29(&mut self) -> P29Field {
+        pub fn p_29(&mut self) -> P29Field<'_> {
             P29Field::new(&mut self.reg)
         }
 
@@ -687,7 +687,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_30(&mut self) -> P30Field {
+        pub fn p_30(&mut self) -> P30Field<'_> {
             P30Field::new(&mut self.reg)
         }
 
@@ -702,7 +702,7 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_31(&mut self) -> P31Field {
+        pub fn p_31(&mut self) -> P31Field<'_> {
             P31Field::new(&mut self.reg)
         }
 
@@ -815,7 +815,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_0(&mut self) -> E0Field {
+        pub fn e_0(&mut self) -> E0Field<'_> {
             E0Field::new(&mut self.reg)
         }
 
@@ -837,7 +837,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_1(&mut self) -> E1Field {
+        pub fn e_1(&mut self) -> E1Field<'_> {
             E1Field::new(&mut self.reg)
         }
 
@@ -859,7 +859,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_2(&mut self) -> E2Field {
+        pub fn e_2(&mut self) -> E2Field<'_> {
             E2Field::new(&mut self.reg)
         }
 
@@ -881,7 +881,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_3(&mut self) -> E3Field {
+        pub fn e_3(&mut self) -> E3Field<'_> {
             E3Field::new(&mut self.reg)
         }
 
@@ -903,7 +903,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_4(&mut self) -> E4Field {
+        pub fn e_4(&mut self) -> E4Field<'_> {
             E4Field::new(&mut self.reg)
         }
 
@@ -925,7 +925,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_5(&mut self) -> E5Field {
+        pub fn e_5(&mut self) -> E5Field<'_> {
             E5Field::new(&mut self.reg)
         }
 
@@ -947,7 +947,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_6(&mut self) -> E6Field {
+        pub fn e_6(&mut self) -> E6Field<'_> {
             E6Field::new(&mut self.reg)
         }
 
@@ -969,7 +969,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_7(&mut self) -> E7Field {
+        pub fn e_7(&mut self) -> E7Field<'_> {
             E7Field::new(&mut self.reg)
         }
 
@@ -991,7 +991,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_8(&mut self) -> E8Field {
+        pub fn e_8(&mut self) -> E8Field<'_> {
             E8Field::new(&mut self.reg)
         }
 
@@ -1013,7 +1013,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_9(&mut self) -> E9Field {
+        pub fn e_9(&mut self) -> E9Field<'_> {
             E9Field::new(&mut self.reg)
         }
 
@@ -1035,7 +1035,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_10(&mut self) -> E10Field {
+        pub fn e_10(&mut self) -> E10Field<'_> {
             E10Field::new(&mut self.reg)
         }
 
@@ -1057,7 +1057,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_11(&mut self) -> E11Field {
+        pub fn e_11(&mut self) -> E11Field<'_> {
             E11Field::new(&mut self.reg)
         }
 
@@ -1079,7 +1079,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_12(&mut self) -> E12Field {
+        pub fn e_12(&mut self) -> E12Field<'_> {
             E12Field::new(&mut self.reg)
         }
 
@@ -1101,7 +1101,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_13(&mut self) -> E13Field {
+        pub fn e_13(&mut self) -> E13Field<'_> {
             E13Field::new(&mut self.reg)
         }
 
@@ -1123,7 +1123,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_14(&mut self) -> E14Field {
+        pub fn e_14(&mut self) -> E14Field<'_> {
             E14Field::new(&mut self.reg)
         }
 
@@ -1145,7 +1145,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_15(&mut self) -> E15Field {
+        pub fn e_15(&mut self) -> E15Field<'_> {
             E15Field::new(&mut self.reg)
         }
 
@@ -1167,7 +1167,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_16(&mut self) -> E16Field {
+        pub fn e_16(&mut self) -> E16Field<'_> {
             E16Field::new(&mut self.reg)
         }
 
@@ -1189,7 +1189,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_17(&mut self) -> E17Field {
+        pub fn e_17(&mut self) -> E17Field<'_> {
             E17Field::new(&mut self.reg)
         }
 
@@ -1211,7 +1211,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_18(&mut self) -> E18Field {
+        pub fn e_18(&mut self) -> E18Field<'_> {
             E18Field::new(&mut self.reg)
         }
 
@@ -1233,7 +1233,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_19(&mut self) -> E19Field {
+        pub fn e_19(&mut self) -> E19Field<'_> {
             E19Field::new(&mut self.reg)
         }
 
@@ -1255,7 +1255,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_20(&mut self) -> E20Field {
+        pub fn e_20(&mut self) -> E20Field<'_> {
             E20Field::new(&mut self.reg)
         }
 
@@ -1277,7 +1277,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_21(&mut self) -> E21Field {
+        pub fn e_21(&mut self) -> E21Field<'_> {
             E21Field::new(&mut self.reg)
         }
 
@@ -1299,7 +1299,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_22(&mut self) -> E22Field {
+        pub fn e_22(&mut self) -> E22Field<'_> {
             E22Field::new(&mut self.reg)
         }
 
@@ -1321,7 +1321,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_23(&mut self) -> E23Field {
+        pub fn e_23(&mut self) -> E23Field<'_> {
             E23Field::new(&mut self.reg)
         }
 
@@ -1343,7 +1343,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_24(&mut self) -> E24Field {
+        pub fn e_24(&mut self) -> E24Field<'_> {
             E24Field::new(&mut self.reg)
         }
 
@@ -1365,7 +1365,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_25(&mut self) -> E25Field {
+        pub fn e_25(&mut self) -> E25Field<'_> {
             E25Field::new(&mut self.reg)
         }
 
@@ -1387,7 +1387,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_26(&mut self) -> E26Field {
+        pub fn e_26(&mut self) -> E26Field<'_> {
             E26Field::new(&mut self.reg)
         }
 
@@ -1409,7 +1409,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_27(&mut self) -> E27Field {
+        pub fn e_27(&mut self) -> E27Field<'_> {
             E27Field::new(&mut self.reg)
         }
 
@@ -1431,7 +1431,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_28(&mut self) -> E28Field {
+        pub fn e_28(&mut self) -> E28Field<'_> {
             E28Field::new(&mut self.reg)
         }
 
@@ -1453,7 +1453,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_29(&mut self) -> E29Field {
+        pub fn e_29(&mut self) -> E29Field<'_> {
             E29Field::new(&mut self.reg)
         }
 
@@ -1475,7 +1475,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_30(&mut self) -> E30Field {
+        pub fn e_30(&mut self) -> E30Field<'_> {
             E30Field::new(&mut self.reg)
         }
 
@@ -1497,7 +1497,7 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_31(&mut self) -> E31Field {
+        pub fn e_31(&mut self) -> E31Field<'_> {
             E31Field::new(&mut self.reg)
         }
 
@@ -1631,7 +1631,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_0(&mut self) -> E0Field {
+        pub fn e_0(&mut self) -> E0Field<'_> {
             E0Field::new(&mut self.reg)
         }
 
@@ -1653,7 +1653,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_1(&mut self) -> E1Field {
+        pub fn e_1(&mut self) -> E1Field<'_> {
             E1Field::new(&mut self.reg)
         }
 
@@ -1675,7 +1675,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_2(&mut self) -> E2Field {
+        pub fn e_2(&mut self) -> E2Field<'_> {
             E2Field::new(&mut self.reg)
         }
 
@@ -1697,7 +1697,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_3(&mut self) -> E3Field {
+        pub fn e_3(&mut self) -> E3Field<'_> {
             E3Field::new(&mut self.reg)
         }
 
@@ -1719,7 +1719,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_4(&mut self) -> E4Field {
+        pub fn e_4(&mut self) -> E4Field<'_> {
             E4Field::new(&mut self.reg)
         }
 
@@ -1741,7 +1741,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_5(&mut self) -> E5Field {
+        pub fn e_5(&mut self) -> E5Field<'_> {
             E5Field::new(&mut self.reg)
         }
 
@@ -1763,7 +1763,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_6(&mut self) -> E6Field {
+        pub fn e_6(&mut self) -> E6Field<'_> {
             E6Field::new(&mut self.reg)
         }
 
@@ -1785,7 +1785,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_7(&mut self) -> E7Field {
+        pub fn e_7(&mut self) -> E7Field<'_> {
             E7Field::new(&mut self.reg)
         }
 
@@ -1807,7 +1807,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_8(&mut self) -> E8Field {
+        pub fn e_8(&mut self) -> E8Field<'_> {
             E8Field::new(&mut self.reg)
         }
 
@@ -1829,7 +1829,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_9(&mut self) -> E9Field {
+        pub fn e_9(&mut self) -> E9Field<'_> {
             E9Field::new(&mut self.reg)
         }
 
@@ -1851,7 +1851,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_10(&mut self) -> E10Field {
+        pub fn e_10(&mut self) -> E10Field<'_> {
             E10Field::new(&mut self.reg)
         }
 
@@ -1873,7 +1873,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_11(&mut self) -> E11Field {
+        pub fn e_11(&mut self) -> E11Field<'_> {
             E11Field::new(&mut self.reg)
         }
 
@@ -1895,7 +1895,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_12(&mut self) -> E12Field {
+        pub fn e_12(&mut self) -> E12Field<'_> {
             E12Field::new(&mut self.reg)
         }
 
@@ -1917,7 +1917,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_13(&mut self) -> E13Field {
+        pub fn e_13(&mut self) -> E13Field<'_> {
             E13Field::new(&mut self.reg)
         }
 
@@ -1939,7 +1939,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_14(&mut self) -> E14Field {
+        pub fn e_14(&mut self) -> E14Field<'_> {
             E14Field::new(&mut self.reg)
         }
 
@@ -1961,7 +1961,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_15(&mut self) -> E15Field {
+        pub fn e_15(&mut self) -> E15Field<'_> {
             E15Field::new(&mut self.reg)
         }
 
@@ -1983,7 +1983,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_16(&mut self) -> E16Field {
+        pub fn e_16(&mut self) -> E16Field<'_> {
             E16Field::new(&mut self.reg)
         }
 
@@ -2005,7 +2005,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_17(&mut self) -> E17Field {
+        pub fn e_17(&mut self) -> E17Field<'_> {
             E17Field::new(&mut self.reg)
         }
 
@@ -2027,7 +2027,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_18(&mut self) -> E18Field {
+        pub fn e_18(&mut self) -> E18Field<'_> {
             E18Field::new(&mut self.reg)
         }
 
@@ -2049,7 +2049,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_19(&mut self) -> E19Field {
+        pub fn e_19(&mut self) -> E19Field<'_> {
             E19Field::new(&mut self.reg)
         }
 
@@ -2071,7 +2071,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_20(&mut self) -> E20Field {
+        pub fn e_20(&mut self) -> E20Field<'_> {
             E20Field::new(&mut self.reg)
         }
 
@@ -2093,7 +2093,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_21(&mut self) -> E21Field {
+        pub fn e_21(&mut self) -> E21Field<'_> {
             E21Field::new(&mut self.reg)
         }
 
@@ -2115,7 +2115,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_22(&mut self) -> E22Field {
+        pub fn e_22(&mut self) -> E22Field<'_> {
             E22Field::new(&mut self.reg)
         }
 
@@ -2137,7 +2137,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_23(&mut self) -> E23Field {
+        pub fn e_23(&mut self) -> E23Field<'_> {
             E23Field::new(&mut self.reg)
         }
 
@@ -2159,7 +2159,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_24(&mut self) -> E24Field {
+        pub fn e_24(&mut self) -> E24Field<'_> {
             E24Field::new(&mut self.reg)
         }
 
@@ -2181,7 +2181,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_25(&mut self) -> E25Field {
+        pub fn e_25(&mut self) -> E25Field<'_> {
             E25Field::new(&mut self.reg)
         }
 
@@ -2203,7 +2203,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_26(&mut self) -> E26Field {
+        pub fn e_26(&mut self) -> E26Field<'_> {
             E26Field::new(&mut self.reg)
         }
 
@@ -2225,7 +2225,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_27(&mut self) -> E27Field {
+        pub fn e_27(&mut self) -> E27Field<'_> {
             E27Field::new(&mut self.reg)
         }
 
@@ -2247,7 +2247,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_28(&mut self) -> E28Field {
+        pub fn e_28(&mut self) -> E28Field<'_> {
             E28Field::new(&mut self.reg)
         }
 
@@ -2269,7 +2269,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_29(&mut self) -> E29Field {
+        pub fn e_29(&mut self) -> E29Field<'_> {
             E29Field::new(&mut self.reg)
         }
 
@@ -2291,7 +2291,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_30(&mut self) -> E30Field {
+        pub fn e_30(&mut self) -> E30Field<'_> {
             E30Field::new(&mut self.reg)
         }
 
@@ -2313,7 +2313,7 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_31(&mut self) -> E31Field {
+        pub fn e_31(&mut self) -> E31Field<'_> {
             E31Field::new(&mut self.reg)
         }
 
@@ -2411,7 +2411,7 @@ mod threshold0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn threshold0(&mut self) -> Threshold0Field {
+        pub fn threshold0(&mut self) -> Threshold0Field<'_> {
             Threshold0Field::new(&mut self.reg)
         }
 
@@ -2478,7 +2478,7 @@ mod cc0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cc0(&mut self) -> Cc0Field {
+        pub fn cc0(&mut self) -> Cc0Field<'_> {
             Cc0Field::new(&mut self.reg)
         }
 
@@ -2545,7 +2545,7 @@ mod threshold1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn threshold1(&mut self) -> Threshold1Field {
+        pub fn threshold1(&mut self) -> Threshold1Field<'_> {
             Threshold1Field::new(&mut self.reg)
         }
 
@@ -2612,7 +2612,7 @@ mod cc1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cc1(&mut self) -> Cc1Field {
+        pub fn cc1(&mut self) -> Cc1Field<'_> {
             Cc1Field::new(&mut self.reg)
         }
 
@@ -2684,7 +2684,7 @@ mod msip0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn msip0(&mut self) -> Msip0Field {
+        pub fn msip0(&mut self) -> Msip0Field<'_> {
             Msip0Field::new(&mut self.reg)
         }
 
@@ -2756,7 +2756,7 @@ mod msip1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn msip1(&mut self) -> Msip1Field {
+        pub fn msip1(&mut self) -> Msip1Field<'_> {
             Msip1Field::new(&mut self.reg)
         }
 
@@ -2826,7 +2826,7 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField {
+        pub fn fatal_fault(&mut self) -> FatalFaultField<'_> {
             FatalFaultField::new(&mut self.reg)
         }
 
