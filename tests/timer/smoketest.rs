@@ -21,12 +21,13 @@ fn test_main() -> bool {
 
     let _ = writeln!(uart, "Timer smoketest");
     let mut delay = McycleDelay::new(Silicon::CPU_CLOCK_HZ);
-    let mut timer = hal::rv_timer::RvTimer::new(peri.timer, Silicon::PERIPHERAL_CLOCK_HZ);
+    let mut timer: hal::rv_timer::RvTimer<{ Silicon::PERIPHERAL_CLOCK_HZ as u64 }> =
+        hal::rv_timer::RvTimer::new(peri.timer);
 
     timer.start();
-    let start = timer.get_time_ms();
+    let start = timer.get_ticks();
     delay.delay_ms(22);
-    let end = timer.get_time_ms();
+    let end = timer.get_ticks();
     let _ = writeln!(uart, "elapsed {} ms", end);
     let (prescale, step) = timer.get_prescale();
     let _ = writeln!(uart, "prescale: {}, step: {}", prescale, step);
