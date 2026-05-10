@@ -147,12 +147,12 @@ mod prio {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn prio(&mut self) -> PrioField<'_> {
-            PrioField::new(&mut self.reg)
+        pub fn prio(&self) -> PrioField<'_> {
+            PrioField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -243,8 +243,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_0(&mut self) -> P0Field<'_> {
-            P0Field::new(&mut self.reg)
+        pub fn p_0(&self) -> P0Field<'_> {
+            P0Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -258,8 +258,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_1(&mut self) -> P1Field<'_> {
-            P1Field::new(&mut self.reg)
+        pub fn p_1(&self) -> P1Field<'_> {
+            P1Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -273,8 +273,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_2(&mut self) -> P2Field<'_> {
-            P2Field::new(&mut self.reg)
+        pub fn p_2(&self) -> P2Field<'_> {
+            P2Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -288,8 +288,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_3(&mut self) -> P3Field<'_> {
-            P3Field::new(&mut self.reg)
+        pub fn p_3(&self) -> P3Field<'_> {
+            P3Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -303,8 +303,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_4(&mut self) -> P4Field<'_> {
-            P4Field::new(&mut self.reg)
+        pub fn p_4(&self) -> P4Field<'_> {
+            P4Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -318,8 +318,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_5(&mut self) -> P5Field<'_> {
-            P5Field::new(&mut self.reg)
+        pub fn p_5(&self) -> P5Field<'_> {
+            P5Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -333,8 +333,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_6(&mut self) -> P6Field<'_> {
-            P6Field::new(&mut self.reg)
+        pub fn p_6(&self) -> P6Field<'_> {
+            P6Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -348,8 +348,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_7(&mut self) -> P7Field<'_> {
-            P7Field::new(&mut self.reg)
+        pub fn p_7(&self) -> P7Field<'_> {
+            P7Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -363,8 +363,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_8(&mut self) -> P8Field<'_> {
-            P8Field::new(&mut self.reg)
+        pub fn p_8(&self) -> P8Field<'_> {
+            P8Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -378,8 +378,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_9(&mut self) -> P9Field<'_> {
-            P9Field::new(&mut self.reg)
+        pub fn p_9(&self) -> P9Field<'_> {
+            P9Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -393,8 +393,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_10(&mut self) -> P10Field<'_> {
-            P10Field::new(&mut self.reg)
+        pub fn p_10(&self) -> P10Field<'_> {
+            P10Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -408,8 +408,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_11(&mut self) -> P11Field<'_> {
-            P11Field::new(&mut self.reg)
+        pub fn p_11(&self) -> P11Field<'_> {
+            P11Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -423,8 +423,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_12(&mut self) -> P12Field<'_> {
-            P12Field::new(&mut self.reg)
+        pub fn p_12(&self) -> P12Field<'_> {
+            P12Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -438,8 +438,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_13(&mut self) -> P13Field<'_> {
-            P13Field::new(&mut self.reg)
+        pub fn p_13(&self) -> P13Field<'_> {
+            P13Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -453,8 +453,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_14(&mut self) -> P14Field<'_> {
-            P14Field::new(&mut self.reg)
+        pub fn p_14(&self) -> P14Field<'_> {
+            P14Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -468,8 +468,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_15(&mut self) -> P15Field<'_> {
-            P15Field::new(&mut self.reg)
+        pub fn p_15(&self) -> P15Field<'_> {
+            P15Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -483,8 +483,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_16(&mut self) -> P16Field<'_> {
-            P16Field::new(&mut self.reg)
+        pub fn p_16(&self) -> P16Field<'_> {
+            P16Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -498,8 +498,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_17(&mut self) -> P17Field<'_> {
-            P17Field::new(&mut self.reg)
+        pub fn p_17(&self) -> P17Field<'_> {
+            P17Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -513,8 +513,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_18(&mut self) -> P18Field<'_> {
-            P18Field::new(&mut self.reg)
+        pub fn p_18(&self) -> P18Field<'_> {
+            P18Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -528,8 +528,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_19(&mut self) -> P19Field<'_> {
-            P19Field::new(&mut self.reg)
+        pub fn p_19(&self) -> P19Field<'_> {
+            P19Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -543,8 +543,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_20(&mut self) -> P20Field<'_> {
-            P20Field::new(&mut self.reg)
+        pub fn p_20(&self) -> P20Field<'_> {
+            P20Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -558,8 +558,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_21(&mut self) -> P21Field<'_> {
-            P21Field::new(&mut self.reg)
+        pub fn p_21(&self) -> P21Field<'_> {
+            P21Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -573,8 +573,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_22(&mut self) -> P22Field<'_> {
-            P22Field::new(&mut self.reg)
+        pub fn p_22(&self) -> P22Field<'_> {
+            P22Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -588,8 +588,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_23(&mut self) -> P23Field<'_> {
-            P23Field::new(&mut self.reg)
+        pub fn p_23(&self) -> P23Field<'_> {
+            P23Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -603,8 +603,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_24(&mut self) -> P24Field<'_> {
-            P24Field::new(&mut self.reg)
+        pub fn p_24(&self) -> P24Field<'_> {
+            P24Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -618,8 +618,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_25(&mut self) -> P25Field<'_> {
-            P25Field::new(&mut self.reg)
+        pub fn p_25(&self) -> P25Field<'_> {
+            P25Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -633,8 +633,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_26(&mut self) -> P26Field<'_> {
-            P26Field::new(&mut self.reg)
+        pub fn p_26(&self) -> P26Field<'_> {
+            P26Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -648,8 +648,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_27(&mut self) -> P27Field<'_> {
-            P27Field::new(&mut self.reg)
+        pub fn p_27(&self) -> P27Field<'_> {
+            P27Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -663,8 +663,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_28(&mut self) -> P28Field<'_> {
-            P28Field::new(&mut self.reg)
+        pub fn p_28(&self) -> P28Field<'_> {
+            P28Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -678,8 +678,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_29(&mut self) -> P29Field<'_> {
-            P29Field::new(&mut self.reg)
+        pub fn p_29(&self) -> P29Field<'_> {
+            P29Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -693,8 +693,8 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_30(&mut self) -> P30Field<'_> {
-            P30Field::new(&mut self.reg)
+        pub fn p_30(&self) -> P30Field<'_> {
+            P30Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Pending of Source
@@ -708,12 +708,12 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_31(&mut self) -> P31Field<'_> {
-            P31Field::new(&mut self.reg)
+        pub fn p_31(&self) -> P31Field<'_> {
+            P31Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -821,8 +821,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_0(&mut self) -> E0Field<'_> {
-            E0Field::new(&mut self.reg)
+        pub fn e_0(&self) -> E0Field<'_> {
+            E0Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -843,8 +843,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_1(&mut self) -> E1Field<'_> {
-            E1Field::new(&mut self.reg)
+        pub fn e_1(&self) -> E1Field<'_> {
+            E1Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -865,8 +865,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_2(&mut self) -> E2Field<'_> {
-            E2Field::new(&mut self.reg)
+        pub fn e_2(&self) -> E2Field<'_> {
+            E2Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -887,8 +887,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_3(&mut self) -> E3Field<'_> {
-            E3Field::new(&mut self.reg)
+        pub fn e_3(&self) -> E3Field<'_> {
+            E3Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -909,8 +909,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_4(&mut self) -> E4Field<'_> {
-            E4Field::new(&mut self.reg)
+        pub fn e_4(&self) -> E4Field<'_> {
+            E4Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -931,8 +931,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_5(&mut self) -> E5Field<'_> {
-            E5Field::new(&mut self.reg)
+        pub fn e_5(&self) -> E5Field<'_> {
+            E5Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -953,8 +953,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_6(&mut self) -> E6Field<'_> {
-            E6Field::new(&mut self.reg)
+        pub fn e_6(&self) -> E6Field<'_> {
+            E6Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -975,8 +975,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_7(&mut self) -> E7Field<'_> {
-            E7Field::new(&mut self.reg)
+        pub fn e_7(&self) -> E7Field<'_> {
+            E7Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -997,8 +997,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_8(&mut self) -> E8Field<'_> {
-            E8Field::new(&mut self.reg)
+        pub fn e_8(&self) -> E8Field<'_> {
+            E8Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1019,8 +1019,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_9(&mut self) -> E9Field<'_> {
-            E9Field::new(&mut self.reg)
+        pub fn e_9(&self) -> E9Field<'_> {
+            E9Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1041,8 +1041,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_10(&mut self) -> E10Field<'_> {
-            E10Field::new(&mut self.reg)
+        pub fn e_10(&self) -> E10Field<'_> {
+            E10Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1063,8 +1063,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_11(&mut self) -> E11Field<'_> {
-            E11Field::new(&mut self.reg)
+        pub fn e_11(&self) -> E11Field<'_> {
+            E11Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1085,8 +1085,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_12(&mut self) -> E12Field<'_> {
-            E12Field::new(&mut self.reg)
+        pub fn e_12(&self) -> E12Field<'_> {
+            E12Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1107,8 +1107,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_13(&mut self) -> E13Field<'_> {
-            E13Field::new(&mut self.reg)
+        pub fn e_13(&self) -> E13Field<'_> {
+            E13Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1129,8 +1129,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_14(&mut self) -> E14Field<'_> {
-            E14Field::new(&mut self.reg)
+        pub fn e_14(&self) -> E14Field<'_> {
+            E14Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1151,8 +1151,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_15(&mut self) -> E15Field<'_> {
-            E15Field::new(&mut self.reg)
+        pub fn e_15(&self) -> E15Field<'_> {
+            E15Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1173,8 +1173,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_16(&mut self) -> E16Field<'_> {
-            E16Field::new(&mut self.reg)
+        pub fn e_16(&self) -> E16Field<'_> {
+            E16Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1195,8 +1195,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_17(&mut self) -> E17Field<'_> {
-            E17Field::new(&mut self.reg)
+        pub fn e_17(&self) -> E17Field<'_> {
+            E17Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1217,8 +1217,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_18(&mut self) -> E18Field<'_> {
-            E18Field::new(&mut self.reg)
+        pub fn e_18(&self) -> E18Field<'_> {
+            E18Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1239,8 +1239,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_19(&mut self) -> E19Field<'_> {
-            E19Field::new(&mut self.reg)
+        pub fn e_19(&self) -> E19Field<'_> {
+            E19Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1261,8 +1261,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_20(&mut self) -> E20Field<'_> {
-            E20Field::new(&mut self.reg)
+        pub fn e_20(&self) -> E20Field<'_> {
+            E20Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1283,8 +1283,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_21(&mut self) -> E21Field<'_> {
-            E21Field::new(&mut self.reg)
+        pub fn e_21(&self) -> E21Field<'_> {
+            E21Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1305,8 +1305,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_22(&mut self) -> E22Field<'_> {
-            E22Field::new(&mut self.reg)
+        pub fn e_22(&self) -> E22Field<'_> {
+            E22Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1327,8 +1327,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_23(&mut self) -> E23Field<'_> {
-            E23Field::new(&mut self.reg)
+        pub fn e_23(&self) -> E23Field<'_> {
+            E23Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1349,8 +1349,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_24(&mut self) -> E24Field<'_> {
-            E24Field::new(&mut self.reg)
+        pub fn e_24(&self) -> E24Field<'_> {
+            E24Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1371,8 +1371,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_25(&mut self) -> E25Field<'_> {
-            E25Field::new(&mut self.reg)
+        pub fn e_25(&self) -> E25Field<'_> {
+            E25Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1393,8 +1393,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_26(&mut self) -> E26Field<'_> {
-            E26Field::new(&mut self.reg)
+        pub fn e_26(&self) -> E26Field<'_> {
+            E26Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1415,8 +1415,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_27(&mut self) -> E27Field<'_> {
-            E27Field::new(&mut self.reg)
+        pub fn e_27(&self) -> E27Field<'_> {
+            E27Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1437,8 +1437,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_28(&mut self) -> E28Field<'_> {
-            E28Field::new(&mut self.reg)
+        pub fn e_28(&self) -> E28Field<'_> {
+            E28Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1459,8 +1459,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_29(&mut self) -> E29Field<'_> {
-            E29Field::new(&mut self.reg)
+        pub fn e_29(&self) -> E29Field<'_> {
+            E29Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1481,8 +1481,8 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_30(&mut self) -> E30Field<'_> {
-            E30Field::new(&mut self.reg)
+        pub fn e_30(&self) -> E30Field<'_> {
+            E30Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1503,12 +1503,12 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_31(&mut self) -> E31Field<'_> {
-            E31Field::new(&mut self.reg)
+        pub fn e_31(&self) -> E31Field<'_> {
+            E31Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1637,8 +1637,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_0(&mut self) -> E0Field<'_> {
-            E0Field::new(&mut self.reg)
+        pub fn e_0(&self) -> E0Field<'_> {
+            E0Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1659,8 +1659,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_1(&mut self) -> E1Field<'_> {
-            E1Field::new(&mut self.reg)
+        pub fn e_1(&self) -> E1Field<'_> {
+            E1Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1681,8 +1681,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_2(&mut self) -> E2Field<'_> {
-            E2Field::new(&mut self.reg)
+        pub fn e_2(&self) -> E2Field<'_> {
+            E2Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1703,8 +1703,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_3(&mut self) -> E3Field<'_> {
-            E3Field::new(&mut self.reg)
+        pub fn e_3(&self) -> E3Field<'_> {
+            E3Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1725,8 +1725,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_4(&mut self) -> E4Field<'_> {
-            E4Field::new(&mut self.reg)
+        pub fn e_4(&self) -> E4Field<'_> {
+            E4Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1747,8 +1747,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_5(&mut self) -> E5Field<'_> {
-            E5Field::new(&mut self.reg)
+        pub fn e_5(&self) -> E5Field<'_> {
+            E5Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1769,8 +1769,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_6(&mut self) -> E6Field<'_> {
-            E6Field::new(&mut self.reg)
+        pub fn e_6(&self) -> E6Field<'_> {
+            E6Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1791,8 +1791,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_7(&mut self) -> E7Field<'_> {
-            E7Field::new(&mut self.reg)
+        pub fn e_7(&self) -> E7Field<'_> {
+            E7Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1813,8 +1813,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_8(&mut self) -> E8Field<'_> {
-            E8Field::new(&mut self.reg)
+        pub fn e_8(&self) -> E8Field<'_> {
+            E8Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1835,8 +1835,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_9(&mut self) -> E9Field<'_> {
-            E9Field::new(&mut self.reg)
+        pub fn e_9(&self) -> E9Field<'_> {
+            E9Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1857,8 +1857,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_10(&mut self) -> E10Field<'_> {
-            E10Field::new(&mut self.reg)
+        pub fn e_10(&self) -> E10Field<'_> {
+            E10Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1879,8 +1879,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_11(&mut self) -> E11Field<'_> {
-            E11Field::new(&mut self.reg)
+        pub fn e_11(&self) -> E11Field<'_> {
+            E11Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1901,8 +1901,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_12(&mut self) -> E12Field<'_> {
-            E12Field::new(&mut self.reg)
+        pub fn e_12(&self) -> E12Field<'_> {
+            E12Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1923,8 +1923,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_13(&mut self) -> E13Field<'_> {
-            E13Field::new(&mut self.reg)
+        pub fn e_13(&self) -> E13Field<'_> {
+            E13Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1945,8 +1945,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_14(&mut self) -> E14Field<'_> {
-            E14Field::new(&mut self.reg)
+        pub fn e_14(&self) -> E14Field<'_> {
+            E14Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1967,8 +1967,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_15(&mut self) -> E15Field<'_> {
-            E15Field::new(&mut self.reg)
+        pub fn e_15(&self) -> E15Field<'_> {
+            E15Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -1989,8 +1989,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_16(&mut self) -> E16Field<'_> {
-            E16Field::new(&mut self.reg)
+        pub fn e_16(&self) -> E16Field<'_> {
+            E16Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2011,8 +2011,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_17(&mut self) -> E17Field<'_> {
-            E17Field::new(&mut self.reg)
+        pub fn e_17(&self) -> E17Field<'_> {
+            E17Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2033,8 +2033,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_18(&mut self) -> E18Field<'_> {
-            E18Field::new(&mut self.reg)
+        pub fn e_18(&self) -> E18Field<'_> {
+            E18Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2055,8 +2055,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_19(&mut self) -> E19Field<'_> {
-            E19Field::new(&mut self.reg)
+        pub fn e_19(&self) -> E19Field<'_> {
+            E19Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2077,8 +2077,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_20(&mut self) -> E20Field<'_> {
-            E20Field::new(&mut self.reg)
+        pub fn e_20(&self) -> E20Field<'_> {
+            E20Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2099,8 +2099,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_21(&mut self) -> E21Field<'_> {
-            E21Field::new(&mut self.reg)
+        pub fn e_21(&self) -> E21Field<'_> {
+            E21Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2121,8 +2121,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_22(&mut self) -> E22Field<'_> {
-            E22Field::new(&mut self.reg)
+        pub fn e_22(&self) -> E22Field<'_> {
+            E22Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2143,8 +2143,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_23(&mut self) -> E23Field<'_> {
-            E23Field::new(&mut self.reg)
+        pub fn e_23(&self) -> E23Field<'_> {
+            E23Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2165,8 +2165,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_24(&mut self) -> E24Field<'_> {
-            E24Field::new(&mut self.reg)
+        pub fn e_24(&self) -> E24Field<'_> {
+            E24Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2187,8 +2187,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_25(&mut self) -> E25Field<'_> {
-            E25Field::new(&mut self.reg)
+        pub fn e_25(&self) -> E25Field<'_> {
+            E25Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2209,8 +2209,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_26(&mut self) -> E26Field<'_> {
-            E26Field::new(&mut self.reg)
+        pub fn e_26(&self) -> E26Field<'_> {
+            E26Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2231,8 +2231,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_27(&mut self) -> E27Field<'_> {
-            E27Field::new(&mut self.reg)
+        pub fn e_27(&self) -> E27Field<'_> {
+            E27Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2253,8 +2253,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_28(&mut self) -> E28Field<'_> {
-            E28Field::new(&mut self.reg)
+        pub fn e_28(&self) -> E28Field<'_> {
+            E28Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2275,8 +2275,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_29(&mut self) -> E29Field<'_> {
-            E29Field::new(&mut self.reg)
+        pub fn e_29(&self) -> E29Field<'_> {
+            E29Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2297,8 +2297,8 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_30(&mut self) -> E30Field<'_> {
-            E30Field::new(&mut self.reg)
+        pub fn e_30(&self) -> E30Field<'_> {
+            E30Field::new(&self.reg)
         }
 
         /// Hardware description: Interrupt Enable of Source
@@ -2319,12 +2319,12 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_31(&mut self) -> E31Field<'_> {
-            E31Field::new(&mut self.reg)
+        pub fn e_31(&self) -> E31Field<'_> {
+            E31Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2417,12 +2417,12 @@ mod threshold0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn threshold0(&mut self) -> Threshold0Field<'_> {
-            Threshold0Field::new(&mut self.reg)
+        pub fn threshold0(&self) -> Threshold0Field<'_> {
+            Threshold0Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2484,12 +2484,12 @@ mod cc0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cc0(&mut self) -> Cc0Field<'_> {
-            Cc0Field::new(&mut self.reg)
+        pub fn cc0(&self) -> Cc0Field<'_> {
+            Cc0Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2551,12 +2551,12 @@ mod threshold1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn threshold1(&mut self) -> Threshold1Field<'_> {
-            Threshold1Field::new(&mut self.reg)
+        pub fn threshold1(&self) -> Threshold1Field<'_> {
+            Threshold1Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2618,12 +2618,12 @@ mod cc1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cc1(&mut self) -> Cc1Field<'_> {
-            Cc1Field::new(&mut self.reg)
+        pub fn cc1(&self) -> Cc1Field<'_> {
+            Cc1Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2690,12 +2690,12 @@ mod msip0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn msip0(&mut self) -> Msip0Field<'_> {
-            Msip0Field::new(&mut self.reg)
+        pub fn msip0(&self) -> Msip0Field<'_> {
+            Msip0Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2762,12 +2762,12 @@ mod msip1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn msip1(&mut self) -> Msip1Field<'_> {
-            Msip1Field::new(&mut self.reg)
+        pub fn msip1(&self) -> Msip1Field<'_> {
+            Msip1Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2832,8 +2832,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField<'_> {
-            FatalFaultField::new(&mut self.reg)
+        pub fn fatal_fault(&self) -> FatalFaultField<'_> {
+            FatalFaultField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO

@@ -134,12 +134,12 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn gpio(&mut self) -> GpioField<'_> {
-            GpioField::new(&mut self.reg)
+        pub fn gpio(&self) -> GpioField<'_> {
+            GpioField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -201,12 +201,12 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn gpio(&mut self) -> GpioField<'_> {
-            GpioField::new(&mut self.reg)
+        pub fn gpio(&self) -> GpioField<'_> {
+            GpioField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -267,8 +267,8 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn gpio(&mut self) -> GpioField<'_> {
-            GpioField::new(&mut self.reg)
+        pub fn gpio(&self) -> GpioField<'_> {
+            GpioField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO
@@ -323,8 +323,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField<'_> {
-            FatalFaultField::new(&mut self.reg)
+        pub fn fatal_fault(&self) -> FatalFaultField<'_> {
+            FatalFaultField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO
@@ -373,12 +373,12 @@ mod data_in {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data_in(&mut self) -> DataInField<'_> {
-            DataInField::new(&mut self.reg)
+        pub fn data_in(&self) -> DataInField<'_> {
+            DataInField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -419,12 +419,12 @@ mod direct_out {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn direct_out(&mut self) -> DirectOutField<'_> {
-            DirectOutField::new(&mut self.reg)
+        pub fn direct_out(&self) -> DirectOutField<'_> {
+            DirectOutField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -487,8 +487,8 @@ mod masked_out_lower {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data(&mut self) -> DataField<'_> {
-            DataField::new(&mut self.reg)
+        pub fn data(&self) -> DataField<'_> {
+            DataField::new(&self.reg)
         }
 
         /// Hardware description: Write data mask[15:0].A value of 1 in mask[i] allows the updating of DATA_OUT[i], 0 <= i <= 15
@@ -503,12 +503,12 @@ mod masked_out_lower {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn mask(&mut self) -> MaskField<'_> {
-            MaskField::new(&mut self.reg)
+        pub fn mask(&self) -> MaskField<'_> {
+            MaskField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -572,8 +572,8 @@ mod masked_out_upper {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data(&mut self) -> DataField<'_> {
-            DataField::new(&mut self.reg)
+        pub fn data(&self) -> DataField<'_> {
+            DataField::new(&self.reg)
         }
 
         /// Hardware description: Write data mask[31:16].A value of 1 in mask[i] allows the updating of DATA_OUT[i], 16 <= i <= 31
@@ -588,12 +588,12 @@ mod masked_out_upper {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn mask(&mut self) -> MaskField<'_> {
-            MaskField::new(&mut self.reg)
+        pub fn mask(&self) -> MaskField<'_> {
+            MaskField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -656,12 +656,12 @@ mod direct_oe {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn direct_oe(&mut self) -> DirectOeField<'_> {
-            DirectOeField::new(&mut self.reg)
+        pub fn direct_oe(&self) -> DirectOeField<'_> {
+            DirectOeField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -724,8 +724,8 @@ mod masked_oe_lower {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data(&mut self) -> DataField<'_> {
-            DataField::new(&mut self.reg)
+        pub fn data(&self) -> DataField<'_> {
+            DataField::new(&self.reg)
         }
 
         /// Hardware description: Write OE mask[15:0].A value of 1 in mask[i] allows the updating of DATA_OE[i], 0 <= i <= 15
@@ -741,12 +741,12 @@ mod masked_oe_lower {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn mask(&mut self) -> MaskField<'_> {
-            MaskField::new(&mut self.reg)
+        pub fn mask(&self) -> MaskField<'_> {
+            MaskField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -810,8 +810,8 @@ mod masked_oe_upper {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data(&mut self) -> DataField<'_> {
-            DataField::new(&mut self.reg)
+        pub fn data(&self) -> DataField<'_> {
+            DataField::new(&self.reg)
         }
 
         /// Hardware description: Write OE mask[31:16].A value of 1 in mask[i] allows the updating of DATA_OE[i], 16 <= i <= 31
@@ -827,12 +827,12 @@ mod masked_oe_upper {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn mask(&mut self) -> MaskField<'_> {
-            MaskField::new(&mut self.reg)
+        pub fn mask(&self) -> MaskField<'_> {
+            MaskField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -895,12 +895,12 @@ mod intr_ctrl_en_rising {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn intr_ctrl_en_rising(&mut self) -> IntrCtrlEnRisingField<'_> {
-            IntrCtrlEnRisingField::new(&mut self.reg)
+        pub fn intr_ctrl_en_rising(&self) -> IntrCtrlEnRisingField<'_> {
+            IntrCtrlEnRisingField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -962,12 +962,12 @@ mod intr_ctrl_en_falling {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn intr_ctrl_en_falling(&mut self) -> IntrCtrlEnFallingField<'_> {
-            IntrCtrlEnFallingField::new(&mut self.reg)
+        pub fn intr_ctrl_en_falling(&self) -> IntrCtrlEnFallingField<'_> {
+            IntrCtrlEnFallingField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1029,12 +1029,12 @@ mod intr_ctrl_en_lvlhigh {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn intr_ctrl_en_lvlhigh(&mut self) -> IntrCtrlEnLvlhighField<'_> {
-            IntrCtrlEnLvlhighField::new(&mut self.reg)
+        pub fn intr_ctrl_en_lvlhigh(&self) -> IntrCtrlEnLvlhighField<'_> {
+            IntrCtrlEnLvlhighField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1096,12 +1096,12 @@ mod intr_ctrl_en_lvllow {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn intr_ctrl_en_lvllow(&mut self) -> IntrCtrlEnLvllowField<'_> {
-            IntrCtrlEnLvllowField::new(&mut self.reg)
+        pub fn intr_ctrl_en_lvllow(&self) -> IntrCtrlEnLvllowField<'_> {
+            IntrCtrlEnLvllowField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1163,12 +1163,12 @@ mod ctrl_en_input_filter {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn ctrl_en_input_filter(&mut self) -> CtrlEnInputFilterField<'_> {
-            CtrlEnInputFilterField::new(&mut self.reg)
+        pub fn ctrl_en_input_filter(&self) -> CtrlEnInputFilterField<'_> {
+            CtrlEnInputFilterField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }

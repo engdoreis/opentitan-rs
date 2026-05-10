@@ -130,8 +130,8 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn error(&mut self) -> ErrorField<'_> {
-            ErrorField::new(&mut self.reg)
+        pub fn error(&self) -> ErrorField<'_> {
+            ErrorField::new(&self.reg)
         }
 
         /// Hardware description: Event-related interrupts, see !!EVENT_ENABLE register for more   information.
@@ -152,12 +152,12 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn spi_event(&mut self) -> SpiEventField<'_> {
-            SpiEventField::new(&mut self.reg)
+        pub fn spi_event(&self) -> SpiEventField<'_> {
+            SpiEventField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -226,8 +226,8 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn error(&mut self) -> ErrorField<'_> {
-            ErrorField::new(&mut self.reg)
+        pub fn error(&self) -> ErrorField<'_> {
+            ErrorField::new(&self.reg)
         }
 
         /// Hardware description: Enable interrupt when !!INTR_STATE.spi_event is set.
@@ -248,12 +248,12 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn spi_event(&mut self) -> SpiEventField<'_> {
-            SpiEventField::new(&mut self.reg)
+        pub fn spi_event(&self) -> SpiEventField<'_> {
+            SpiEventField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -320,8 +320,8 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn error(&mut self) -> ErrorField<'_> {
-            ErrorField::new(&mut self.reg)
+        pub fn error(&self) -> ErrorField<'_> {
+            ErrorField::new(&self.reg)
         }
 
         /// Hardware description: Write 1 to force !!INTR_STATE.spi_event to 1.
@@ -340,8 +340,8 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn spi_event(&mut self) -> SpiEventField<'_> {
-            SpiEventField::new(&mut self.reg)
+        pub fn spi_event(&self) -> SpiEventField<'_> {
+            SpiEventField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO
@@ -397,8 +397,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField<'_> {
-            FatalFaultField::new(&mut self.reg)
+        pub fn fatal_fault(&self) -> FatalFaultField<'_> {
+            FatalFaultField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO
@@ -454,8 +454,8 @@ mod control {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_watermark(&mut self) -> RxWatermarkField<'_> {
-            RxWatermarkField::new(&mut self.reg)
+        pub fn rx_watermark(&self) -> RxWatermarkField<'_> {
+            RxWatermarkField::new(&self.reg)
         }
 
         /// Hardware description: If !!EVENT_ENABLE.TXWM is set, the IP will send   an interrupt when the depth of the TX FIFO drops below   TX_WATERMARK words (32b each).
@@ -471,8 +471,8 @@ mod control {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx_watermark(&mut self) -> TxWatermarkField<'_> {
-            TxWatermarkField::new(&mut self.reg)
+        pub fn tx_watermark(&self) -> TxWatermarkField<'_> {
+            TxWatermarkField::new(&self.reg)
         }
 
         /// Hardware description: Enable the SPI host output buffers for the sck, csb, and sd lines.  This allows   the SPI_HOST IP to connect to the same bus as other SPI controllers without   interference.
@@ -493,8 +493,8 @@ mod control {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn output_en(&mut self) -> OutputEnField<'_> {
-            OutputEnField::new(&mut self.reg)
+        pub fn output_en(&self) -> OutputEnField<'_> {
+            OutputEnField::new(&self.reg)
         }
 
         /// Hardware description: Clears the entire IP to the reset state when set to 1, including   the FIFOs, the CDC's, the core state machine and the shift register.   In the current implementation, the CDC FIFOs are drained not reset.   Therefore software must confirm that both FIFO's empty before releasing   the IP from reset.
@@ -515,8 +515,8 @@ mod control {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn sw_rst(&mut self) -> SwRstField<'_> {
-            SwRstField::new(&mut self.reg)
+        pub fn sw_rst(&self) -> SwRstField<'_> {
+            SwRstField::new(&self.reg)
         }
 
         /// Hardware description: Enables the SPI host.  On reset, this field is 0, meaning   that no transactions can proceed.
@@ -537,12 +537,12 @@ mod control {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn spien(&mut self) -> SpienField<'_> {
-            SpienField::new(&mut self.reg)
+        pub fn spien(&self) -> SpienField<'_> {
+            SpienField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -618,8 +618,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txqd(&mut self) -> TxqdField<'_> {
-            TxqdField::new(&mut self.reg)
+        pub fn txqd(&self) -> TxqdField<'_> {
+            TxqdField::new(&self.reg)
         }
 
         /// Hardware description: Receive queue depth. Indicates how many unread 32-bit words are   currently in the RX FIFO.  When active, this result may an   underestimate due to synchronization delays.
@@ -632,8 +632,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxqd(&mut self) -> RxqdField<'_> {
-            RxqdField::new(&mut self.reg)
+        pub fn rxqd(&self) -> RxqdField<'_> {
+            RxqdField::new(&self.reg)
         }
 
         /// Hardware description: Command queue depth. Indicates how many unread 32-bit words are   currently in the command segment queue.
@@ -646,8 +646,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cmdqd(&mut self) -> CmdqdField<'_> {
-            CmdqdField::new(&mut self.reg)
+        pub fn cmdqd(&self) -> CmdqdField<'_> {
+            CmdqdField::new(&self.reg)
         }
 
         /// Hardware description: If high, the number of 32-bits in the RX FIFO now exceeds the   !!CONTROL.RX_WATERMARK entries (32b each).
@@ -661,8 +661,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxwm(&mut self) -> RxwmField<'_> {
-            RxwmField::new(&mut self.reg)
+        pub fn rxwm(&self) -> RxwmField<'_> {
+            RxwmField::new(&self.reg)
         }
 
         /// Hardware description: The value of the ByteOrder parameter, provided so that firmware   can confirm proper IP configuration.
@@ -676,8 +676,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn byteorder(&mut self) -> ByteorderField<'_> {
-            ByteorderField::new(&mut self.reg)
+        pub fn byteorder(&self) -> ByteorderField<'_> {
+            ByteorderField::new(&self.reg)
         }
 
         /// Hardware description: If high, signifies that an ongoing transaction has stalled   due to lack of available space in the RX FIFO
@@ -691,8 +691,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxstall(&mut self) -> RxstallField<'_> {
-            RxstallField::new(&mut self.reg)
+        pub fn rxstall(&self) -> RxstallField<'_> {
+            RxstallField::new(&self.reg)
         }
 
         /// Hardware description: When high, indicates that the receive fifo is empty.   Any reads from RX FIFO will cause an error interrupt.
@@ -706,8 +706,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxempty(&mut self) -> RxemptyField<'_> {
-            RxemptyField::new(&mut self.reg)
+        pub fn rxempty(&self) -> RxemptyField<'_> {
+            RxemptyField::new(&self.reg)
         }
 
         /// Hardware description: When high, indicates that the receive fifo is full.  Any   ongoing transactions will stall until firmware reads some   data from !!RXDATA.
@@ -721,8 +721,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxfull(&mut self) -> RxfullField<'_> {
-            RxfullField::new(&mut self.reg)
+        pub fn rxfull(&self) -> RxfullField<'_> {
+            RxfullField::new(&self.reg)
         }
 
         /// Hardware description: If high, the amount of data in the TX FIFO has fallen below the   level of !!CONTROL.TX_WATERMARK words (32b each).
@@ -736,8 +736,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txwm(&mut self) -> TxwmField<'_> {
-            TxwmField::new(&mut self.reg)
+        pub fn txwm(&self) -> TxwmField<'_> {
+            TxwmField::new(&self.reg)
         }
 
         /// Hardware description: If high, signifies that an ongoing transaction has stalled   due to lack of data in the TX FIFO
@@ -751,8 +751,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txstall(&mut self) -> TxstallField<'_> {
-            TxstallField::new(&mut self.reg)
+        pub fn txstall(&self) -> TxstallField<'_> {
+            TxstallField::new(&self.reg)
         }
 
         /// Hardware description: When high, indicates that the transmit data fifo is empty.   Note, one transmit item can be pending in the internal transmit datapath (inside the spi_host_byte_select module).   This means the transmit data fifo is empty and TXEMTPY will be high, while there is still one packet that needs to be transmitted.
@@ -766,8 +766,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txempty(&mut self) -> TxemptyField<'_> {
-            TxemptyField::new(&mut self.reg)
+        pub fn txempty(&self) -> TxemptyField<'_> {
+            TxemptyField::new(&self.reg)
         }
 
         /// Hardware description: When high, indicates that the transmit data fifo is full.   Any further writes to !!RXDATA will create an error interrupt.
@@ -781,8 +781,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txfull(&mut self) -> TxfullField<'_> {
-            TxfullField::new(&mut self.reg)
+        pub fn txfull(&self) -> TxfullField<'_> {
+            TxfullField::new(&self.reg)
         }
 
         /// Hardware description: When high, indicates the SPI host is processing a previously   issued command.
@@ -796,8 +796,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn active(&mut self) -> ActiveField<'_> {
-            ActiveField::new(&mut self.reg)
+        pub fn active(&self) -> ActiveField<'_> {
+            ActiveField::new(&self.reg)
         }
 
         /// Hardware description: When high, indicates the SPI host is ready to receive   commands. Writing to COMMAND when READY is low is   an error, and will trigger an interrupt.
@@ -811,12 +811,12 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn ready(&mut self) -> ReadyField<'_> {
-            ReadyField::new(&mut self.reg)
+        pub fn ready(&self) -> ReadyField<'_> {
+            ReadyField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -876,8 +876,8 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn clkdiv(&mut self) -> ClkdivField<'_> {
-            ClkdivField::new(&mut self.reg)
+        pub fn clkdiv(&self) -> ClkdivField<'_> {
+            ClkdivField::new(&self.reg)
         }
 
         /// Hardware description: Minimum idle time between commands. Indicates the minimum   number of sck half-cycles to hold cs_n high between commands.   Setting this register to zero creates a minimally-wide CS_N-high   pulse of one-half sck cycle.
@@ -893,8 +893,8 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csnidle(&mut self) -> CsnidleField<'_> {
-            CsnidleField::new(&mut self.reg)
+        pub fn csnidle(&self) -> CsnidleField<'_> {
+            CsnidleField::new(&self.reg)
         }
 
         /// Hardware description: CS_N Trailing Time.  Indicates the number of half sck cycles,   CSNTRAIL+1, to leave between last edge of sck and the rising   edge of cs_n. Setting this register to zero corresponds   to the minimum delay of one-half sck cycle.
@@ -910,8 +910,8 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csntrail(&mut self) -> CsntrailField<'_> {
-            CsntrailField::new(&mut self.reg)
+        pub fn csntrail(&self) -> CsntrailField<'_> {
+            CsntrailField::new(&self.reg)
         }
 
         /// Hardware description: CS_N Leading Time.  Indicates the number of half sck cycles,   CSNLEAD+1, to leave between the falling edge of cs_n and   the first edge of sck.  Setting this register to zero   corresponds to the minimum delay of one-half sck cycle
@@ -927,8 +927,8 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csnlead(&mut self) -> CsnleadField<'_> {
-            CsnleadField::new(&mut self.reg)
+        pub fn csnlead(&self) -> CsnleadField<'_> {
+            CsnleadField::new(&self.reg)
         }
 
         /// Hardware description: Full cycle.  Modifies the CPHA sampling behaviour to allow   for longer device logic setup times.  Rather than sampling the SD   bus a half cycle after shifting out data, the data is sampled   a full cycle after shifting data out.  This means that if   CPHA = 0, data is shifted out on the trailing edge, and   sampled a full cycle later.  If CPHA = 1, data is shifted and   sampled with the trailing edge, also separated by a   full cycle.
@@ -949,8 +949,8 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fullcyc(&mut self) -> FullcycField<'_> {
-            FullcycField::new(&mut self.reg)
+        pub fn fullcyc(&self) -> FullcycField<'_> {
+            FullcycField::new(&self.reg)
         }
 
         /// Hardware description: The phase of the sck clock signal relative to the data. When   CPHA = 0, the data changes on the trailing edge of sck   and is typically sampled on the leading edge.  Conversely   if CPHA = 1 high, data lines change on the leading edge of   sck and are typically sampled on the trailing edge.   CPHA should be chosen to match the phase of the selected   device.  The sampling behavior is modified by the   !!CONFIGOPTS.FULLCYC bit.
@@ -971,8 +971,8 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cpha(&mut self) -> CphaField<'_> {
-            CphaField::new(&mut self.reg)
+        pub fn cpha(&self) -> CphaField<'_> {
+            CphaField::new(&self.reg)
         }
 
         /// Hardware description: The polarity of the sck clock signal.  When CPOL is 0,   sck is low when idle, and emits high pulses.   When CPOL   is 1, sck is high when idle, and emits a series of low   pulses.
@@ -993,12 +993,12 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cpol(&mut self) -> CpolField<'_> {
-            CpolField::new(&mut self.reg)
+        pub fn cpol(&self) -> CpolField<'_> {
+            CpolField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1066,12 +1066,12 @@ mod csid {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csid(&mut self) -> CsidField<'_> {
-            CsidField::new(&mut self.reg)
+        pub fn csid(&self) -> CsidField<'_> {
+            CsidField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1135,8 +1135,8 @@ mod command {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn len(&mut self) -> LenField<'_> {
-            LenField::new(&mut self.reg)
+        pub fn len(&self) -> LenField<'_> {
+            LenField::new(&self.reg)
         }
 
         /// Hardware description: Chip select active after transaction.  If CSAAT = 0, the   chip select line is raised immediately at the end of the   command segment.   If !!COMMAND.CSAAT = 1, the chip select   line is left low at the end of the current transaction   segment.  This allows the creation longer, more   complete SPI transactions, consisting of several separate   segments for issuing instructions, pausing for dummy cycles,   and transmitting or receiving data from the device.
@@ -1155,8 +1155,8 @@ mod command {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csaat(&mut self) -> CsaatField<'_> {
-            CsaatField::new(&mut self.reg)
+        pub fn csaat(&self) -> CsaatField<'_> {
+            CsaatField::new(&self.reg)
         }
 
         /// Hardware description: The speed for this command segment: "0" = Standard SPI. "1" = Dual SPI.   "2"=Quad SPI,  "3": RESERVED.
@@ -1171,8 +1171,8 @@ mod command {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn speed(&mut self) -> SpeedField<'_> {
-            SpeedField::new(&mut self.reg)
+        pub fn speed(&self) -> SpeedField<'_> {
+            SpeedField::new(&self.reg)
         }
 
         /// Hardware description: The direction for the following command: "0" = Dummy cycles   (no TX/RX). "1" = Rx only, "2" = Tx only, "3" = Bidirectional   Tx/Rx (Standard SPI mode only).
@@ -1187,8 +1187,8 @@ mod command {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn direction(&mut self) -> DirectionField<'_> {
-            DirectionField::new(&mut self.reg)
+        pub fn direction(&self) -> DirectionField<'_> {
+            DirectionField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO
@@ -1240,12 +1240,12 @@ mod rxdata {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField<'_> {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1295,8 +1295,8 @@ mod error_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cmdbusy(&mut self) -> CmdbusyField<'_> {
-            CmdbusyField::new(&mut self.reg)
+        pub fn cmdbusy(&self) -> CmdbusyField<'_> {
+            CmdbusyField::new(&self.reg)
         }
 
         /// Hardware description: Overflow Errors: If this bit is set, the block sends an   error interrupt whenever the TX FIFO overflows.
@@ -1317,8 +1317,8 @@ mod error_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn overflow(&mut self) -> OverflowField<'_> {
-            OverflowField::new(&mut self.reg)
+        pub fn overflow(&self) -> OverflowField<'_> {
+            OverflowField::new(&self.reg)
         }
 
         /// Hardware description: Underflow Errors: If this bit is set, the block sends an   error interrupt whenever there is a read from !!RXDATA   but the RX FIFO is empty.
@@ -1339,8 +1339,8 @@ mod error_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn underflow(&mut self) -> UnderflowField<'_> {
-            UnderflowField::new(&mut self.reg)
+        pub fn underflow(&self) -> UnderflowField<'_> {
+            UnderflowField::new(&self.reg)
         }
 
         /// Hardware description: Invalid Command Errors: If this bit is set, the block sends an   error interrupt whenever a command is sent with invalid values for   !!COMMAND.SPEED or !!COMMAND.DIRECTION.
@@ -1361,8 +1361,8 @@ mod error_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cmdinval(&mut self) -> CmdinvalField<'_> {
-            CmdinvalField::new(&mut self.reg)
+        pub fn cmdinval(&self) -> CmdinvalField<'_> {
+            CmdinvalField::new(&self.reg)
         }
 
         /// Hardware description: Invalid CSID: If this bit is set, the block sends an error interrupt whenever   a command is submitted, but CSID exceeds NumCS.
@@ -1383,12 +1383,12 @@ mod error_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csidinval(&mut self) -> CsidinvalField<'_> {
-            CsidinvalField::new(&mut self.reg)
+        pub fn csidinval(&self) -> CsidinvalField<'_> {
+            CsidinvalField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1464,8 +1464,8 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cmdbusy(&mut self) -> CmdbusyField<'_> {
-            CmdbusyField::new(&mut self.reg)
+        pub fn cmdbusy(&self) -> CmdbusyField<'_> {
+            CmdbusyField::new(&self.reg)
         }
 
         /// Hardware description: Indicates that firmware has overflowed the TX FIFO
@@ -1486,8 +1486,8 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn overflow(&mut self) -> OverflowField<'_> {
-            OverflowField::new(&mut self.reg)
+        pub fn overflow(&self) -> OverflowField<'_> {
+            OverflowField::new(&self.reg)
         }
 
         /// Hardware description: Indicates that firmware has attempted to read from   !!RXDATA when the RX FIFO is empty.
@@ -1508,8 +1508,8 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn underflow(&mut self) -> UnderflowField<'_> {
-            UnderflowField::new(&mut self.reg)
+        pub fn underflow(&self) -> UnderflowField<'_> {
+            UnderflowField::new(&self.reg)
         }
 
         /// Hardware description: Indicates an invalid command segment, meaning either an invalid value of   !!COMMAND.SPEED or a request for bidirectional data transfer at dual or quad   speed
@@ -1530,8 +1530,8 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cmdinval(&mut self) -> CmdinvalField<'_> {
-            CmdinvalField::new(&mut self.reg)
+        pub fn cmdinval(&self) -> CmdinvalField<'_> {
+            CmdinvalField::new(&self.reg)
         }
 
         /// Hardware description: Indicates a command was attempted with an invalid value for !!CSID.
@@ -1552,8 +1552,8 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csidinval(&mut self) -> CsidinvalField<'_> {
-            CsidinvalField::new(&mut self.reg)
+        pub fn csidinval(&self) -> CsidinvalField<'_> {
+            CsidinvalField::new(&self.reg)
         }
 
         /// Hardware description: Indicates that TLUL attempted to write to TXDATA with no bytes enabled. Such   'zero byte' writes are not supported.
@@ -1574,12 +1574,12 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn accessinval(&mut self) -> AccessinvalField<'_> {
-            AccessinvalField::new(&mut self.reg)
+        pub fn accessinval(&self) -> AccessinvalField<'_> {
+            AccessinvalField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1656,8 +1656,8 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxfull(&mut self) -> RxfullField<'_> {
-            RxfullField::new(&mut self.reg)
+        pub fn rxfull(&self) -> RxfullField<'_> {
+            RxfullField::new(&self.reg)
         }
 
         /// Hardware description: Assert to send a spi_event interrupt whenever !!STATUS.TXEMPTY   goes high
@@ -1678,8 +1678,8 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txempty(&mut self) -> TxemptyField<'_> {
-            TxemptyField::new(&mut self.reg)
+        pub fn txempty(&self) -> TxemptyField<'_> {
+            TxemptyField::new(&self.reg)
         }
 
         /// Hardware description: Assert to send a spi_event interrupt whenever the number of 32-bit words in   the RX FIFO is greater than !!CONTROL.RX_WATERMARK. To prevent the   reassertion of this interrupt, read more data from the RX FIFO, or   increase !!CONTROL.RX_WATERMARK.
@@ -1700,8 +1700,8 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxwm(&mut self) -> RxwmField<'_> {
-            RxwmField::new(&mut self.reg)
+        pub fn rxwm(&self) -> RxwmField<'_> {
+            RxwmField::new(&self.reg)
         }
 
         /// Hardware description: Assert to send a spi_event interrupt whenever the number of 32-bit words in   the TX FIFO is less than !!CONTROL.TX_WATERMARK.  To prevent the   reassertion of this interrupt add more data to the TX FIFO, or   reduce !!CONTROL.TX_WATERMARK.
@@ -1722,8 +1722,8 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txwm(&mut self) -> TxwmField<'_> {
-            TxwmField::new(&mut self.reg)
+        pub fn txwm(&self) -> TxwmField<'_> {
+            TxwmField::new(&self.reg)
         }
 
         /// Hardware description: Assert to send a spi_event interrupt whenever !!STATUS.READY   goes high
@@ -1744,8 +1744,8 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn ready(&mut self) -> ReadyField<'_> {
-            ReadyField::new(&mut self.reg)
+        pub fn ready(&self) -> ReadyField<'_> {
+            ReadyField::new(&self.reg)
         }
 
         /// Hardware description: Assert to send a spi_event interrupt whenever !!STATUS.ACTIVE   goes low
@@ -1766,12 +1766,12 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn idle(&mut self) -> IdleField<'_> {
-            IdleField::new(&mut self.reg)
+        pub fn idle(&self) -> IdleField<'_> {
+            IdleField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }

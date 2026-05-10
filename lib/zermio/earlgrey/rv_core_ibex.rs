@@ -181,8 +181,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_sw_err(&mut self) -> FatalSwErrField<'_> {
-            FatalSwErrField::new(&mut self.reg)
+        pub fn fatal_sw_err(&self) -> FatalSwErrField<'_> {
+            FatalSwErrField::new(&self.reg)
         }
 
         /// Hardware description: Write 1 to trigger one alert event of this kind.
@@ -201,8 +201,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn recov_sw_err(&mut self) -> RecovSwErrField<'_> {
-            RecovSwErrField::new(&mut self.reg)
+        pub fn recov_sw_err(&self) -> RecovSwErrField<'_> {
+            RecovSwErrField::new(&self.reg)
         }
 
         /// Hardware description: Write 1 to trigger one alert event of this kind.
@@ -221,8 +221,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_hw_err(&mut self) -> FatalHwErrField<'_> {
-            FatalHwErrField::new(&mut self.reg)
+        pub fn fatal_hw_err(&self) -> FatalHwErrField<'_> {
+            FatalHwErrField::new(&self.reg)
         }
 
         /// Hardware description: Write 1 to trigger one alert event of this kind.
@@ -241,8 +241,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn recov_hw_err(&mut self) -> RecovHwErrField<'_> {
-            RecovHwErrField::new(&mut self.reg)
+        pub fn recov_hw_err(&self) -> RecovHwErrField<'_> {
+            RecovHwErrField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO
@@ -297,12 +297,12 @@ mod sw_recov_err {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField<'_> {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -364,12 +364,12 @@ mod sw_fatal_err {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField<'_> {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -436,12 +436,12 @@ mod ibus_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -508,12 +508,12 @@ mod ibus_addr_en {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -575,12 +575,12 @@ mod ibus_addr_matching {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField<'_> {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -642,12 +642,12 @@ mod ibus_remap_addr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField<'_> {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -714,12 +714,12 @@ mod dbus_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -786,12 +786,12 @@ mod dbus_addr_en {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -853,12 +853,12 @@ mod dbus_addr_matching {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField<'_> {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -920,12 +920,12 @@ mod dbus_remap_addr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField<'_> {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -993,8 +993,8 @@ mod nmi_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn alert_en(&mut self) -> AlertEnField<'_> {
-            AlertEnField::new(&mut self.reg)
+        pub fn alert_en(&self) -> AlertEnField<'_> {
+            AlertEnField::new(&self.reg)
         }
 
         /// Hardware description: Enable mask for watchdog NMI
@@ -1015,12 +1015,12 @@ mod nmi_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn wdog_en(&mut self) -> WdogEnField<'_> {
-            WdogEnField::new(&mut self.reg)
+        pub fn wdog_en(&self) -> WdogEnField<'_> {
+            WdogEnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1089,8 +1089,8 @@ mod nmi_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn alert(&mut self) -> AlertField<'_> {
-            AlertField::new(&mut self.reg)
+        pub fn alert(&self) -> AlertField<'_> {
+            AlertField::new(&self.reg)
         }
 
         /// Hardware description: Current state for watchdog NMI
@@ -1111,12 +1111,12 @@ mod nmi_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn wdog(&mut self) -> WdogField<'_> {
-            WdogField::new(&mut self.reg)
+        pub fn wdog(&self) -> WdogField<'_> {
+            WdogField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1187,8 +1187,8 @@ mod err_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn reg_intg_err(&mut self) -> RegIntgErrField<'_> {
-            RegIntgErrField::new(&mut self.reg)
+        pub fn reg_intg_err(&self) -> RegIntgErrField<'_> {
+            RegIntgErrField::new(&self.reg)
         }
 
         /// Hardware description: rv_core_ibex detected a response integrity error
@@ -1209,8 +1209,8 @@ mod err_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_intg_err(&mut self) -> FatalIntgErrField<'_> {
-            FatalIntgErrField::new(&mut self.reg)
+        pub fn fatal_intg_err(&self) -> FatalIntgErrField<'_> {
+            FatalIntgErrField::new(&self.reg)
         }
 
         /// Hardware description: rv_core_ibex detected a fatal internal error(alert_major_internal_o from Ibex seen)
@@ -1231,8 +1231,8 @@ mod err_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_core_err(&mut self) -> FatalCoreErrField<'_> {
-            FatalCoreErrField::new(&mut self.reg)
+        pub fn fatal_core_err(&self) -> FatalCoreErrField<'_> {
+            FatalCoreErrField::new(&self.reg)
         }
 
         /// Hardware description: rv_core_ibex detected a recoverable internal error(alert_minor from Ibex seen)
@@ -1253,12 +1253,12 @@ mod err_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn recov_core_err(&mut self) -> RecovCoreErrField<'_> {
-            RecovCoreErrField::new(&mut self.reg)
+        pub fn recov_core_err(&self) -> RecovCoreErrField<'_> {
+            RecovCoreErrField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1320,12 +1320,12 @@ mod rnd_data {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data(&mut self) -> DataField<'_> {
-            DataField::new(&mut self.reg)
+        pub fn data(&self) -> DataField<'_> {
+            DataField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1365,8 +1365,8 @@ mod rnd_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rnd_data_valid(&mut self) -> RndDataValidField<'_> {
-            RndDataValidField::new(&mut self.reg)
+        pub fn rnd_data_valid(&self) -> RndDataValidField<'_> {
+            RndDataValidField::new(&self.reg)
         }
 
         /// Hardware description: When !!RND_STATUS.RND_DATA_VALID is 1, this bit indicates whether!!RND_DATA is fips quality.When !!RND_STATUS.RND_DATA_VALID is 0, this bit has no meaning.
@@ -1380,12 +1380,12 @@ mod rnd_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rnd_data_fips(&mut self) -> RndDataFipsField<'_> {
-            RndDataFipsField::new(&mut self.reg)
+        pub fn rnd_data_fips(&self) -> RndDataFipsField<'_> {
+            RndDataFipsField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1424,12 +1424,12 @@ mod fpga_info {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField<'_> {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1470,12 +1470,12 @@ mod dv_sim_window {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField<'_> {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }

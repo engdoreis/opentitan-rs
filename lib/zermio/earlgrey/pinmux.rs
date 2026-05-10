@@ -751,8 +751,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField<'_> {
-            FatalFaultField::new(&mut self.reg)
+        pub fn fatal_fault(&self) -> FatalFaultField<'_> {
+            FatalFaultField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO
@@ -809,12 +809,12 @@ mod mio_periph_insel_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -876,12 +876,12 @@ mod mio_periph_insel {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn insel(&mut self) -> InselField<'_> {
-            InselField::new(&mut self.reg)
+        pub fn insel(&self) -> InselField<'_> {
+            InselField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -948,12 +948,12 @@ mod mio_outsel_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1015,12 +1015,12 @@ mod mio_outsel {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn out(&mut self) -> OutField<'_> {
-            OutField::new(&mut self.reg)
+        pub fn out(&self) -> OutField<'_> {
+            OutField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1087,12 +1087,12 @@ mod mio_pad_attr_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1167,8 +1167,8 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn invert(&mut self) -> InvertField<'_> {
-            InvertField::new(&mut self.reg)
+        pub fn invert(&self) -> InvertField<'_> {
+            InvertField::new(&self.reg)
         }
 
         /// Hardware description: Enable virtual open drain.
@@ -1189,8 +1189,8 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn virtual_od_en(&mut self) -> VirtualOdEnField<'_> {
-            VirtualOdEnField::new(&mut self.reg)
+        pub fn virtual_od_en(&self) -> VirtualOdEnField<'_> {
+            VirtualOdEnField::new(&self.reg)
         }
 
         /// Hardware description: Enable pull-up or pull-down resistor.
@@ -1211,8 +1211,8 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn pull_en(&mut self) -> PullEnField<'_> {
-            PullEnField::new(&mut self.reg)
+        pub fn pull_en(&self) -> PullEnField<'_> {
+            PullEnField::new(&self.reg)
         }
 
         /// Hardware description: Pull select (0: pull-down, 1: pull-up).
@@ -1233,8 +1233,8 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn pull_select(&mut self) -> PullSelectField<'_> {
-            PullSelectField::new(&mut self.reg)
+        pub fn pull_select(&self) -> PullSelectField<'_> {
+            PullSelectField::new(&self.reg)
         }
 
         /// Hardware description: Enable pull-up or pull-down resistor.
@@ -1255,8 +1255,8 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn keeper_en(&mut self) -> KeeperEnField<'_> {
-            KeeperEnField::new(&mut self.reg)
+        pub fn keeper_en(&self) -> KeeperEnField<'_> {
+            KeeperEnField::new(&self.reg)
         }
 
         /// Hardware description: Enable the schmitt trigger.
@@ -1277,8 +1277,8 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn schmitt_en(&mut self) -> SchmittEnField<'_> {
-            SchmittEnField::new(&mut self.reg)
+        pub fn schmitt_en(&self) -> SchmittEnField<'_> {
+            SchmittEnField::new(&self.reg)
         }
 
         /// Hardware description: Enable open drain.
@@ -1299,8 +1299,8 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn od_en(&mut self) -> OdEnField<'_> {
-            OdEnField::new(&mut self.reg)
+        pub fn od_en(&self) -> OdEnField<'_> {
+            OdEnField::new(&self.reg)
         }
 
         /// Hardware description: Slew rate (0x0: slowest, 0x3: fastest).
@@ -1316,8 +1316,8 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn slew_rate(&mut self) -> SlewRateField<'_> {
-            SlewRateField::new(&mut self.reg)
+        pub fn slew_rate(&self) -> SlewRateField<'_> {
+            SlewRateField::new(&self.reg)
         }
 
         /// Hardware description: Drive strength (0x0: weakest, 0xf: strongest)
@@ -1333,12 +1333,12 @@ mod mio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn drive_strength(&mut self) -> DriveStrengthField<'_> {
-            DriveStrengthField::new(&mut self.reg)
+        pub fn drive_strength(&self) -> DriveStrengthField<'_> {
+            DriveStrengthField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1413,12 +1413,12 @@ mod dio_pad_attr_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1493,8 +1493,8 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn invert(&mut self) -> InvertField<'_> {
-            InvertField::new(&mut self.reg)
+        pub fn invert(&self) -> InvertField<'_> {
+            InvertField::new(&self.reg)
         }
 
         /// Hardware description: Enable virtual open drain.
@@ -1515,8 +1515,8 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn virtual_od_en(&mut self) -> VirtualOdEnField<'_> {
-            VirtualOdEnField::new(&mut self.reg)
+        pub fn virtual_od_en(&self) -> VirtualOdEnField<'_> {
+            VirtualOdEnField::new(&self.reg)
         }
 
         /// Hardware description: Enable pull-up or pull-down resistor.
@@ -1537,8 +1537,8 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn pull_en(&mut self) -> PullEnField<'_> {
-            PullEnField::new(&mut self.reg)
+        pub fn pull_en(&self) -> PullEnField<'_> {
+            PullEnField::new(&self.reg)
         }
 
         /// Hardware description: Pull select (0: pull-down, 1: pull-up).
@@ -1559,8 +1559,8 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn pull_select(&mut self) -> PullSelectField<'_> {
-            PullSelectField::new(&mut self.reg)
+        pub fn pull_select(&self) -> PullSelectField<'_> {
+            PullSelectField::new(&self.reg)
         }
 
         /// Hardware description: Enable pull-up or pull-down resistor.
@@ -1581,8 +1581,8 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn keeper_en(&mut self) -> KeeperEnField<'_> {
-            KeeperEnField::new(&mut self.reg)
+        pub fn keeper_en(&self) -> KeeperEnField<'_> {
+            KeeperEnField::new(&self.reg)
         }
 
         /// Hardware description: Enable the schmitt trigger.
@@ -1603,8 +1603,8 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn schmitt_en(&mut self) -> SchmittEnField<'_> {
-            SchmittEnField::new(&mut self.reg)
+        pub fn schmitt_en(&self) -> SchmittEnField<'_> {
+            SchmittEnField::new(&self.reg)
         }
 
         /// Hardware description: Enable open drain.
@@ -1625,8 +1625,8 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn od_en(&mut self) -> OdEnField<'_> {
-            OdEnField::new(&mut self.reg)
+        pub fn od_en(&self) -> OdEnField<'_> {
+            OdEnField::new(&self.reg)
         }
 
         /// Hardware description: Slew rate (0x0: slowest, 0x3: fastest).
@@ -1642,8 +1642,8 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn slew_rate(&mut self) -> SlewRateField<'_> {
-            SlewRateField::new(&mut self.reg)
+        pub fn slew_rate(&self) -> SlewRateField<'_> {
+            SlewRateField::new(&self.reg)
         }
 
         /// Hardware description: Drive strength (0x0: weakest, 0xf: strongest)
@@ -1659,12 +1659,12 @@ mod dio_pad_attr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn drive_strength(&mut self) -> DriveStrengthField<'_> {
-            DriveStrengthField::new(&mut self.reg)
+        pub fn drive_strength(&self) -> DriveStrengthField<'_> {
+            DriveStrengthField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1770,8 +1770,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_0(&mut self) -> En0Field<'_> {
-            En0Field::new(&mut self.reg)
+        pub fn en_0(&self) -> En0Field<'_> {
+            En0Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -1792,8 +1792,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_1(&mut self) -> En1Field<'_> {
-            En1Field::new(&mut self.reg)
+        pub fn en_1(&self) -> En1Field<'_> {
+            En1Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -1814,8 +1814,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_2(&mut self) -> En2Field<'_> {
-            En2Field::new(&mut self.reg)
+        pub fn en_2(&self) -> En2Field<'_> {
+            En2Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -1836,8 +1836,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_3(&mut self) -> En3Field<'_> {
-            En3Field::new(&mut self.reg)
+        pub fn en_3(&self) -> En3Field<'_> {
+            En3Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -1858,8 +1858,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_4(&mut self) -> En4Field<'_> {
-            En4Field::new(&mut self.reg)
+        pub fn en_4(&self) -> En4Field<'_> {
+            En4Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -1880,8 +1880,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_5(&mut self) -> En5Field<'_> {
-            En5Field::new(&mut self.reg)
+        pub fn en_5(&self) -> En5Field<'_> {
+            En5Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -1902,8 +1902,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_6(&mut self) -> En6Field<'_> {
-            En6Field::new(&mut self.reg)
+        pub fn en_6(&self) -> En6Field<'_> {
+            En6Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -1924,8 +1924,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_7(&mut self) -> En7Field<'_> {
-            En7Field::new(&mut self.reg)
+        pub fn en_7(&self) -> En7Field<'_> {
+            En7Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -1946,8 +1946,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_8(&mut self) -> En8Field<'_> {
-            En8Field::new(&mut self.reg)
+        pub fn en_8(&self) -> En8Field<'_> {
+            En8Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -1968,8 +1968,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_9(&mut self) -> En9Field<'_> {
-            En9Field::new(&mut self.reg)
+        pub fn en_9(&self) -> En9Field<'_> {
+            En9Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -1990,8 +1990,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_10(&mut self) -> En10Field<'_> {
-            En10Field::new(&mut self.reg)
+        pub fn en_10(&self) -> En10Field<'_> {
+            En10Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2012,8 +2012,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_11(&mut self) -> En11Field<'_> {
-            En11Field::new(&mut self.reg)
+        pub fn en_11(&self) -> En11Field<'_> {
+            En11Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2034,8 +2034,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_12(&mut self) -> En12Field<'_> {
-            En12Field::new(&mut self.reg)
+        pub fn en_12(&self) -> En12Field<'_> {
+            En12Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2056,8 +2056,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_13(&mut self) -> En13Field<'_> {
-            En13Field::new(&mut self.reg)
+        pub fn en_13(&self) -> En13Field<'_> {
+            En13Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2078,8 +2078,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_14(&mut self) -> En14Field<'_> {
-            En14Field::new(&mut self.reg)
+        pub fn en_14(&self) -> En14Field<'_> {
+            En14Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2100,8 +2100,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_15(&mut self) -> En15Field<'_> {
-            En15Field::new(&mut self.reg)
+        pub fn en_15(&self) -> En15Field<'_> {
+            En15Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2122,8 +2122,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_16(&mut self) -> En16Field<'_> {
-            En16Field::new(&mut self.reg)
+        pub fn en_16(&self) -> En16Field<'_> {
+            En16Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2144,8 +2144,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_17(&mut self) -> En17Field<'_> {
-            En17Field::new(&mut self.reg)
+        pub fn en_17(&self) -> En17Field<'_> {
+            En17Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2166,8 +2166,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_18(&mut self) -> En18Field<'_> {
-            En18Field::new(&mut self.reg)
+        pub fn en_18(&self) -> En18Field<'_> {
+            En18Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2188,8 +2188,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_19(&mut self) -> En19Field<'_> {
-            En19Field::new(&mut self.reg)
+        pub fn en_19(&self) -> En19Field<'_> {
+            En19Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2210,8 +2210,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_20(&mut self) -> En20Field<'_> {
-            En20Field::new(&mut self.reg)
+        pub fn en_20(&self) -> En20Field<'_> {
+            En20Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2232,8 +2232,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_21(&mut self) -> En21Field<'_> {
-            En21Field::new(&mut self.reg)
+        pub fn en_21(&self) -> En21Field<'_> {
+            En21Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2254,8 +2254,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_22(&mut self) -> En22Field<'_> {
-            En22Field::new(&mut self.reg)
+        pub fn en_22(&self) -> En22Field<'_> {
+            En22Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2276,8 +2276,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_23(&mut self) -> En23Field<'_> {
-            En23Field::new(&mut self.reg)
+        pub fn en_23(&self) -> En23Field<'_> {
+            En23Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2298,8 +2298,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_24(&mut self) -> En24Field<'_> {
-            En24Field::new(&mut self.reg)
+        pub fn en_24(&self) -> En24Field<'_> {
+            En24Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2320,8 +2320,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_25(&mut self) -> En25Field<'_> {
-            En25Field::new(&mut self.reg)
+        pub fn en_25(&self) -> En25Field<'_> {
+            En25Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2342,8 +2342,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_26(&mut self) -> En26Field<'_> {
-            En26Field::new(&mut self.reg)
+        pub fn en_26(&self) -> En26Field<'_> {
+            En26Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2364,8 +2364,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_27(&mut self) -> En27Field<'_> {
-            En27Field::new(&mut self.reg)
+        pub fn en_27(&self) -> En27Field<'_> {
+            En27Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2386,8 +2386,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_28(&mut self) -> En28Field<'_> {
-            En28Field::new(&mut self.reg)
+        pub fn en_28(&self) -> En28Field<'_> {
+            En28Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2408,8 +2408,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_29(&mut self) -> En29Field<'_> {
-            En29Field::new(&mut self.reg)
+        pub fn en_29(&self) -> En29Field<'_> {
+            En29Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2430,8 +2430,8 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_30(&mut self) -> En30Field<'_> {
-            En30Field::new(&mut self.reg)
+        pub fn en_30(&self) -> En30Field<'_> {
+            En30Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -2452,12 +2452,12 @@ mod mio_pad_sleep_status_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_31(&mut self) -> En31Field<'_> {
-            En31Field::new(&mut self.reg)
+        pub fn en_31(&self) -> En31Field<'_> {
+            En31Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2569,8 +2569,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_32(&mut self) -> En32Field<'_> {
-            En32Field::new(&mut self.reg)
+        pub fn en_32(&self) -> En32Field<'_> {
+            En32Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2591,8 +2591,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_33(&mut self) -> En33Field<'_> {
-            En33Field::new(&mut self.reg)
+        pub fn en_33(&self) -> En33Field<'_> {
+            En33Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2613,8 +2613,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_34(&mut self) -> En34Field<'_> {
-            En34Field::new(&mut self.reg)
+        pub fn en_34(&self) -> En34Field<'_> {
+            En34Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2635,8 +2635,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_35(&mut self) -> En35Field<'_> {
-            En35Field::new(&mut self.reg)
+        pub fn en_35(&self) -> En35Field<'_> {
+            En35Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2657,8 +2657,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_36(&mut self) -> En36Field<'_> {
-            En36Field::new(&mut self.reg)
+        pub fn en_36(&self) -> En36Field<'_> {
+            En36Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2679,8 +2679,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_37(&mut self) -> En37Field<'_> {
-            En37Field::new(&mut self.reg)
+        pub fn en_37(&self) -> En37Field<'_> {
+            En37Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2701,8 +2701,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_38(&mut self) -> En38Field<'_> {
-            En38Field::new(&mut self.reg)
+        pub fn en_38(&self) -> En38Field<'_> {
+            En38Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2723,8 +2723,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_39(&mut self) -> En39Field<'_> {
-            En39Field::new(&mut self.reg)
+        pub fn en_39(&self) -> En39Field<'_> {
+            En39Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2745,8 +2745,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_40(&mut self) -> En40Field<'_> {
-            En40Field::new(&mut self.reg)
+        pub fn en_40(&self) -> En40Field<'_> {
+            En40Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2767,8 +2767,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_41(&mut self) -> En41Field<'_> {
-            En41Field::new(&mut self.reg)
+        pub fn en_41(&self) -> En41Field<'_> {
+            En41Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2789,8 +2789,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_42(&mut self) -> En42Field<'_> {
-            En42Field::new(&mut self.reg)
+        pub fn en_42(&self) -> En42Field<'_> {
+            En42Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2811,8 +2811,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_43(&mut self) -> En43Field<'_> {
-            En43Field::new(&mut self.reg)
+        pub fn en_43(&self) -> En43Field<'_> {
+            En43Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2833,8 +2833,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_44(&mut self) -> En44Field<'_> {
-            En44Field::new(&mut self.reg)
+        pub fn en_44(&self) -> En44Field<'_> {
+            En44Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2855,8 +2855,8 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_45(&mut self) -> En45Field<'_> {
-            En45Field::new(&mut self.reg)
+        pub fn en_45(&self) -> En45Field<'_> {
+            En45Field::new(&self.reg)
         }
 
         /// Hardware description: For MIO_PAD1
@@ -2877,12 +2877,12 @@ mod mio_pad_sleep_status_1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_46(&mut self) -> En46Field<'_> {
-            En46Field::new(&mut self.reg)
+        pub fn en_46(&self) -> En46Field<'_> {
+            En46Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2963,12 +2963,12 @@ mod mio_pad_sleep_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -3035,12 +3035,12 @@ mod mio_pad_sleep_en {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -3102,12 +3102,12 @@ mod mio_pad_sleep_mode {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn out(&mut self) -> OutField<'_> {
-            OutField::new(&mut self.reg)
+        pub fn out(&self) -> OutField<'_> {
+            OutField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -3189,8 +3189,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_0(&mut self) -> En0Field<'_> {
-            En0Field::new(&mut self.reg)
+        pub fn en_0(&self) -> En0Field<'_> {
+            En0Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3211,8 +3211,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_1(&mut self) -> En1Field<'_> {
-            En1Field::new(&mut self.reg)
+        pub fn en_1(&self) -> En1Field<'_> {
+            En1Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3233,8 +3233,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_2(&mut self) -> En2Field<'_> {
-            En2Field::new(&mut self.reg)
+        pub fn en_2(&self) -> En2Field<'_> {
+            En2Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3255,8 +3255,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_3(&mut self) -> En3Field<'_> {
-            En3Field::new(&mut self.reg)
+        pub fn en_3(&self) -> En3Field<'_> {
+            En3Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3277,8 +3277,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_4(&mut self) -> En4Field<'_> {
-            En4Field::new(&mut self.reg)
+        pub fn en_4(&self) -> En4Field<'_> {
+            En4Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3299,8 +3299,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_5(&mut self) -> En5Field<'_> {
-            En5Field::new(&mut self.reg)
+        pub fn en_5(&self) -> En5Field<'_> {
+            En5Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3321,8 +3321,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_6(&mut self) -> En6Field<'_> {
-            En6Field::new(&mut self.reg)
+        pub fn en_6(&self) -> En6Field<'_> {
+            En6Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3343,8 +3343,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_7(&mut self) -> En7Field<'_> {
-            En7Field::new(&mut self.reg)
+        pub fn en_7(&self) -> En7Field<'_> {
+            En7Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3365,8 +3365,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_8(&mut self) -> En8Field<'_> {
-            En8Field::new(&mut self.reg)
+        pub fn en_8(&self) -> En8Field<'_> {
+            En8Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3387,8 +3387,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_9(&mut self) -> En9Field<'_> {
-            En9Field::new(&mut self.reg)
+        pub fn en_9(&self) -> En9Field<'_> {
+            En9Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3409,8 +3409,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_10(&mut self) -> En10Field<'_> {
-            En10Field::new(&mut self.reg)
+        pub fn en_10(&self) -> En10Field<'_> {
+            En10Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3431,8 +3431,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_11(&mut self) -> En11Field<'_> {
-            En11Field::new(&mut self.reg)
+        pub fn en_11(&self) -> En11Field<'_> {
+            En11Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3453,8 +3453,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_12(&mut self) -> En12Field<'_> {
-            En12Field::new(&mut self.reg)
+        pub fn en_12(&self) -> En12Field<'_> {
+            En12Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3475,8 +3475,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_13(&mut self) -> En13Field<'_> {
-            En13Field::new(&mut self.reg)
+        pub fn en_13(&self) -> En13Field<'_> {
+            En13Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3497,8 +3497,8 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_14(&mut self) -> En14Field<'_> {
-            En14Field::new(&mut self.reg)
+        pub fn en_14(&self) -> En14Field<'_> {
+            En14Field::new(&self.reg)
         }
 
         /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
@@ -3519,12 +3519,12 @@ mod dio_pad_sleep_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en_15(&mut self) -> En15Field<'_> {
-            En15Field::new(&mut self.reg)
+        pub fn en_15(&self) -> En15Field<'_> {
+            En15Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -3606,12 +3606,12 @@ mod dio_pad_sleep_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -3678,12 +3678,12 @@ mod dio_pad_sleep_en {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -3745,12 +3745,12 @@ mod dio_pad_sleep_mode {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn out(&mut self) -> OutField<'_> {
-            OutField::new(&mut self.reg)
+        pub fn out(&self) -> OutField<'_> {
+            OutField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -3817,12 +3817,12 @@ mod wkup_detector_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -3889,12 +3889,12 @@ mod wkup_detector_en_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField<'_> {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -3958,8 +3958,8 @@ mod wkup_detector_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn mode(&mut self) -> ModeField<'_> {
-            ModeField::new(&mut self.reg)
+        pub fn mode(&self) -> ModeField<'_> {
+            ModeField::new(&self.reg)
         }
 
         /// Hardware description: 0: signal filter disabled, 1: signal filter enabled. the signal mustbe stable for 4 always-on clock cycles before the value is being forwarded.can be used for debouncing.
@@ -3980,8 +3980,8 @@ mod wkup_detector_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn filter(&mut self) -> FilterField<'_> {
-            FilterField::new(&mut self.reg)
+        pub fn filter(&self) -> FilterField<'_> {
+            FilterField::new(&self.reg)
         }
 
         /// Hardware description: 0: select index !!WKUP_DETECTOR_PADSEL from MIO pads,1: select index !!WKUP_DETECTOR_PADSEL from DIO pads.
@@ -4002,12 +4002,12 @@ mod wkup_detector_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn miodio(&mut self) -> MiodioField<'_> {
-            MiodioField::new(&mut self.reg)
+        pub fn miodio(&self) -> MiodioField<'_> {
+            MiodioField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -4071,12 +4071,12 @@ mod wkup_detector_cnt_th_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn th(&mut self) -> ThField<'_> {
-            ThField::new(&mut self.reg)
+        pub fn th(&self) -> ThField<'_> {
+            ThField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -4138,12 +4138,12 @@ mod wkup_detector_padsel {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn sel(&mut self) -> SelField<'_> {
-            SelField::new(&mut self.reg)
+        pub fn sel(&self) -> SelField<'_> {
+            SelField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -4217,8 +4217,8 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_0(&mut self) -> Cause0Field<'_> {
-            Cause0Field::new(&mut self.reg)
+        pub fn cause_0(&self) -> Cause0Field<'_> {
+            Cause0Field::new(&self.reg)
         }
 
         /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
@@ -4239,8 +4239,8 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_1(&mut self) -> Cause1Field<'_> {
-            Cause1Field::new(&mut self.reg)
+        pub fn cause_1(&self) -> Cause1Field<'_> {
+            Cause1Field::new(&self.reg)
         }
 
         /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
@@ -4261,8 +4261,8 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_2(&mut self) -> Cause2Field<'_> {
-            Cause2Field::new(&mut self.reg)
+        pub fn cause_2(&self) -> Cause2Field<'_> {
+            Cause2Field::new(&self.reg)
         }
 
         /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
@@ -4283,8 +4283,8 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_3(&mut self) -> Cause3Field<'_> {
-            Cause3Field::new(&mut self.reg)
+        pub fn cause_3(&self) -> Cause3Field<'_> {
+            Cause3Field::new(&self.reg)
         }
 
         /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
@@ -4305,8 +4305,8 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_4(&mut self) -> Cause4Field<'_> {
-            Cause4Field::new(&mut self.reg)
+        pub fn cause_4(&self) -> Cause4Field<'_> {
+            Cause4Field::new(&self.reg)
         }
 
         /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
@@ -4327,8 +4327,8 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_5(&mut self) -> Cause5Field<'_> {
-            Cause5Field::new(&mut self.reg)
+        pub fn cause_5(&self) -> Cause5Field<'_> {
+            Cause5Field::new(&self.reg)
         }
 
         /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
@@ -4349,8 +4349,8 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_6(&mut self) -> Cause6Field<'_> {
-            Cause6Field::new(&mut self.reg)
+        pub fn cause_6(&self) -> Cause6Field<'_> {
+            Cause6Field::new(&self.reg)
         }
 
         /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
@@ -4371,12 +4371,12 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cause_7(&mut self) -> Cause7Field<'_> {
-            Cause7Field::new(&mut self.reg)
+        pub fn cause_7(&self) -> Cause7Field<'_> {
+            Cause7Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
