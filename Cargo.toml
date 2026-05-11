@@ -8,6 +8,7 @@ cargo-features = ["per-package-target"]
 members = [
   "examples/hello_world",
   "examples/simple_display",
+  "examples/state_machine",
   "tests",
   "lib/embedtrait",
   "lib/hal",
