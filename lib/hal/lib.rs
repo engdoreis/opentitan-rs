@@ -7,6 +7,7 @@
 pub mod embedded_hal;
 pub mod gpio;
 pub mod pinmux;
+pub mod plic;
 pub mod rv_core_ibex;
 pub mod rv_timer;
 pub mod spi_host;
@@ -14,6 +15,7 @@ pub mod uart;
 
 pub use gpio::*;
 pub use pinmux::*;
+pub use plic::*;
 pub use rv_core_ibex::*;
 pub use rv_timer::*;
 pub use spi_host::*;
