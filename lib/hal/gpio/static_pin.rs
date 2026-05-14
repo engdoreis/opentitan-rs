@@ -23,6 +23,30 @@ impl<const ID: usize> StaticPin<ID, pin::InputState> {
         self.port().output_en(ID, true);
         StaticPin::<ID, pin::OutputState>::new(self.addr)
     }
+
+    pub fn interrupt_set_enable(&mut self, en: bool) -> &mut Self {
+        self.port().interrupt_set_enable(ID, en);
+        self
+    }
+
+    pub fn interrupt_set_mode(&mut self, en: bool, modes: &[crate::InterruptMode]) -> &mut Self {
+        self.port().interrupt_set_mode(ID, en, modes);
+        self
+    }
+
+    pub fn interrupt_pending(&mut self) -> bool {
+        self.port().interrupt_pending(ID)
+    }
+
+    pub fn interrupt_clear(&mut self) -> &mut Self {
+        self.port().interrupt_clear(ID);
+        self
+    }
+
+    pub fn interrupt_force(&mut self) -> &mut Self {
+        self.port().interrupt_force(ID);
+        self
+    }
 }
 
 impl<const ID: usize> StaticPin<ID, pin::OutputState> {
