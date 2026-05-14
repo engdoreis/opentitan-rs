@@ -37,7 +37,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct Gpio {
-    addr: u32,
+    __addr: u32,
     /// Interrupt State Register
     pub intr_state: intr_state::IntrState,
     /// Interrupt Enable Register
@@ -76,7 +76,7 @@ impl Gpio {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
-            addr,
+            __addr: addr,
             intr_state: intr_state::IntrState::new(addr),
             intr_enable: intr_enable::IntrEnable::new(addr + 0x4),
             intr_test: intr_test::IntrTest::new(addr + 0x8),
@@ -97,7 +97,7 @@ impl Gpio {
     }
 
     pub fn destroy(self) -> u32 {
-        self.addr
+        self.__addr
     }
 }
 
@@ -507,6 +507,10 @@ mod masked_out_lower {
             MaskField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -536,6 +540,7 @@ mod masked_out_lower {
     }
     type DataField<'a> = zermio::BitField<'a, 0, 16, u32, zermio::access::ReadWrite>;
     type MaskField<'a> = zermio::BitField<'a, 16, 16, u32, zermio::access::Write>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::ReadWrite>;
 }
 
 /// GPIO write data upper with mask.Masked write for DATA_OUT[31:16].Upper 16 bits of this register are used as mask. Writinglower 16 bits of the register changes DATA_OUT[31:16] valueif mask bits are set.Read-back of this register returns upper 16 bits as zeroand lower 16 bits as DATA_OUT[31:16]..  
@@ -592,6 +597,10 @@ mod masked_out_upper {
             MaskField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -621,6 +630,7 @@ mod masked_out_upper {
     }
     type DataField<'a> = zermio::BitField<'a, 0, 16, u32, zermio::access::ReadWrite>;
     type MaskField<'a> = zermio::BitField<'a, 16, 16, u32, zermio::access::Write>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::ReadWrite>;
 }
 
 /// GPIO Output Enable.Setting direct_oe[i] to 1 enables output mode for GPIO[i].  
@@ -745,6 +755,10 @@ mod masked_oe_lower {
             MaskField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -774,6 +788,7 @@ mod masked_oe_lower {
     }
     type DataField<'a> = zermio::BitField<'a, 0, 16, u32, zermio::access::ReadWrite>;
     type MaskField<'a> = zermio::BitField<'a, 16, 16, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::ReadWrite>;
 }
 
 /// GPIO write Output Enable upper with mask.Masked write for DATA_OE[31:16], the register that controlsoutput mode for GPIO pins [31:16].Upper 16 bits of this register are used as mask. Writinglower 16 bits of the register changes DATA_OE[31:16] valueif mask bits are set.Read-back of this register returns upper 16 bits as zeroand lower 16 bits as DATA_OE[31:16]..  
@@ -831,6 +846,10 @@ mod masked_oe_upper {
             MaskField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -860,6 +879,7 @@ mod masked_oe_upper {
     }
     type DataField<'a> = zermio::BitField<'a, 0, 16, u32, zermio::access::ReadWrite>;
     type MaskField<'a> = zermio::BitField<'a, 16, 16, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::ReadWrite>;
 }
 
 /// GPIO interrupt enable for GPIO, rising edge.If !!INTR_ENABLE[i] is true, a value of 1 on !!INTR_CTRL_EN_RISING[i]enables rising-edge interrupt detection on GPIO[i]..  

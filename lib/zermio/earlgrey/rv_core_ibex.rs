@@ -39,7 +39,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct RvCoreIbex {
-    addr: u32,
+    __addr: u32,
     /// Alert Test Register
     pub alert_test: alert_test::AlertTest,
     /// Software recoverable error
@@ -82,7 +82,7 @@ impl RvCoreIbex {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
-            addr,
+            __addr: addr,
             alert_test: alert_test::AlertTest::new(addr),
             sw_recov_err: sw_recov_err::SwRecovErr::new(addr + 0x4),
             sw_fatal_err: sw_fatal_err::SwFatalErr::new(addr + 0x8),
@@ -138,7 +138,7 @@ impl RvCoreIbex {
     }
 
     pub fn destroy(self) -> u32 {
-        self.addr
+        self.__addr
     }
 }
 
@@ -245,6 +245,10 @@ mod alert_test {
             RecovHwErrField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a store instruction to write the MMIO
         pub fn commit(&mut self) {
             self.reg.commit()
@@ -262,6 +266,7 @@ mod alert_test {
     type RecovSwErrField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::Write>;
     type FatalHwErrField<'a> = zermio::BitField<'a, 2, 1, u32, zermio::access::Write>;
     type RecovHwErrField<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::Write>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 4, u32, zermio::access::Write>;
 }
 
 /// Software recoverable error.  
@@ -1019,6 +1024,10 @@ mod nmi_enable {
             WdogEnField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -1048,6 +1057,7 @@ mod nmi_enable {
     }
     type AlertEnField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
     type WdogEnField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::ReadWrite>;
 }
 
 /// Current NMI state.  
@@ -1115,6 +1125,10 @@ mod nmi_state {
             WdogField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -1144,6 +1158,7 @@ mod nmi_state {
     }
     type AlertField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
     type WdogField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::ReadWrite>;
 }
 
 /// error status.  
@@ -1257,6 +1272,10 @@ mod err_status {
             RecovCoreErrField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -1288,6 +1307,7 @@ mod err_status {
     type FatalIntgErrField<'a> = zermio::BitField<'a, 8, 1, u32, zermio::access::ReadWrite>;
     type FatalCoreErrField<'a> = zermio::BitField<'a, 9, 1, u32, zermio::access::ReadWrite>;
     type RecovCoreErrField<'a> = zermio::BitField<'a, 10, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 11, u32, zermio::access::ReadWrite>;
 }
 
 /// Random data from EDN.  
@@ -1384,6 +1404,10 @@ mod rnd_status {
             RndDataFipsField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -1392,6 +1416,7 @@ mod rnd_status {
     }
     type RndDataValidField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::Read>;
     type RndDataFipsField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::Read>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::Read>;
 }
 
 /// FPGA build timestamp info.This register only contains valid data for fpga, for all other variants it is simply 0..  

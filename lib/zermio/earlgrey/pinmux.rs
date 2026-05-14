@@ -30,9 +30,9 @@
 //! | DIO_PAD_SLEEP_EN[0..16] | Enables the sleep mode of the corresponding dedicated pad. | 0x7bc | true |true |
 //! | DIO_PAD_SLEEP_MODE[0..16] | Defines sleep behavior of the corresponding dedicated pad. | 0x7fc | true |true |
 //! | WKUP_DETECTOR_REGWEN[0..8] | Register write enable for wakeup detectors. | 0x83c | true |true |
-//! | WKUP_DETECTOR_EN[0..8] | Enables for the wakeup detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed. | 0x85c | true |true |
-//! | WKUP_DETECTOR[0..8] | Configuration of wakeup condition detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed.Note that the wkup detector should be disabled by setting !!WKUP_DETECTOR_EN_0 before changing the detection mode.The reason for that is that the pulse width counter is NOT cleared upon a mode change while the detector is enabled. | 0x87c | true |true |
-//! | WKUP_DETECTOR_CNT_TH[0..8] | Counter thresholds for wakeup condition detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed. | 0x89c | true |true |
+//! | WKUP_DETECTOR_EN_async_clk_5a71f5de_async_rst_4c25c355[0..8] | Enables for the wakeup detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed. | 0x85c | true |true |
+//! | WKUP_DETECTOR_async_clk_5a71f5de_async_rst_4c25c355[0..8] | Configuration of wakeup condition detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed.Note that the wkup detector should be disabled by setting !!WKUP_DETECTOR_EN_0 before changing the detection mode.The reason for that is that the pulse width counter is NOT cleared upon a mode change while the detector is enabled. | 0x87c | true |true |
+//! | WKUP_DETECTOR_CNT_TH_async_clk_5a71f5de_async_rst_4c25c355[0..8] | Counter thresholds for wakeup condition detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed. | 0x89c | true |true |
 //! | WKUP_DETECTOR_PADSEL[0..8] | Pad selects for pad wakeup condition detectors.This register is NOT synced to the AON domain since the muxing mechanism is implemented in the same way as the pinmux muxing matrix. | 0x8bc | true |true |
 //! | WKUP_CAUSE | Cause registers for wakeup detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed. | 0x8dc | true |true |
 
@@ -45,7 +45,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct Pinmux {
-    addr: u32,
+    __addr: u32,
     /// Alert Test Register
     pub alert_test : alert_test::AlertTest,
     /// Register write enable for MIO peripheral input selects.
@@ -85,11 +85,11 @@ pub struct Pinmux {
     /// Register write enable for wakeup detectors.
     pub wkup_detector_regwen: [wkup_detector_regwen::WkupDetectorRegwen; 8],
     /// Enables for the wakeup detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed.
-    pub wkup_detector_en: [wkup_detector_en_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorEnAsyncClk5a71f5deAsyncRst4c25c355; 8],
+    pub wkup_detector_en_async_clk_5a71f5de_async_rst_4c25c355: [wkup_detector_en_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorEnAsyncClk5a71f5deAsyncRst4c25c355; 8],
     /// Configuration of wakeup condition detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed.Note that the wkup detector should be disabled by setting !!WKUP_DETECTOR_EN_0 before changing the detection mode.The reason for that is that the pulse width counter is NOT cleared upon a mode change while the detector is enabled.
-    pub wkup_detector: [wkup_detector_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorAsyncClk5a71f5deAsyncRst4c25c355; 8],
+    pub wkup_detector_async_clk_5a71f5de_async_rst_4c25c355: [wkup_detector_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorAsyncClk5a71f5deAsyncRst4c25c355; 8],
     /// Counter thresholds for wakeup condition detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed.
-    pub wkup_detector_cnt_th: [wkup_detector_cnt_th_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorCntThAsyncClk5a71f5deAsyncRst4c25c355; 8],
+    pub wkup_detector_cnt_th_async_clk_5a71f5de_async_rst_4c25c355: [wkup_detector_cnt_th_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorCntThAsyncClk5a71f5deAsyncRst4c25c355; 8],
     /// Pad selects for pad wakeup condition detectors.This register is NOT synced to the AON domain since the muxing mechanism is implemented in the same way as the pinmux muxing matrix.
     pub wkup_detector_padsel: [wkup_detector_padsel::WkupDetectorPadsel; 8],
     /// Cause registers for wakeup detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed.
@@ -100,7 +100,7 @@ impl Pinmux {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
-      addr,
+      __addr: addr,
       alert_test : alert_test::AlertTest::new(addr),
       mio_periph_insel_regwen : [
       mio_periph_insel_regwen::MioPeriphInselRegwen::new(addr + 0x4),
@@ -666,7 +666,7 @@ impl Pinmux {
       wkup_detector_regwen::WkupDetectorRegwen::new(addr + 0x854),
       wkup_detector_regwen::WkupDetectorRegwen::new(addr + 0x858),
       ],
-      wkup_detector_en : [
+      wkup_detector_en_async_clk_5a71f5de_async_rst_4c25c355 : [
       wkup_detector_en_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorEnAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x85c),
       wkup_detector_en_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorEnAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x860),
       wkup_detector_en_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorEnAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x864),
@@ -676,7 +676,7 @@ impl Pinmux {
       wkup_detector_en_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorEnAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x874),
       wkup_detector_en_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorEnAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x878),
       ],
-      wkup_detector : [
+      wkup_detector_async_clk_5a71f5de_async_rst_4c25c355 : [
       wkup_detector_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x87c),
       wkup_detector_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x880),
       wkup_detector_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x884),
@@ -686,7 +686,7 @@ impl Pinmux {
       wkup_detector_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x894),
       wkup_detector_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x898),
       ],
-      wkup_detector_cnt_th : [
+      wkup_detector_cnt_th_async_clk_5a71f5de_async_rst_4c25c355 : [
       wkup_detector_cnt_th_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorCntThAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x89c),
       wkup_detector_cnt_th_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorCntThAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x8a0),
       wkup_detector_cnt_th_async_clk_5a71f5de_async_rst_4c25c355::WkupDetectorCntThAsyncClk5a71f5deAsyncRst4c25c355::new(addr + 0x8a4),
@@ -711,7 +711,7 @@ impl Pinmux {
     }
 
     pub fn destroy(self) -> u32 {
-        self.addr
+        self.__addr
     }
 }
 
@@ -1337,6 +1337,10 @@ mod mio_pad_attr {
             DriveStrengthField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -1373,6 +1377,7 @@ mod mio_pad_attr {
     type OdEnField<'a> = zermio::BitField<'a, 6, 1, u32, zermio::access::ReadWrite>;
     type SlewRateField<'a> = zermio::BitField<'a, 16, 2, u32, zermio::access::ReadWrite>;
     type DriveStrengthField<'a> = zermio::BitField<'a, 20, 4, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 24, u32, zermio::access::ReadWrite>;
 }
 
 /// Register write enable for DIO PAD attributes..  
@@ -1663,6 +1668,10 @@ mod dio_pad_attr {
             DriveStrengthField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -1699,6 +1708,7 @@ mod dio_pad_attr {
     type OdEnField<'a> = zermio::BitField<'a, 6, 1, u32, zermio::access::ReadWrite>;
     type SlewRateField<'a> = zermio::BitField<'a, 16, 2, u32, zermio::access::ReadWrite>;
     type DriveStrengthField<'a> = zermio::BitField<'a, 20, 4, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 24, u32, zermio::access::ReadWrite>;
 }
 
 /// Register indicating whether the corresponding pad is in sleep mode..  
@@ -1710,38 +1720,7 @@ mod mio_pad_sleep_status_0 {
     /// # MIO_PAD_SLEEP_STATUS_0 fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | EN_0 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [0:0] | true |true |
-    /// | EN_1 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [1:1] | true |true |
-    /// | EN_2 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [2:2] | true |true |
-    /// | EN_3 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [3:3] | true |true |
-    /// | EN_4 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [4:4] | true |true |
-    /// | EN_5 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [5:5] | true |true |
-    /// | EN_6 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [6:6] | true |true |
-    /// | EN_7 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [7:7] | true |true |
-    /// | EN_8 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [8:8] | true |true |
-    /// | EN_9 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [9:9] | true |true |
-    /// | EN_10 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [10:10] | true |true |
-    /// | EN_11 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [11:11] | true |true |
-    /// | EN_12 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [12:12] | true |true |
-    /// | EN_13 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [13:13] | true |true |
-    /// | EN_14 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [14:14] | true |true |
-    /// | EN_15 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [15:15] | true |true |
-    /// | EN_16 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [16:16] | true |true |
-    /// | EN_17 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [17:17] | true |true |
-    /// | EN_18 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [18:18] | true |true |
-    /// | EN_19 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [19:19] | true |true |
-    /// | EN_20 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [20:20] | true |true |
-    /// | EN_21 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [21:21] | true |true |
-    /// | EN_22 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [22:22] | true |true |
-    /// | EN_23 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [23:23] | true |true |
-    /// | EN_24 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [24:24] | true |true |
-    /// | EN_25 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [25:25] | true |true |
-    /// | EN_26 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [26:26] | true |true |
-    /// | EN_27 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [27:27] | true |true |
-    /// | EN_28 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [28:28] | true |true |
-    /// | EN_29 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [29:29] | true |true |
-    /// | EN_30 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [30:30] | true |true |
-    /// | EN_31 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [31:31] | true |true |
+    /// | EN 0:31| This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [0:31] | true |true |
     pub struct MioPadSleepStatus0 {
         reg: zermio::Register<u32>,
     }
@@ -1774,688 +1753,134 @@ mod mio_pad_sleep_status_0 {
             En0Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_1(&self) -> En1Field<'_> {
             En1Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_2(&self) -> En2Field<'_> {
             En2Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_3(&self) -> En3Field<'_> {
             En3Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_4(&self) -> En4Field<'_> {
             En4Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_5(&self) -> En5Field<'_> {
             En5Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_6(&self) -> En6Field<'_> {
             En6Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_7(&self) -> En7Field<'_> {
             En7Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_8(&self) -> En8Field<'_> {
             En8Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_9(&self) -> En9Field<'_> {
             En9Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_10(&self) -> En10Field<'_> {
             En10Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_11(&self) -> En11Field<'_> {
             En11Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_12(&self) -> En12Field<'_> {
             En12Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_13(&self) -> En13Field<'_> {
             En13Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_14(&self) -> En14Field<'_> {
             En14Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_15(&self) -> En15Field<'_> {
             En15Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_16(&self) -> En16Field<'_> {
             En16Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_17(&self) -> En17Field<'_> {
             En17Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_18(&self) -> En18Field<'_> {
             En18Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_19(&self) -> En19Field<'_> {
             En19Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_20(&self) -> En20Field<'_> {
             En20Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_21(&self) -> En21Field<'_> {
             En21Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_22(&self) -> En22Field<'_> {
             En22Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_23(&self) -> En23Field<'_> {
             En23Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_24(&self) -> En24Field<'_> {
             En24Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_25(&self) -> En25Field<'_> {
             En25Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_26(&self) -> En26Field<'_> {
             En26Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_27(&self) -> En27Field<'_> {
             En27Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_28(&self) -> En28Field<'_> {
             En28Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_29(&self) -> En29Field<'_> {
             En29Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_30(&self) -> En30Field<'_> {
             En30Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_31(&self) -> En31Field<'_> {
             En31Field::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -2515,6 +1940,7 @@ mod mio_pad_sleep_status_0 {
     type En29Field<'a> = zermio::BitField<'a, 29, 1, u32, zermio::access::ReadWrite>;
     type En30Field<'a> = zermio::BitField<'a, 30, 1, u32, zermio::access::ReadWrite>;
     type En31Field<'a> = zermio::BitField<'a, 31, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::ReadWrite>;
 }
 
 /// Register indicating whether the corresponding pad is in sleep mode..  
@@ -2526,21 +1952,7 @@ mod mio_pad_sleep_status_1 {
     /// # MIO_PAD_SLEEP_STATUS_1 fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | EN_32 | For MIO_PAD1 | [0:0] | true |true |
-    /// | EN_33 | For MIO_PAD1 | [1:1] | true |true |
-    /// | EN_34 | For MIO_PAD1 | [2:2] | true |true |
-    /// | EN_35 | For MIO_PAD1 | [3:3] | true |true |
-    /// | EN_36 | For MIO_PAD1 | [4:4] | true |true |
-    /// | EN_37 | For MIO_PAD1 | [5:5] | true |true |
-    /// | EN_38 | For MIO_PAD1 | [6:6] | true |true |
-    /// | EN_39 | For MIO_PAD1 | [7:7] | true |true |
-    /// | EN_40 | For MIO_PAD1 | [8:8] | true |true |
-    /// | EN_41 | For MIO_PAD1 | [9:9] | true |true |
-    /// | EN_42 | For MIO_PAD1 | [10:10] | true |true |
-    /// | EN_43 | For MIO_PAD1 | [11:11] | true |true |
-    /// | EN_44 | For MIO_PAD1 | [12:12] | true |true |
-    /// | EN_45 | For MIO_PAD1 | [13:13] | true |true |
-    /// | EN_46 | For MIO_PAD1 | [14:14] | true |true |
+    /// | EN 0:14| For MIO_PAD1 | [0:14] | true |true |
     pub struct MioPadSleepStatus1 {
         reg: zermio::Register<u32>,
     }
@@ -2573,314 +1985,66 @@ mod mio_pad_sleep_status_1 {
             En32Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_33(&self) -> En33Field<'_> {
             En33Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_34(&self) -> En34Field<'_> {
             En34Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_35(&self) -> En35Field<'_> {
             En35Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_36(&self) -> En36Field<'_> {
             En36Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_37(&self) -> En37Field<'_> {
             En37Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_38(&self) -> En38Field<'_> {
             En38Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_39(&self) -> En39Field<'_> {
             En39Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_40(&self) -> En40Field<'_> {
             En40Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_41(&self) -> En41Field<'_> {
             En41Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_42(&self) -> En42Field<'_> {
             En42Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_43(&self) -> En43Field<'_> {
             En43Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_44(&self) -> En44Field<'_> {
             En44Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_45(&self) -> En45Field<'_> {
             En45Field::new(&self.reg)
         }
 
-        /// Hardware description: For MIO_PAD1
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_46(&self) -> En46Field<'_> {
             En46Field::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -2923,6 +2087,7 @@ mod mio_pad_sleep_status_1 {
     type En44Field<'a> = zermio::BitField<'a, 12, 1, u32, zermio::access::ReadWrite>;
     type En45Field<'a> = zermio::BitField<'a, 13, 1, u32, zermio::access::ReadWrite>;
     type En46Field<'a> = zermio::BitField<'a, 14, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 15, u32, zermio::access::ReadWrite>;
 }
 
 /// Register write enable for MIO sleep value configuration..  
@@ -3145,22 +2310,7 @@ mod dio_pad_sleep_status {
     /// # DIO_PAD_SLEEP_STATUS fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | EN_0 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [0:0] | true |true |
-    /// | EN_1 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [1:1] | true |true |
-    /// | EN_2 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [2:2] | true |true |
-    /// | EN_3 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [3:3] | true |true |
-    /// | EN_4 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [4:4] | true |true |
-    /// | EN_5 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [5:5] | true |true |
-    /// | EN_6 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [6:6] | true |true |
-    /// | EN_7 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [7:7] | true |true |
-    /// | EN_8 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [8:8] | true |true |
-    /// | EN_9 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [9:9] | true |true |
-    /// | EN_10 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [10:10] | true |true |
-    /// | EN_11 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [11:11] | true |true |
-    /// | EN_12 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [12:12] | true |true |
-    /// | EN_13 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [13:13] | true |true |
-    /// | EN_14 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [14:14] | true |true |
-    /// | EN_15 | This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [15:15] | true |true |
+    /// | EN 0:15| This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit. | [0:15] | true |true |
     pub struct DioPadSleepStatus {
         reg: zermio::Register<u32>,
     }
@@ -3193,336 +2343,70 @@ mod dio_pad_sleep_status {
             En0Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_1(&self) -> En1Field<'_> {
             En1Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_2(&self) -> En2Field<'_> {
             En2Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_3(&self) -> En3Field<'_> {
             En3Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_4(&self) -> En4Field<'_> {
             En4Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_5(&self) -> En5Field<'_> {
             En5Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_6(&self) -> En6Field<'_> {
             En6Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_7(&self) -> En7Field<'_> {
             En7Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_8(&self) -> En8Field<'_> {
             En8Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_9(&self) -> En9Field<'_> {
             En9Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_10(&self) -> En10Field<'_> {
             En10Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_11(&self) -> En11Field<'_> {
             En11Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_12(&self) -> En12Field<'_> {
             En12Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_13(&self) -> En13Field<'_> {
             En13Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_14(&self) -> En14Field<'_> {
             En14Field::new(&self.reg)
         }
 
-        /// Hardware description: This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn en_15(&self) -> En15Field<'_> {
             En15Field::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -3566,6 +2450,7 @@ mod dio_pad_sleep_status {
     type En13Field<'a> = zermio::BitField<'a, 13, 1, u32, zermio::access::ReadWrite>;
     type En14Field<'a> = zermio::BitField<'a, 14, 1, u32, zermio::access::ReadWrite>;
     type En15Field<'a> = zermio::BitField<'a, 15, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 16, u32, zermio::access::ReadWrite>;
 }
 
 /// Register write enable for DIO sleep value configuration..  
@@ -4006,6 +2891,10 @@ mod wkup_detector_async_clk_5a71f5de_async_rst_4c25c355 {
             MiodioField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -4036,6 +2925,7 @@ mod wkup_detector_async_clk_5a71f5de_async_rst_4c25c355 {
     type ModeField<'a> = zermio::BitField<'a, 0, 3, u32, zermio::access::ReadWrite>;
     type FilterField<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::ReadWrite>;
     type MiodioField<'a> = zermio::BitField<'a, 4, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 5, u32, zermio::access::ReadWrite>;
 }
 
 /// Counter thresholds for wakeup condition detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed..  
@@ -4181,14 +3071,7 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
     /// # WKUP_CAUSE_async_clk_5a71f5de_async_rst_4c25c355 fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | CAUSE_0 | Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear. | [0:0] | true |true |
-    /// | CAUSE_1 | Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear. | [1:1] | true |true |
-    /// | CAUSE_2 | Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear. | [2:2] | true |true |
-    /// | CAUSE_3 | Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear. | [3:3] | true |true |
-    /// | CAUSE_4 | Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear. | [4:4] | true |true |
-    /// | CAUSE_5 | Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear. | [5:5] | true |true |
-    /// | CAUSE_6 | Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear. | [6:6] | true |true |
-    /// | CAUSE_7 | Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear. | [7:7] | true |true |
+    /// | CAUSE 0:7| Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear. | [0:7] | true |true |
     pub struct WkupCauseAsyncClk5a71f5deAsyncRst4c25c355 {
         reg: zermio::Register<u32>,
     }
@@ -4221,160 +3104,38 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
             Cause0Field::new(&self.reg)
         }
 
-        /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn cause_1(&self) -> Cause1Field<'_> {
             Cause1Field::new(&self.reg)
         }
 
-        /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn cause_2(&self) -> Cause2Field<'_> {
             Cause2Field::new(&self.reg)
         }
 
-        /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn cause_3(&self) -> Cause3Field<'_> {
             Cause3Field::new(&self.reg)
         }
 
-        /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn cause_4(&self) -> Cause4Field<'_> {
             Cause4Field::new(&self.reg)
         }
 
-        /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn cause_5(&self) -> Cause5Field<'_> {
             Cause5Field::new(&self.reg)
         }
 
-        /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn cause_6(&self) -> Cause6Field<'_> {
             Cause6Field::new(&self.reg)
         }
 
-        /// Hardware description: Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
         pub fn cause_7(&self) -> Cause7Field<'_> {
             Cause7Field::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -4410,4 +3171,5 @@ mod wkup_cause_async_clk_5a71f5de_async_rst_4c25c355 {
     type Cause5Field<'a> = zermio::BitField<'a, 5, 1, u32, zermio::access::ReadWrite>;
     type Cause6Field<'a> = zermio::BitField<'a, 6, 1, u32, zermio::access::ReadWrite>;
     type Cause7Field<'a> = zermio::BitField<'a, 7, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 8, u32, zermio::access::ReadWrite>;
 }

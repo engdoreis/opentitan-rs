@@ -34,7 +34,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct SpiHost {
-    addr: u32,
+    __addr: u32,
     /// Interrupt State Register
     pub intr_state: intr_state::IntrState,
     /// Interrupt Enable Register
@@ -68,7 +68,7 @@ impl SpiHost {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
-            addr,
+            __addr: addr,
             intr_state: intr_state::IntrState::new(addr),
             intr_enable: intr_enable::IntrEnable::new(addr + 0x4),
             intr_test: intr_test::IntrTest::new(addr + 0x8),
@@ -87,7 +87,7 @@ impl SpiHost {
     }
 
     pub fn destroy(self) -> u32 {
-        self.addr
+        self.__addr
     }
 }
 
@@ -156,6 +156,10 @@ mod intr_state {
             SpiEventField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -185,6 +189,7 @@ mod intr_state {
     }
     type ErrorField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
     type SpiEventField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::ReadWrite>;
 }
 
 /// Interrupt Enable Register.  
@@ -252,6 +257,10 @@ mod intr_enable {
             SpiEventField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -281,6 +290,7 @@ mod intr_enable {
     }
     type ErrorField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
     type SpiEventField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::ReadWrite>;
 }
 
 /// Interrupt Test Register.  
@@ -344,6 +354,10 @@ mod intr_test {
             SpiEventField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a store instruction to write the MMIO
         pub fn commit(&mut self) {
             self.reg.commit()
@@ -359,6 +373,7 @@ mod intr_test {
     }
     type ErrorField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::Write>;
     type SpiEventField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::Write>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::Write>;
 }
 
 /// Alert Test Register.  
@@ -541,6 +556,10 @@ mod control {
             SpienField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -573,6 +592,7 @@ mod control {
     type OutputEnField<'a> = zermio::BitField<'a, 29, 1, u32, zermio::access::ReadWrite>;
     type SwRstField<'a> = zermio::BitField<'a, 30, 1, u32, zermio::access::ReadWrite>;
     type SpienField<'a> = zermio::BitField<'a, 31, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::ReadWrite>;
 }
 
 /// Status register.  
@@ -815,6 +835,10 @@ mod status {
             ReadyField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -835,6 +859,7 @@ mod status {
     type TxfullField<'a> = zermio::BitField<'a, 29, 1, u32, zermio::access::Read>;
     type ActiveField<'a> = zermio::BitField<'a, 30, 1, u32, zermio::access::Read>;
     type ReadyField<'a> = zermio::BitField<'a, 31, 1, u32, zermio::access::Read>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::Read>;
 }
 
 /// Configuration options register.   Contains options for controlling each peripheral. One register per   cs_n line.  
@@ -997,6 +1022,10 @@ mod configopts {
             CpolField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -1031,6 +1060,7 @@ mod configopts {
     type FullcycField<'a> = zermio::BitField<'a, 29, 1, u32, zermio::access::ReadWrite>;
     type CphaField<'a> = zermio::BitField<'a, 30, 1, u32, zermio::access::ReadWrite>;
     type CpolField<'a> = zermio::BitField<'a, 31, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::ReadWrite>;
 }
 
 /// Chip-Select ID   Controls which device to target with the next command.  This register   is passed to the core whenever !!COMMAND is written.  The core then   asserts cio_csb_o[!!CSID] during the execution of the command..  
@@ -1191,6 +1221,10 @@ mod command {
             DirectionField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a store instruction to write the MMIO
         pub fn commit(&mut self) {
             self.reg.commit()
@@ -1208,6 +1242,7 @@ mod command {
     type CsaatField<'a> = zermio::BitField<'a, 9, 1, u32, zermio::access::Write>;
     type SpeedField<'a> = zermio::BitField<'a, 10, 2, u32, zermio::access::Write>;
     type DirectionField<'a> = zermio::BitField<'a, 12, 2, u32, zermio::access::Write>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 14, u32, zermio::access::Write>;
 }
 
 /// .  
@@ -1219,7 +1254,7 @@ mod rxdata {
     /// # RXDATA fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | val |  | [31:0] | false |true |
+    /// | val | Receive data buffer. | [31:0] | false |true |
     pub struct Rxdata {
         reg: zermio::Register<u32>,
     }
@@ -1230,7 +1265,7 @@ mod rxdata {
                 reg: zermio::Register::<u32>::new(addr as usize),
             }
         }
-        /// Hardware description:
+        /// Hardware description: Receive data buffer.
         ///
         /// Returns a BitField with Read permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -1387,6 +1422,10 @@ mod error_enable {
             CsidinvalField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -1419,6 +1458,7 @@ mod error_enable {
     type UnderflowField<'a> = zermio::BitField<'a, 2, 1, u32, zermio::access::ReadWrite>;
     type CmdinvalField<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::ReadWrite>;
     type CsidinvalField<'a> = zermio::BitField<'a, 4, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 5, u32, zermio::access::ReadWrite>;
 }
 
 /// Indicates that any errors that have occurred.   When an error   occurs, the corresponding bit must be cleared here before   issuing any further commands..  
@@ -1578,6 +1618,10 @@ mod error_status {
             AccessinvalField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -1611,6 +1655,7 @@ mod error_status {
     type CmdinvalField<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::ReadWrite>;
     type CsidinvalField<'a> = zermio::BitField<'a, 4, 1, u32, zermio::access::ReadWrite>;
     type AccessinvalField<'a> = zermio::BitField<'a, 5, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 6, u32, zermio::access::ReadWrite>;
 }
 
 /// Controls which classes of SPI events raise an interrupt..  
@@ -1770,6 +1815,10 @@ mod event_enable {
             IdleField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -1803,6 +1852,7 @@ mod event_enable {
     type TxwmField<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::ReadWrite>;
     type ReadyField<'a> = zermio::BitField<'a, 4, 1, u32, zermio::access::ReadWrite>;
     type IdleField<'a> = zermio::BitField<'a, 5, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 6, u32, zermio::access::ReadWrite>;
 }
 
 /// TXDATA.  

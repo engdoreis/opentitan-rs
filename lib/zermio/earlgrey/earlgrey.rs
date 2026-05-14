@@ -14,6 +14,7 @@ use super::rv_timer;
 use super::spi_host;
 use super::uart;
 
+#[repr(u32)]
 pub enum UartOffset {
     Uart0 = 0x40000000,
     Uart1 = 0x40000034,
@@ -21,27 +22,33 @@ pub enum UartOffset {
     Uart3 = 0x4000009c,
 }
 
+#[repr(u32)]
 pub enum GpioOffset {
     Gpio = 0x40040000,
 }
 
+#[repr(u32)]
 pub enum RvTimerOffset {
     Timer = 0x40100000,
 }
 
+#[repr(u32)]
 pub enum SpiHostOffset {
     SpiHost0 = 0x40300000,
     SpiHost1 = 0x40310000,
 }
 
+#[repr(u32)]
 pub enum PinmuxOffset {
     Pinmux = 0x40460000,
 }
 
+#[repr(u32)]
 pub enum RvCoreIbexOffset {
     RvCoreIbex = 0x411f0000,
 }
 
+#[repr(u32)]
 pub enum RvPlicOffset {
     Plic = 0x48000000,
 }

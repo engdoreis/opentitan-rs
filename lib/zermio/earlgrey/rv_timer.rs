@@ -31,7 +31,7 @@ use super::zermio;
 /// });
 /// ```
 pub struct RvTimer {
-    addr: u32,
+    __addr: u32,
     /// Alert Test Register
     pub alert_test: alert_test::AlertTest,
     /// Control register
@@ -58,7 +58,7 @@ impl RvTimer {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
-            addr,
+            __addr: addr,
             alert_test: alert_test::AlertTest::new(addr),
             ctrl: ctrl::Ctrl::new(addr + 0x4),
             intr_enable0: intr_enable0::IntrEnable0::new(addr + 0x100),
@@ -73,7 +73,7 @@ impl RvTimer {
     }
 
     pub fn destroy(self) -> u32 {
-        self.addr
+        self.__addr
     }
 }
 
@@ -460,6 +460,10 @@ mod cfg0 {
             StepField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
         pub fn fetch(&self) -> &Self {
             self.reg.fetch();
@@ -489,6 +493,7 @@ mod cfg0 {
     }
     type PrescaleField<'a> = zermio::BitField<'a, 0, 12, u32, zermio::access::ReadWrite>;
     type StepField<'a> = zermio::BitField<'a, 16, 8, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 24, u32, zermio::access::ReadWrite>;
 }
 
 /// Timer value Lower.  
