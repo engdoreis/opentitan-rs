@@ -4,7 +4,7 @@
 
 `include "ip/gpio.rdl"
 `include "ip/pinmux.rdl"
-`include "ip/plic.rdl"
+`include "ip/rv_plic.rdl"
 `include "ip/rv_core_ibex.rdl"
 `include "ip/rv_timer.rdl"
 `include "ip/spi_host.rdl"
