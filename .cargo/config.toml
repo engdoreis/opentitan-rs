@@ -9,5 +9,8 @@ rustflags = [
   "-C", "link-arg=-L./lib/linker",
 ]
 
+[env]
+RISCV_RT_BASE_ISA = "rv32i"
+
 [alias]
 xtask = "run --package xtask --"

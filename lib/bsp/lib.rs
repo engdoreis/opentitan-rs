@@ -1,8 +1,9 @@
 // Copyright (c) Douglas Reis.
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
-
+#![feature(linkage)]
 #![no_std]
+
 pub mod earlgrey_es;
 pub mod voyager;
 
@@ -19,6 +20,7 @@ pub mod prelude {
     pub use crate::PadOutput;
     pub use crate::PeripheralInput;
     pub use crate::PeripheralOutput;
+    pub use crate::earlgrey_es::PlicIrqId;
 }
 
 extern crate manifest as _;

@@ -6,7 +6,10 @@ use crate::prelude::*;
 use core::fmt::Write;
 use embedded_hal::digital::OutputPin;
 use hal::pin::{self, GpioExt};
-// use hal::{HalError, HalResult};
+
+const TIMER_TICK_HZ: u64 = 1_000_000;
+pub type Duration = fugit::Duration<u64, 1, TIMER_TICK_HZ>;
+pub type Instant = fugit::Instant<u64, 1, TIMER_TICK_HZ>;
 
 pub type Led2 = hal::static_pin::Pin0<pin::OutputState>;
 pub type Led4 = hal::static_pin::Pin1<pin::OutputState>;
@@ -20,6 +23,7 @@ pub struct Voyager {
     pub lcd_bl: LcdBl,
     pub uart0: hal::Uart,
     pub timer: hal::RvTimer<{ Silicon::PERIPHERAL_CLOCK_HZ as u64 }>,
+    pub plic: hal::Plic,
     pub joystick: Joystick,
     pub display: st7735_lcd::ST7735<hal::spi_host::SpiHost, LcdDc, LcdRst>,
 }
@@ -42,7 +46,8 @@ impl Voyager {
         );
         let _ = writeln!(uart0, "Initializing Voyager");
 
-        let timer = hal::rv_timer::RvTimer::new(peri.timer);
+        let timer = hal::RvTimer::new(peri.timer);
+        let plic = hal::Plic::new(peri.plic);
 
         let pins = peri.gpio.split();
 
@@ -137,7 +142,7 @@ impl Voyager {
             <EarlgreyEs as PeripheralOutput>::SPIHOST1SD0 as usize,
         );
 
-        let mut spi_lcd = hal::spi_host::SpiHost::new(peri.spi_host1);
+        let mut spi_lcd = hal::SpiHost::new(peri.spi_host1);
         spi_lcd
             .configure(config)
             .unwrap()
@@ -161,7 +166,61 @@ impl Voyager {
             display,
             uart0,
             timer,
+            plic,
             joystick,
+        }
+    }
+
+    pub fn enable_joystick_irq(&mut self) {
+        self.plic.interrupt_set_threshold(1);
+
+        for id in [
+            PlicIrqId::Gpio5,
+            PlicIrqId::Gpio6,
+            PlicIrqId::Gpio7,
+            PlicIrqId::Gpio8,
+            PlicIrqId::Gpio9,
+            PlicIrqId::RvTimerTimerExpiredHart0Timer0,
+        ] {
+            self.plic.interrupt_set_enable(id, true);
+            self.plic.interrupt_set_priority(id, 2);
+        }
+
+        let modes = [
+            hal::gpio::InterruptMode::EdgeRising,
+            hal::gpio::InterruptMode::EdgeFalling,
+        ];
+        self.joystick
+            .up
+            .pin
+            .interrupt_set_mode(true, &modes)
+            .interrupt_set_enable(true);
+        self.joystick
+            .down
+            .pin
+            .interrupt_set_mode(true, &modes)
+            .interrupt_set_enable(true);
+
+        self.joystick
+            .left
+            .pin
+            .interrupt_set_mode(true, &modes)
+            .interrupt_set_enable(true);
+
+        self.joystick
+            .right
+            .pin
+            .interrupt_set_mode(true, &modes)
+            .interrupt_set_enable(true);
+
+        self.joystick
+            .ok
+            .pin
+            .interrupt_set_mode(true, &modes)
+            .interrupt_set_enable(true);
+
+        unsafe {
+            riscv::interrupt::enable_interrupt(riscv::interrupt::Interrupt::MachineExternal);
         }
     }
 }
