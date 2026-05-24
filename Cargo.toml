@@ -9,6 +9,7 @@ members = [
   "examples/hello_world",
   "examples/simple_display",
   "examples/state_machine",
+  "examples/my_future",
   "tests",
   "lib/embedtrait",
   "lib/hal",
