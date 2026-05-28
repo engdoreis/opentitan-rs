@@ -4,5 +4,10 @@
 
 #![no_std]
 
+pub mod pinmux;
 pub mod spi_host;
 pub mod timer;
+
+pub use pinmux::*;
+pub use spi_host::*;
+pub use timer::*;
