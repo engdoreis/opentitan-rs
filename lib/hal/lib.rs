@@ -30,6 +30,7 @@ pub enum HalError {
     BadClock,
     BadSize,
     NotSupported,
+    InvalidVariant,
 }
 
 impl From<SpiError> for HalError {
