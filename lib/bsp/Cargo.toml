@@ -9,6 +9,7 @@ edition = "2024"
 
 [dependencies]
 riscv = { version = "0.16.0", features = ["critical-section-single-hart"] }
+embedtrait = { version = "0.1.0", path = "../embedtrait" }
 hal = { version = "0.1.0", path = "../../lib/hal" }
 zermio = { version = "0.1.0", path = "../../lib/zermio/earlgrey" }
 manifest = { version = "0.1.0", path = "../../lib/manifest" }

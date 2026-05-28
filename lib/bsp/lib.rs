@@ -11,7 +11,7 @@ pub mod chip;
 
 pub use chip::*;
 
-pub use earlgrey_es::EarlgreyEs;
+pub use earlgrey_es::*;
 pub use voyager::*;
 
 pub mod prelude {
@@ -27,7 +27,7 @@ extern crate manifest as _;
 
 use core::fmt::Write;
 use core::panic::PanicInfo;
-use earlgrey_es::Silicon;
+pub use earlgrey_es::Silicon;
 
 #[panic_handler]
 fn custom_panic_handler(info: &PanicInfo) -> ! {

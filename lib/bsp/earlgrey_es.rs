@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0, see LICENSE for details.
 // SPDX-License-Identifier: Apache-2.0
 use crate::chip::*;
+use embedtrait::PinMuxNumber;
 
 pub struct Verilator;
 impl Clocks for Verilator {}
@@ -14,12 +15,329 @@ impl Clocks for Silicon {
     const BAUD: u32 = 115200;
 }
 
-pub struct EarlgreyEs;
-impl PeripheralInput for EarlgreyEs {}
-impl PeripheralOutput for EarlgreyEs {}
+impl hal::pinmux::PeripheralOutput for PeripheralOutput {}
+impl hal::pinmux::PeripheralInput for PeripheralInput {}
+impl hal::pinmux::PadOutput for PadOutput {}
+impl hal::pinmux::PadInput for PadInput {}
 
-impl PadInput for EarlgreyEs {}
-impl PadOutput for EarlgreyEs {}
+#[repr(usize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum PeripheralInput {
+    Gpio0 = 0,
+    Gpio1 = 1,
+    Gpio2 = 2,
+    Gpio3 = 3,
+    Gpio4 = 4,
+    Gpio5 = 5,
+    Gpio6 = 6,
+    Gpio7 = 7,
+    Gpio8 = 8,
+    Gpio9 = 9,
+    Gpio10 = 10,
+    Gpio11 = 11,
+    Gpio12 = 12,
+    Gpio13 = 13,
+    Gpio14 = 14,
+    Gpio15 = 15,
+    Gpio16 = 16,
+    Gpio17 = 17,
+    Gpio18 = 18,
+    Gpio19 = 19,
+    Gpio20 = 20,
+    Gpio21 = 21,
+    Gpio22 = 22,
+    Gpio23 = 23,
+    Gpio24 = 24,
+    Gpio25 = 25,
+    Gpio26 = 26,
+    Gpio27 = 27,
+    Gpio28 = 28,
+    Gpio29 = 29,
+    Gpio30 = 30,
+    Gpio31 = 31,
+    I2c0Sda = 32,
+    I2c0Scl = 33,
+    I2c1Sda = 34,
+    I2c1Scl = 35,
+    I2c2Sda = 36,
+    I2c2Scl = 37,
+    SpiHost1Sd0 = 38,
+    SpiHost1Sd1 = 39,
+    SpiHost1Sd2 = 40,
+    SpiHost1Sd3 = 41,
+    Uart0Rx = 42,
+    Uart1Rx = 43,
+    Uart2Rx = 44,
+    Uart3Rx = 45,
+    SpiDeviceTpmCsb = 46,
+    FlashCtrlTck = 47,
+    FlashCtrlTms = 48,
+    FlashCtrlTdi = 49,
+    SysRstCtrlAonAcPresent = 50,
+    SysRstCtrlAonKey0In = 51,
+    SysRstCtrlAonKey1In = 52,
+    SysRstCtrlAonKey2In = 53,
+    SysRstCtrlAonPwrBIn = 54,
+    SysRstCtrlAonLidOpen = 55,
+    UsbDevSense = 56,
+    Count = 57,
+}
+
+impl PinMuxNumber for PeripheralInput {
+    type Error = hal::HalError;
+
+    fn number(&self) -> usize {
+        *self as usize
+    }
+    fn from_number(value: usize) -> Result<Self, Self::Error> {
+        if value < Self::Count as usize {
+            // Safety: The enum is repr(usize) and all values 0..Count are defined.
+            Ok(unsafe { core::mem::transmute::<usize, Self>(value) })
+        } else {
+            Err(hal::HalError::InvalidVariant)
+        }
+    }
+}
+
+#[repr(usize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum PeripheralOutput {
+    ConstantZero = 0,
+    ConstantOne = 1,
+    ConstantHighZ = 2,
+    Gpio0 = 3,
+    Gpio1 = 4,
+    Gpio2 = 5,
+    Gpio3 = 6,
+    Gpio4 = 7,
+    Gpio5 = 8,
+    Gpio6 = 9,
+    Gpio7 = 10,
+    Gpio8 = 11,
+    Gpio9 = 12,
+    Gpio10 = 13,
+    Gpio11 = 14,
+    Gpio12 = 15,
+    Gpio13 = 16,
+    Gpio14 = 17,
+    Gpio15 = 18,
+    Gpio16 = 19,
+    Gpio17 = 20,
+    Gpio18 = 21,
+    Gpio19 = 22,
+    Gpio20 = 23,
+    Gpio21 = 24,
+    Gpio22 = 25,
+    Gpio23 = 26,
+    Gpio24 = 27,
+    Gpio25 = 28,
+    Gpio26 = 29,
+    Gpio27 = 30,
+    Gpio28 = 31,
+    Gpio29 = 32,
+    Gpio30 = 33,
+    Gpio31 = 34,
+    I2c0Sda = 35,
+    I2c0Scl = 36,
+    I2c1Sda = 37,
+    I2c1Scl = 38,
+    I2c2Sda = 39,
+    I2c2Scl = 40,
+    SpiHost1Sd0 = 41,
+    SpiHost1Sd1 = 42,
+    SpiHost1Sd2 = 43,
+    SpiHost1Sd3 = 44,
+    Uart0Tx = 45,
+    Uart1Tx = 46,
+    Uart2Tx = 47,
+    Uart3Tx = 48,
+    PattGenPda0Tx = 49,
+    PattGenPcl0Tx = 50,
+    PattGenPda1Tx = 51,
+    PattGenPcl1Tx = 52,
+    SpiHost1Sck = 53,
+    SpiHost1Csb = 54,
+    FlashCtrlTdo = 55,
+    SensorCtrlAonAstDebugOut0 = 56,
+    SensorCtrlAonAstDebugOut1 = 57,
+    SensorCtrlAonAstDebugOut2 = 58,
+    SensorCtrlAonAstDebugOut3 = 59,
+    SensorCtrlAonAstDebugOut4 = 60,
+    SensorCtrlAonAstDebugOut5 = 61,
+    SensorCtrlAonAstDebugOut6 = 62,
+    SensorCtrlAonAstDebugOut7 = 63,
+    SensorCtrlAonAstDebugOut8 = 64,
+    PwmAonPwm0 = 65,
+    PwmAonPwm1 = 66,
+    PwmAonPwm2 = 67,
+    PwmAonPwm3 = 68,
+    PwmAonPwm4 = 69,
+    PwmAonPwm5 = 70,
+    OtpCtrlTest0 = 71,
+    SysRstCtrlAonBatDisable = 72,
+    SysRstCtrlAonKey0Out = 73,
+    SysRstCtrlAonKey1Out = 74,
+    SysRstCtrlAonKey2Out = 75,
+    SysRstCtrlAonPwrBOut = 76,
+    SysRstCtrlAonZ3Wakeup = 77,
+    Count = 78,
+}
+
+impl PinMuxNumber for PeripheralOutput {
+    type Error = hal::HalError;
+
+    fn number(&self) -> usize {
+        *self as usize
+    }
+    fn from_number(value: usize) -> Result<Self, Self::Error> {
+        if value < Self::Count as usize {
+            // Safety: The enum is repr(usize) and all values 0..Count are defined.
+            Ok(unsafe { core::mem::transmute::<usize, Self>(value) })
+        } else {
+            Err(hal::HalError::InvalidVariant)
+        }
+    }
+}
+
+#[repr(usize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum PadInput {
+    ConstantZero = 0,
+    ConstantOne = 1,
+    Ioa0 = 2,
+    Ioa1 = 3,
+    Ioa2 = 4,
+    Ioa3 = 5,
+    Ioa4 = 6,
+    Ioa5 = 7,
+    Ioa6 = 8,
+    Ioa7 = 9,
+    Ioa8 = 10,
+    Iob0 = 11,
+    Iob1 = 12,
+    Iob2 = 13,
+    Iob3 = 14,
+    Iob4 = 15,
+    Iob5 = 16,
+    Iob6 = 17,
+    Iob7 = 18,
+    Iob8 = 19,
+    Iob9 = 20,
+    Iob10 = 21,
+    Iob11 = 22,
+    Iob12 = 23,
+    Ioc0 = 24,
+    Ioc1 = 25,
+    Ioc2 = 26,
+    Ioc3 = 27,
+    Ioc4 = 28,
+    Ioc5 = 29,
+    Ioc6 = 30,
+    Ioc7 = 31,
+    Ioc8 = 32,
+    Ioc9 = 33,
+    Ioc10 = 34,
+    Ioc11 = 35,
+    Ioc12 = 36,
+    Ior0 = 37,
+    Ior1 = 38,
+    Ior2 = 39,
+    Ior3 = 40,
+    Ior4 = 41,
+    Ior5 = 42,
+    Ior6 = 43,
+    Ior7 = 44,
+    Ior10 = 45,
+    Ior11 = 46,
+    Ior12 = 47,
+    Ior13 = 48,
+    Count = 49,
+}
+
+impl PinMuxNumber for PadInput {
+    type Error = hal::HalError;
+
+    fn number(&self) -> usize {
+        *self as usize
+    }
+    fn from_number(value: usize) -> Result<Self, Self::Error> {
+        if value < Self::Count as usize {
+            // Safety: The enum is repr(usize) and all values 0..Count are defined.
+            Ok(unsafe { core::mem::transmute::<usize, Self>(value) })
+        } else {
+            Err(hal::HalError::InvalidVariant)
+        }
+    }
+}
+
+#[repr(usize)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum PadOutput {
+    Ioa0 = 0,
+    Ioa1 = 1,
+    Ioa2 = 2,
+    Ioa3 = 3,
+    Ioa4 = 4,
+    Ioa5 = 5,
+    Ioa6 = 6,
+    Ioa7 = 7,
+    Ioa8 = 8,
+    Iob0 = 9,
+    Iob1 = 10,
+    Iob2 = 11,
+    Iob3 = 12,
+    Iob4 = 13,
+    Iob5 = 14,
+    Iob6 = 15,
+    Iob7 = 16,
+    Iob8 = 17,
+    Iob9 = 18,
+    Iob10 = 19,
+    Iob11 = 20,
+    Iob12 = 21,
+    Ioc0 = 22,
+    Ioc1 = 23,
+    Ioc2 = 24,
+    Ioc3 = 25,
+    Ioc4 = 26,
+    Ioc5 = 27,
+    Ioc6 = 28,
+    Ioc7 = 29,
+    Ioc8 = 30,
+    Ioc9 = 31,
+    Ioc10 = 32,
+    Ioc11 = 33,
+    Ioc12 = 34,
+    Ior0 = 35,
+    Ior1 = 36,
+    Ior2 = 37,
+    Ior3 = 38,
+    Ior4 = 39,
+    Ior5 = 40,
+    Ior6 = 41,
+    Ior7 = 42,
+    Ior10 = 43,
+    Ior11 = 44,
+    Ior12 = 45,
+    Ior13 = 46,
+    Count = 47,
+}
+
+impl PinMuxNumber for PadOutput {
+    type Error = hal::HalError;
+
+    fn number(&self) -> usize {
+        *self as usize
+    }
+    fn from_number(value: usize) -> Result<Self, Self::Error> {
+        if value < Self::Count as usize {
+            // Safety: The enum is repr(usize) and all values 0..Count are defined.
+            Ok(unsafe { core::mem::transmute::<usize, Self>(value) })
+        } else {
+            Err(hal::HalError::InvalidVariant)
+        }
+    }
+}
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, test_utils_macros::PlicVectorTable)]
 #[repr(usize)]
@@ -217,7 +535,7 @@ impl TryFrom<usize> for PlicIrqId {
 
     fn try_from(value: usize) -> Result<Self, Self::Error> {
         if value <= 184 {
-            // Safety: The enum is repr(u32) and all values 0..=184 are defined.
+            // Safety: The enum is repr(usize) and all values 0..=184 are defined.
             Ok(unsafe { core::mem::transmute::<usize, Self>(value) })
         } else {
             Err(value)
@@ -281,7 +599,7 @@ impl TryFrom<usize> for PlicPeripheralId {
 
     fn try_from(value: usize) -> Result<Self, Self::Error> {
         if value <= 30 {
-            // Safety: The enum is repr(u32) and all values 0..=30 are defined.
+            // Safety: The enum is repr(usize) and all values 0..=30 are defined.
             Ok(unsafe { core::mem::transmute::<usize, Self>(value) })
         } else {
             Err(value)

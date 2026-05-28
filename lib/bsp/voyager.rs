@@ -4,7 +4,7 @@
 use crate::earlgrey_es::*;
 use crate::prelude::*;
 use core::fmt::Write;
-use embedded_hal::digital::OutputPin;
+use embedded_hal::digital::{InputPin, OutputPin};
 use hal::pin::{self, GpioExt};
 
 const TIMER_TICK_HZ: u64 = 1_000_000;
@@ -51,67 +51,33 @@ impl Voyager {
 
         let pins = peri.gpio.split();
 
-        mux.select_output(
-            <EarlgreyEs as PadOutput>::IOA4 as usize,
-            <EarlgreyEs as PeripheralOutput>::GPIO0 as usize,
-        );
+        mux.select_output(PadOutput::Ioa4, PeripheralOutput::Gpio0);
         let led_status = pins.pin0.into_output();
 
-        mux.select_output(
-            <EarlgreyEs as PadOutput>::IOA5 as usize,
-            <EarlgreyEs as PeripheralOutput>::GPIO1 as usize,
-        );
+        mux.select_output(PadOutput::Ioa5, PeripheralOutput::Gpio1);
         let led_boot_ok = pins.pin1.into_output();
 
-        mux.select_output(
-            <EarlgreyEs as PadOutput>::IOC7 as usize,
-            <EarlgreyEs as PeripheralOutput>::GPIO10 as usize,
-        );
+        mux.select_output(PadOutput::Ioc7, PeripheralOutput::Gpio10);
         let lcd_rst = pins.pin10.into_output();
 
-        mux.select_output(
-            <EarlgreyEs as PadOutput>::IOC9 as usize,
-            <EarlgreyEs as PeripheralOutput>::GPIO11 as usize,
-        );
+        mux.select_output(PadOutput::Ioc9, PeripheralOutput::Gpio11);
         let lcd_dc = pins.pin11.into_output();
 
-        mux.select_output(
-            <EarlgreyEs as PadOutput>::IOB0 as usize,
-            <EarlgreyEs as PeripheralOutput>::GPIO12 as usize,
-        );
+        mux.select_output(PadOutput::Iob0, PeripheralOutput::Gpio12);
         let mut lcd_bl = pins.pin12.into_output();
 
         // Joystick gpios
-        mux.select_input(
-            <EarlgreyEs as PadInput>::IOC12 as usize,
-            <EarlgreyEs as PeripheralInput>::GPIO5 as usize,
-        );
-
-        mux.select_input(
-            <EarlgreyEs as PadInput>::IOC10 as usize,
-            <EarlgreyEs as PeripheralInput>::GPIO6 as usize,
-        );
-
-        mux.select_input(
-            <EarlgreyEs as PadInput>::IOR10 as usize,
-            <EarlgreyEs as PeripheralInput>::GPIO7 as usize,
-        );
-
-        mux.select_input(
-            <EarlgreyEs as PadInput>::IOC11 as usize,
-            <EarlgreyEs as PeripheralInput>::GPIO8 as usize,
-        );
-
-        mux.select_input(
-            <EarlgreyEs as PadInput>::IOR11 as usize,
-            <EarlgreyEs as PeripheralInput>::GPIO9 as usize,
-        );
+        mux.select_input(PadInput::Ioc12, PeripheralInput::Gpio5);
+        mux.select_input(PadInput::Ioc10, PeripheralInput::Gpio6);
+        mux.select_input(PadInput::Ior10, PeripheralInput::Gpio7);
+        mux.select_input(PadInput::Ioc11, PeripheralInput::Gpio8);
+        mux.select_input(PadInput::Ior11, PeripheralInput::Gpio9);
         let joystick = Joystick {
-            up: Button { pin: pins.pin5 },
-            down: Button { pin: pins.pin6 },
-            left: Button { pin: pins.pin7 },
-            right: Button { pin: pins.pin8 },
-            ok: Button { pin: pins.pin9 },
+            up: pins.pin5,
+            down: pins.pin6,
+            left: pins.pin7,
+            right: pins.pin8,
+            ok: pins.pin9,
         };
 
         let config = hal::spi_host::Config {
@@ -129,18 +95,9 @@ impl Voyager {
             rx_watermark: 5,
         };
 
-        mux.select_output(
-            <EarlgreyEs as PadOutput>::IOC6 as usize,
-            <EarlgreyEs as PeripheralOutput>::SPIHOST1CSB as usize,
-        );
-        mux.select_output(
-            <EarlgreyEs as PadOutput>::IOB2 as usize,
-            <EarlgreyEs as PeripheralOutput>::SPIHOST1SCK as usize,
-        );
-        mux.select_output(
-            <EarlgreyEs as PadOutput>::IOB1 as usize,
-            <EarlgreyEs as PeripheralOutput>::SPIHOST1SD0 as usize,
-        );
+        mux.select_output(PadOutput::Ioc6, PeripheralOutput::SpiHost1Csb);
+        mux.select_output(PadOutput::Iob2, PeripheralOutput::SpiHost1Sck);
+        mux.select_output(PadOutput::Iob1, PeripheralOutput::SpiHost1Sd0);
 
         let mut spi_lcd = hal::SpiHost::new(peri.spi_host1);
         spi_lcd
@@ -192,30 +149,26 @@ impl Voyager {
         ];
         self.joystick
             .up
-            .pin
             .interrupt_set_mode(true, &modes)
             .interrupt_set_enable(true);
+
         self.joystick
             .down
-            .pin
             .interrupt_set_mode(true, &modes)
             .interrupt_set_enable(true);
 
         self.joystick
             .left
-            .pin
             .interrupt_set_mode(true, &modes)
             .interrupt_set_enable(true);
 
         self.joystick
             .right
-            .pin
             .interrupt_set_mode(true, &modes)
             .interrupt_set_enable(true);
 
         self.joystick
             .ok
-            .pin
             .interrupt_set_mode(true, &modes)
             .interrupt_set_enable(true);
 
@@ -234,12 +187,6 @@ pub enum Direction {
     Ok,
 }
 
-type BtnUp = Button<hal::static_pin::Pin5<pin::InputState>>;
-type BtnDown = Button<hal::static_pin::Pin6<pin::InputState>>;
-type BtnLeft = Button<hal::static_pin::Pin7<pin::InputState>>;
-type BtnRight = Button<hal::static_pin::Pin8<pin::InputState>>;
-type BtnOk = Button<hal::static_pin::Pin9<pin::InputState>>;
-
 pub struct Joystick {
     pub up: BtnUp,
     pub down: BtnDown,
@@ -250,34 +197,31 @@ pub struct Joystick {
 
 impl Joystick {
     pub fn scan(&mut self) -> Option<Direction> {
-        if self.up.pressed() {
+        if Self::is_pressed(&mut self.up) {
             return Some(Direction::Up);
         }
-        if self.down.pressed() {
+        if Self::is_pressed(&mut self.down) {
             return Some(Direction::Down);
         }
-        if self.left.pressed() {
+        if Self::is_pressed(&mut self.left) {
             return Some(Direction::Left);
         }
-        if self.right.pressed() {
+        if Self::is_pressed(&mut self.right) {
             return Some(Direction::Right);
         }
-        if self.ok.pressed() {
+        if Self::is_pressed(&mut self.ok) {
             return Some(Direction::Ok);
         }
         None
     }
-}
 
-pub struct Button<PIN> {
-    pin: PIN,
-}
-
-impl<PIN> Button<PIN>
-where
-    PIN: embedded_hal::digital::InputPin,
-{
-    pub fn pressed(&mut self) -> bool {
-        self.pin.is_low().unwrap()
+    fn is_pressed<P: InputPin>(pin: &mut P) -> bool {
+        pin.is_low().unwrap()
     }
 }
+
+type BtnUp = hal::static_pin::Pin5<pin::InputState>;
+type BtnDown = hal::static_pin::Pin6<pin::InputState>;
+type BtnLeft = hal::static_pin::Pin7<pin::InputState>;
+type BtnRight = hal::static_pin::Pin8<pin::InputState>;
+type BtnOk = hal::static_pin::Pin9<pin::InputState>;
