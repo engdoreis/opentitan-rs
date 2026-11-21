@@ -14,36 +14,21 @@
 //! | ALERT_TEST | Alert Test Register | 0x0 | true |false |
 //! | SW_RECOV_ERR | Software recoverable error | 0x4 | true |true |
 //! | SW_FATAL_ERR | Software fatal error | 0x8 | true |true |
-//! | IBUS_REGWEN0 | Ibus address control regwen. | 0xc | true |true |
-//! | IBUS_REGWEN1 | Ibus address control regwen. | 0x10 | true |true |
-//! | IBUS_ADDR_EN0 | Enable Ibus address matching | 0x14 | true |true |
-//! | IBUS_ADDR_EN1 | Enable Ibus address matching | 0x18 | true |true |
-//! | IBUS_ADDR_MATCHING0 | Matching region programming for ibus.  The value programmed is done at power-of-2 alignment.  For example, if the intended matching region is 0x8000_0000 to 0x8000_FFFF, the value programmed is 0x8000_7FFF.  The value programmed can be determined from the translation granule.  Assume the user wishes to translate a specific 64KB block to a different address:  64KB has a hex value of 0x10000.  Subtract 1 from this value and then right shift by one to obtain 0x7FFF.  This value is then logically OR'd with the upper address bits that would select which 64KB to translate.  In this example, the user wishes to translate the 0x8000-th 64KB block.  The value programmed is then 0x8000_7FFF.  If the user were to translate the 0x8001-th 64KB block, the value programmed would be 0x8001_7FFF. | 0x1c | true |true |
-//! | IBUS_ADDR_MATCHING1 | Matching region programming for ibus.  The value programmed is done at power-of-2 alignment.  For example, if the intended matching region is 0x8000_0000 to 0x8000_FFFF, the value programmed is 0x8000_7FFF.  The value programmed can be determined from the translation granule.  Assume the user wishes to translate a specific 64KB block to a different address:  64KB has a hex value of 0x10000.  Subtract 1 from this value and then right shift by one to obtain 0x7FFF.  This value is then logically OR'd with the upper address bits that would select which 64KB to translate.  In this example, the user wishes to translate the 0x8000-th 64KB block.  The value programmed is then 0x8000_7FFF.  If the user were to translate the 0x8001-th 64KB block, the value programmed would be 0x8001_7FFF. | 0x20 | true |true |
-//! | IBUS_REMAP_ADDR0 | The remap address after a match has been made.  The remap bits apply only to top portion of address bits not covered by the matching region.  For example, if the translation region is 64KB, the remapped address applies only to the upper  address bits that select which 64KB to be translated. | 0x24 | true |true |
-//! | IBUS_REMAP_ADDR1 | The remap address after a match has been made.  The remap bits apply only to top portion of address bits not covered by the matching region.  For example, if the translation region is 64KB, the remapped address applies only to the upper  address bits that select which 64KB to be translated. | 0x28 | true |true |
-//! | DBUS_REGWEN0 | Dbus address control regwen. | 0x2c | true |true |
-//! | DBUS_REGWEN1 | Dbus address control regwen. | 0x30 | true |true |
-//! | DBUS_ADDR_EN0 | Enable dbus address matching | 0x34 | true |true |
-//! | DBUS_ADDR_EN1 | Enable dbus address matching | 0x38 | true |true |
-//! | DBUS_ADDR_MATCHING0 | See !!IBUS_ADDR_MATCHING_0 for detailed description. | 0x3c | true |true |
-//! | DBUS_ADDR_MATCHING1 | See !!IBUS_ADDR_MATCHING_0 for detailed description. | 0x40 | true |true |
-//! | DBUS_REMAP_ADDR0 | See !!IBUS_REMAP_ADDR_0 for a detailed description. | 0x44 | true |true |
-//! | DBUS_REMAP_ADDR1 | See !!IBUS_REMAP_ADDR_0 for a detailed description. | 0x48 | true |true |
+//! | IBUS_REGWEN[0..2] | Ibus address control regwen. | 0xc | true |true |
+//! | IBUS_ADDR_EN[0..2] | Enable Ibus address matching | 0x14 | true |true |
+//! | IBUS_ADDR_MATCHING[0..2] | Matching region programming for ibus.  The value programmed is done at power-of-2 alignment.  For example, if the intended matching region is 0x8000_0000 to 0x8000_FFFF, the value programmed is 0x8000_7FFF.  The value programmed can be determined from the translation granule.  Assume the user wishes to translate a specific 64KB block to a different address:  64KB has a hex value of 0x10000.  Subtract 1 from this value and then right shift by one to obtain 0x7FFF.  This value is then logically OR'd with the upper address bits that would select which 64KB to translate.  In this example, the user wishes to translate the 0x8000-th 64KB block.  The value programmed is then 0x8000_7FFF.  If the user were to translate the 0x8001-th 64KB block, the value programmed would be 0x8001_7FFF. | 0x1c | true |true |
+//! | IBUS_REMAP_ADDR[0..2] | The remap address after a match has been made.  The remap bits apply only to top portion of address bits not covered by the matching region.  For example, if the translation region is 64KB, the remapped address applies only to the upper  address bits that select which 64KB to be translated. | 0x24 | true |true |
+//! | DBUS_REGWEN[0..2] | Dbus address control regwen. | 0x2c | true |true |
+//! | DBUS_ADDR_EN[0..2] | Enable dbus address matching | 0x34 | true |true |
+//! | DBUS_ADDR_MATCHING[0..2] | See !!IBUS_ADDR_MATCHING_0 for detailed description. | 0x3c | true |true |
+//! | DBUS_REMAP_ADDR[0..2] | See !!IBUS_REMAP_ADDR_0 for a detailed description. | 0x44 | true |true |
 //! | NMI_ENABLE | Enable mask for NMI.Once an enable mask is set, it cannot be disabled. | 0x4c | true |true |
 //! | NMI_STATE | Current NMI state | 0x50 | true |true |
 //! | ERR_STATUS | error status | 0x54 | true |true |
 //! | RND_DATA | Random data from EDN | 0x58 | false |true |
 //! | RND_STATUS | Status of random data in !!RND_DATA | 0x5c | false |true |
 //! | FPGA_INFO | FPGA build timestamp info.This register only contains valid data for fpga, for all other variants it is simply 0. | 0x60 | false |true |
-//! | DV_SIM_WINDOW0 | See . | 0x80 | true |true |
-//! | DV_SIM_WINDOW1 | See . | 0x84 | true |true |
-//! | DV_SIM_WINDOW2 | See . | 0x88 | true |true |
-//! | DV_SIM_WINDOW3 | See . | 0x8c | true |true |
-//! | DV_SIM_WINDOW4 | See . | 0x90 | true |true |
-//! | DV_SIM_WINDOW5 | See . | 0x94 | true |true |
-//! | DV_SIM_WINDOW6 | See . | 0x98 | true |true |
-//! | DV_SIM_WINDOW7 | See . | 0x9c | true |true |
+//! | DV_SIM_WINDOW[0..8] | See . | 0x80 | true |true |
 
 use super::zermio;
 /// ```rust,ignore
@@ -54,112 +39,106 @@ use super::zermio;
 /// });
 /// ```
 pub struct RvCoreIbex {
-    /// Alert Test Register  
+    __addr: u32,
+    /// Alert Test Register
     pub alert_test: alert_test::AlertTest,
-    /// Software recoverable error  
+    /// Software recoverable error
     pub sw_recov_err: sw_recov_err::SwRecovErr,
-    /// Software fatal error  
+    /// Software fatal error
     pub sw_fatal_err: sw_fatal_err::SwFatalErr,
-    /// Ibus address control regwen.  
-    pub ibus_regwen0: ibus_regwen::IbusRegwen,
-    /// Ibus address control regwen.  
-    pub ibus_regwen1: ibus_regwen::IbusRegwen,
-    /// Enable Ibus address matching  
-    pub ibus_addr_en0: ibus_addr_en::IbusAddrEn,
-    /// Enable Ibus address matching  
-    pub ibus_addr_en1: ibus_addr_en::IbusAddrEn,
-    /// Matching region programming for ibus.  The value programmed is done at power-of-2 alignment.  For example, if the intended matching region is 0x8000_0000 to 0x8000_FFFF, the value programmed is 0x8000_7FFF.  The value programmed can be determined from the translation granule.  Assume the user wishes to translate a specific 64KB block to a different address:  64KB has a hex value of 0x10000.  Subtract 1 from this value and then right shift by one to obtain 0x7FFF.  This value is then logically OR'd with the upper address bits that would select which 64KB to translate.  In this example, the user wishes to translate the 0x8000-th 64KB block.  The value programmed is then 0x8000_7FFF.  If the user were to translate the 0x8001-th 64KB block, the value programmed would be 0x8001_7FFF.  
-    pub ibus_addr_matching0: ibus_addr_matching::IbusAddrMatching,
-    /// Matching region programming for ibus.  The value programmed is done at power-of-2 alignment.  For example, if the intended matching region is 0x8000_0000 to 0x8000_FFFF, the value programmed is 0x8000_7FFF.  The value programmed can be determined from the translation granule.  Assume the user wishes to translate a specific 64KB block to a different address:  64KB has a hex value of 0x10000.  Subtract 1 from this value and then right shift by one to obtain 0x7FFF.  This value is then logically OR'd with the upper address bits that would select which 64KB to translate.  In this example, the user wishes to translate the 0x8000-th 64KB block.  The value programmed is then 0x8000_7FFF.  If the user were to translate the 0x8001-th 64KB block, the value programmed would be 0x8001_7FFF.  
-    pub ibus_addr_matching1: ibus_addr_matching::IbusAddrMatching,
-    /// The remap address after a match has been made.  The remap bits apply only to top portion of address bits not covered by the matching region.  For example, if the translation region is 64KB, the remapped address applies only to the upper  address bits that select which 64KB to be translated.  
-    pub ibus_remap_addr0: ibus_remap_addr::IbusRemapAddr,
-    /// The remap address after a match has been made.  The remap bits apply only to top portion of address bits not covered by the matching region.  For example, if the translation region is 64KB, the remapped address applies only to the upper  address bits that select which 64KB to be translated.  
-    pub ibus_remap_addr1: ibus_remap_addr::IbusRemapAddr,
-    /// Dbus address control regwen.  
-    pub dbus_regwen0: dbus_regwen::DbusRegwen,
-    /// Dbus address control regwen.  
-    pub dbus_regwen1: dbus_regwen::DbusRegwen,
-    /// Enable dbus address matching  
-    pub dbus_addr_en0: dbus_addr_en::DbusAddrEn,
-    /// Enable dbus address matching  
-    pub dbus_addr_en1: dbus_addr_en::DbusAddrEn,
-    /// See !!IBUS_ADDR_MATCHING_0 for detailed description.  
-    pub dbus_addr_matching0: dbus_addr_matching::DbusAddrMatching,
-    /// See !!IBUS_ADDR_MATCHING_0 for detailed description.  
-    pub dbus_addr_matching1: dbus_addr_matching::DbusAddrMatching,
-    /// See !!IBUS_REMAP_ADDR_0 for a detailed description.  
-    pub dbus_remap_addr0: dbus_remap_addr::DbusRemapAddr,
-    /// See !!IBUS_REMAP_ADDR_0 for a detailed description.  
-    pub dbus_remap_addr1: dbus_remap_addr::DbusRemapAddr,
-    /// Enable mask for NMI.Once an enable mask is set, it cannot be disabled.  
+    /// Ibus address control regwen.
+    pub ibus_regwen: [ibus_regwen::IbusRegwen; 2],
+    /// Enable Ibus address matching
+    pub ibus_addr_en: [ibus_addr_en::IbusAddrEn; 2],
+    /// Matching region programming for ibus.  The value programmed is done at power-of-2 alignment.  For example, if the intended matching region is 0x8000_0000 to 0x8000_FFFF, the value programmed is 0x8000_7FFF.  The value programmed can be determined from the translation granule.  Assume the user wishes to translate a specific 64KB block to a different address:  64KB has a hex value of 0x10000.  Subtract 1 from this value and then right shift by one to obtain 0x7FFF.  This value is then logically OR'd with the upper address bits that would select which 64KB to translate.  In this example, the user wishes to translate the 0x8000-th 64KB block.  The value programmed is then 0x8000_7FFF.  If the user were to translate the 0x8001-th 64KB block, the value programmed would be 0x8001_7FFF.
+    pub ibus_addr_matching: [ibus_addr_matching::IbusAddrMatching; 2],
+    /// The remap address after a match has been made.  The remap bits apply only to top portion of address bits not covered by the matching region.  For example, if the translation region is 64KB, the remapped address applies only to the upper  address bits that select which 64KB to be translated.
+    pub ibus_remap_addr: [ibus_remap_addr::IbusRemapAddr; 2],
+    /// Dbus address control regwen.
+    pub dbus_regwen: [dbus_regwen::DbusRegwen; 2],
+    /// Enable dbus address matching
+    pub dbus_addr_en: [dbus_addr_en::DbusAddrEn; 2],
+    /// See !!IBUS_ADDR_MATCHING_0 for detailed description.
+    pub dbus_addr_matching: [dbus_addr_matching::DbusAddrMatching; 2],
+    /// See !!IBUS_REMAP_ADDR_0 for a detailed description.
+    pub dbus_remap_addr: [dbus_remap_addr::DbusRemapAddr; 2],
+    /// Enable mask for NMI.Once an enable mask is set, it cannot be disabled.
     pub nmi_enable: nmi_enable::NmiEnable,
-    /// Current NMI state  
+    /// Current NMI state
     pub nmi_state: nmi_state::NmiState,
-    /// error status  
+    /// error status
     pub err_status: err_status::ErrStatus,
-    /// Random data from EDN  
+    /// Random data from EDN
     pub rnd_data: rnd_data::RndData,
-    /// Status of random data in !!RND_DATA  
+    /// Status of random data in !!RND_DATA
     pub rnd_status: rnd_status::RndStatus,
-    /// FPGA build timestamp info.This register only contains valid data for fpga, for all other variants it is simply 0.  
+    /// FPGA build timestamp info.This register only contains valid data for fpga, for all other variants it is simply 0.
     pub fpga_info: fpga_info::FpgaInfo,
-    /// See .  
-    pub dv_sim_window0: dv_sim_window::DvSimWindow,
-    /// See .  
-    pub dv_sim_window1: dv_sim_window::DvSimWindow,
-    /// See .  
-    pub dv_sim_window2: dv_sim_window::DvSimWindow,
-    /// See .  
-    pub dv_sim_window3: dv_sim_window::DvSimWindow,
-    /// See .  
-    pub dv_sim_window4: dv_sim_window::DvSimWindow,
-    /// See .  
-    pub dv_sim_window5: dv_sim_window::DvSimWindow,
-    /// See .  
-    pub dv_sim_window6: dv_sim_window::DvSimWindow,
-    /// See .  
-    pub dv_sim_window7: dv_sim_window::DvSimWindow,
+    /// See .
+    pub dv_sim_window: [dv_sim_window::DvSimWindow; 8],
 }
 
 impl RvCoreIbex {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
+            __addr: addr,
             alert_test: alert_test::AlertTest::new(addr),
             sw_recov_err: sw_recov_err::SwRecovErr::new(addr + 0x4),
             sw_fatal_err: sw_fatal_err::SwFatalErr::new(addr + 0x8),
-            ibus_regwen0: ibus_regwen::IbusRegwen::new(addr + 0xc),
-            ibus_regwen1: ibus_regwen::IbusRegwen::new(addr + 0x10),
-            ibus_addr_en0: ibus_addr_en::IbusAddrEn::new(addr + 0x14),
-            ibus_addr_en1: ibus_addr_en::IbusAddrEn::new(addr + 0x18),
-            ibus_addr_matching0: ibus_addr_matching::IbusAddrMatching::new(addr + 0x1c),
-            ibus_addr_matching1: ibus_addr_matching::IbusAddrMatching::new(addr + 0x20),
-            ibus_remap_addr0: ibus_remap_addr::IbusRemapAddr::new(addr + 0x24),
-            ibus_remap_addr1: ibus_remap_addr::IbusRemapAddr::new(addr + 0x28),
-            dbus_regwen0: dbus_regwen::DbusRegwen::new(addr + 0x2c),
-            dbus_regwen1: dbus_regwen::DbusRegwen::new(addr + 0x30),
-            dbus_addr_en0: dbus_addr_en::DbusAddrEn::new(addr + 0x34),
-            dbus_addr_en1: dbus_addr_en::DbusAddrEn::new(addr + 0x38),
-            dbus_addr_matching0: dbus_addr_matching::DbusAddrMatching::new(addr + 0x3c),
-            dbus_addr_matching1: dbus_addr_matching::DbusAddrMatching::new(addr + 0x40),
-            dbus_remap_addr0: dbus_remap_addr::DbusRemapAddr::new(addr + 0x44),
-            dbus_remap_addr1: dbus_remap_addr::DbusRemapAddr::new(addr + 0x48),
+            ibus_regwen: [
+                ibus_regwen::IbusRegwen::new(addr + 0xc),
+                ibus_regwen::IbusRegwen::new(addr + 0x10),
+            ],
+            ibus_addr_en: [
+                ibus_addr_en::IbusAddrEn::new(addr + 0x14),
+                ibus_addr_en::IbusAddrEn::new(addr + 0x18),
+            ],
+            ibus_addr_matching: [
+                ibus_addr_matching::IbusAddrMatching::new(addr + 0x1c),
+                ibus_addr_matching::IbusAddrMatching::new(addr + 0x20),
+            ],
+            ibus_remap_addr: [
+                ibus_remap_addr::IbusRemapAddr::new(addr + 0x24),
+                ibus_remap_addr::IbusRemapAddr::new(addr + 0x28),
+            ],
+            dbus_regwen: [
+                dbus_regwen::DbusRegwen::new(addr + 0x2c),
+                dbus_regwen::DbusRegwen::new(addr + 0x30),
+            ],
+            dbus_addr_en: [
+                dbus_addr_en::DbusAddrEn::new(addr + 0x34),
+                dbus_addr_en::DbusAddrEn::new(addr + 0x38),
+            ],
+            dbus_addr_matching: [
+                dbus_addr_matching::DbusAddrMatching::new(addr + 0x3c),
+                dbus_addr_matching::DbusAddrMatching::new(addr + 0x40),
+            ],
+            dbus_remap_addr: [
+                dbus_remap_addr::DbusRemapAddr::new(addr + 0x44),
+                dbus_remap_addr::DbusRemapAddr::new(addr + 0x48),
+            ],
             nmi_enable: nmi_enable::NmiEnable::new(addr + 0x4c),
             nmi_state: nmi_state::NmiState::new(addr + 0x50),
             err_status: err_status::ErrStatus::new(addr + 0x54),
             rnd_data: rnd_data::RndData::new(addr + 0x58),
             rnd_status: rnd_status::RndStatus::new(addr + 0x5c),
             fpga_info: fpga_info::FpgaInfo::new(addr + 0x60),
-            dv_sim_window0: dv_sim_window::DvSimWindow::new(addr + 0x80),
-            dv_sim_window1: dv_sim_window::DvSimWindow::new(addr + 0x84),
-            dv_sim_window2: dv_sim_window::DvSimWindow::new(addr + 0x88),
-            dv_sim_window3: dv_sim_window::DvSimWindow::new(addr + 0x8c),
-            dv_sim_window4: dv_sim_window::DvSimWindow::new(addr + 0x90),
-            dv_sim_window5: dv_sim_window::DvSimWindow::new(addr + 0x94),
-            dv_sim_window6: dv_sim_window::DvSimWindow::new(addr + 0x98),
-            dv_sim_window7: dv_sim_window::DvSimWindow::new(addr + 0x9c),
+            dv_sim_window: [
+                dv_sim_window::DvSimWindow::new(addr + 0x80),
+                dv_sim_window::DvSimWindow::new(addr + 0x84),
+                dv_sim_window::DvSimWindow::new(addr + 0x88),
+                dv_sim_window::DvSimWindow::new(addr + 0x8c),
+                dv_sim_window::DvSimWindow::new(addr + 0x90),
+                dv_sim_window::DvSimWindow::new(addr + 0x94),
+                dv_sim_window::DvSimWindow::new(addr + 0x98),
+                dv_sim_window::DvSimWindow::new(addr + 0x9c),
+            ],
         }
+    }
+
+    pub fn destroy(self) -> u32 {
+        self.__addr
     }
 }
 
@@ -202,8 +181,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_sw_err(&mut self) -> FatalSwErrField {
-            FatalSwErrField::new(&mut self.reg)
+        pub fn fatal_sw_err(&self) -> FatalSwErrField<'_> {
+            FatalSwErrField::new(&self.reg)
         }
 
         /// Hardware description: Write 1 to trigger one alert event of this kind.
@@ -222,8 +201,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn recov_sw_err(&mut self) -> RecovSwErrField {
-            RecovSwErrField::new(&mut self.reg)
+        pub fn recov_sw_err(&self) -> RecovSwErrField<'_> {
+            RecovSwErrField::new(&self.reg)
         }
 
         /// Hardware description: Write 1 to trigger one alert event of this kind.
@@ -242,8 +221,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_hw_err(&mut self) -> FatalHwErrField {
-            FatalHwErrField::new(&mut self.reg)
+        pub fn fatal_hw_err(&self) -> FatalHwErrField<'_> {
+            FatalHwErrField::new(&self.reg)
         }
 
         /// Hardware description: Write 1 to trigger one alert event of this kind.
@@ -262,10 +241,14 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn recov_hw_err(&mut self) -> RecovHwErrField {
-            RecovHwErrField::new(&mut self.reg)
+        pub fn recov_hw_err(&self) -> RecovHwErrField<'_> {
+            RecovHwErrField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a store instruction to write the MMIO
         pub fn commit(&mut self) {
             self.reg.commit()
@@ -283,6 +266,7 @@ mod alert_test {
     type RecovSwErrField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::Write>;
     type FatalHwErrField<'a> = zermio::BitField<'a, 2, 1, u32, zermio::access::Write>;
     type RecovHwErrField<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::Write>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 4, u32, zermio::access::Write>;
 }
 
 /// Software recoverable error.  
@@ -318,12 +302,12 @@ mod sw_recov_err {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -385,12 +369,12 @@ mod sw_fatal_err {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -457,12 +441,12 @@ mod ibus_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -529,12 +513,12 @@ mod ibus_addr_en {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -596,12 +580,12 @@ mod ibus_addr_matching {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -663,12 +647,12 @@ mod ibus_remap_addr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -735,12 +719,12 @@ mod dbus_regwen {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -807,12 +791,12 @@ mod dbus_addr_en {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn en(&mut self) -> EnField {
-            EnField::new(&mut self.reg)
+        pub fn en(&self) -> EnField<'_> {
+            EnField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -874,12 +858,12 @@ mod dbus_addr_matching {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -941,12 +925,12 @@ mod dbus_remap_addr {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1014,8 +998,8 @@ mod nmi_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn alert_en(&mut self) -> AlertEnField {
-            AlertEnField::new(&mut self.reg)
+        pub fn alert_en(&self) -> AlertEnField<'_> {
+            AlertEnField::new(&self.reg)
         }
 
         /// Hardware description: Enable mask for watchdog NMI
@@ -1036,12 +1020,16 @@ mod nmi_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn wdog_en(&mut self) -> WdogEnField {
-            WdogEnField::new(&mut self.reg)
+        pub fn wdog_en(&self) -> WdogEnField<'_> {
+            WdogEnField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1069,6 +1057,7 @@ mod nmi_enable {
     }
     type AlertEnField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
     type WdogEnField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::ReadWrite>;
 }
 
 /// Current NMI state.  
@@ -1110,8 +1099,8 @@ mod nmi_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn alert(&mut self) -> AlertField {
-            AlertField::new(&mut self.reg)
+        pub fn alert(&self) -> AlertField<'_> {
+            AlertField::new(&self.reg)
         }
 
         /// Hardware description: Current state for watchdog NMI
@@ -1132,12 +1121,16 @@ mod nmi_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn wdog(&mut self) -> WdogField {
-            WdogField::new(&mut self.reg)
+        pub fn wdog(&self) -> WdogField<'_> {
+            WdogField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1165,6 +1158,7 @@ mod nmi_state {
     }
     type AlertField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
     type WdogField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::ReadWrite>;
 }
 
 /// error status.  
@@ -1208,8 +1202,8 @@ mod err_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn reg_intg_err(&mut self) -> RegIntgErrField {
-            RegIntgErrField::new(&mut self.reg)
+        pub fn reg_intg_err(&self) -> RegIntgErrField<'_> {
+            RegIntgErrField::new(&self.reg)
         }
 
         /// Hardware description: rv_core_ibex detected a response integrity error
@@ -1230,8 +1224,8 @@ mod err_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_intg_err(&mut self) -> FatalIntgErrField {
-            FatalIntgErrField::new(&mut self.reg)
+        pub fn fatal_intg_err(&self) -> FatalIntgErrField<'_> {
+            FatalIntgErrField::new(&self.reg)
         }
 
         /// Hardware description: rv_core_ibex detected a fatal internal error(alert_major_internal_o from Ibex seen)
@@ -1252,8 +1246,8 @@ mod err_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_core_err(&mut self) -> FatalCoreErrField {
-            FatalCoreErrField::new(&mut self.reg)
+        pub fn fatal_core_err(&self) -> FatalCoreErrField<'_> {
+            FatalCoreErrField::new(&self.reg)
         }
 
         /// Hardware description: rv_core_ibex detected a recoverable internal error(alert_minor from Ibex seen)
@@ -1274,12 +1268,16 @@ mod err_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn recov_core_err(&mut self) -> RecovCoreErrField {
-            RecovCoreErrField::new(&mut self.reg)
+        pub fn recov_core_err(&self) -> RecovCoreErrField<'_> {
+            RecovCoreErrField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1309,6 +1307,7 @@ mod err_status {
     type FatalIntgErrField<'a> = zermio::BitField<'a, 8, 1, u32, zermio::access::ReadWrite>;
     type FatalCoreErrField<'a> = zermio::BitField<'a, 9, 1, u32, zermio::access::ReadWrite>;
     type RecovCoreErrField<'a> = zermio::BitField<'a, 10, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 11, u32, zermio::access::ReadWrite>;
 }
 
 /// Random data from EDN.  
@@ -1341,12 +1340,12 @@ mod rnd_data {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn data(&mut self) -> DataField {
-            DataField::new(&mut self.reg)
+        pub fn data(&self) -> DataField<'_> {
+            DataField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1386,8 +1385,8 @@ mod rnd_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rnd_data_valid(&mut self) -> RndDataValidField {
-            RndDataValidField::new(&mut self.reg)
+        pub fn rnd_data_valid(&self) -> RndDataValidField<'_> {
+            RndDataValidField::new(&self.reg)
         }
 
         /// Hardware description: When !!RND_STATUS.RND_DATA_VALID is 1, this bit indicates whether!!RND_DATA is fips quality.When !!RND_STATUS.RND_DATA_VALID is 0, this bit has no meaning.
@@ -1401,18 +1400,23 @@ mod rnd_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rnd_data_fips(&mut self) -> RndDataFipsField {
-            RndDataFipsField::new(&mut self.reg)
+        pub fn rnd_data_fips(&self) -> RndDataFipsField<'_> {
+            RndDataFipsField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
     }
     type RndDataValidField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::Read>;
     type RndDataFipsField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::Read>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::Read>;
 }
 
 /// FPGA build timestamp info.This register only contains valid data for fpga, for all other variants it is simply 0..  
@@ -1445,12 +1449,12 @@ mod fpga_info {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1491,12 +1495,12 @@ mod dv_sim_window {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn val(&mut self) -> ValField {
-            ValField::new(&mut self.reg)
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }

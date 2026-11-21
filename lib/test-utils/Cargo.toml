@@ -12,6 +12,7 @@ embedded-hal = "1.0.0"
 embedtrait = { version = "0.1.0", path = "../embedtrait" }
 hal = { version = "0.1.0", path = "../hal" }
 manifest = { version = "0.1.0", path = "../manifest" }
+bsp = { version = "0.1.0", path = "../bsp" }
 panic-halt = "1.0.0"
 riscv = { version = "0.16.0", features = ["critical-section-single-hart"] }
 riscv-rt = "0.17.0"

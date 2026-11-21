@@ -4,20 +4,24 @@
 
 use core::result::Result;
 
+#[derive(Debug, PartialEq)]
 pub enum Data<'r, 'w> {
     Dummy(u8),
     Write(&'w [u8]),
     Read(&'w mut [u8]),
     Both { w: &'w [u8], r: &'r mut [u8] },
+    BothInPlace { w: &'w mut [u8] },
 }
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 pub enum Width {
     Single,
     Dual,
     Quad,
+    Octo,
 }
 
+#[derive(Debug, PartialEq)]
 pub struct Operation<'r, 'w> {
     pub data: Data<'r, 'w>,
     pub width: Width,

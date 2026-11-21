@@ -7,15 +7,40 @@ cargo-features = ["per-package-target"]
 [workspace]
 members = [
   "examples/hello_world",
+  "examples/simple_display",
+  "examples/state_machine",
+  "examples/my_future",
+  "examples/async",
   "tests",
   "lib/embedtrait",
   "lib/hal",
   "lib/manifest",
+  "lib/bsp",
   "lib/zermio/earlgrey",
   "lib/test-utils",
   "lib/test-utils-macros",
   "xtask",
 ]
+
+# This duplication is required because xtask is a host-only crate and
+# its `image` dependency tree enables `num-traits/std`, which Cargo's default
+# `selected` feature unification would then leak into the no_std riscv builds.
+default-members = [
+  "examples/hello_world",
+  "examples/simple_display",
+  "examples/state_machine",
+  "examples/my_future",
+  "examples/async",
+  "tests",
+  "lib/embedtrait",
+  "lib/hal",
+  "lib/manifest",
+  "lib/bsp",
+  "lib/zermio/earlgrey",
+  "lib/test-utils",
+  "lib/test-utils-macros",
+]
+
 resolver = "2"
 
 [profile.release]

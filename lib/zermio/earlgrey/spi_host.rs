@@ -17,9 +17,10 @@
 //! | ALERT_TEST | Alert Test Register | 0xc | true |false |
 //! | CONTROL | Control register | 0x10 | true |true |
 //! | STATUS | Status register | 0x14 | false |true |
-//! | CONFIGOPTS | Configuration options register.   Contains options for controlling the current peripheral.   Firmware needs to configure the options before the transfer. | 0x18 | true |true |
+//! | CONFIGOPTS | Configuration options register.   Contains options for controlling each peripheral. One register per   cs_n line | 0x18 | true |true |
 //! | CSID | Chip-Select ID   Controls which device to target with the next command.  This register   is passed to the core whenever !!COMMAND is written.  The core then   asserts cio_csb_o[!!CSID] during the execution of the command. | 0x1c | true |true |
 //! | COMMAND | Command Register   Parameters specific to each command segment.  Unlike the !!CONFIGOPTS multi-register,   there is only one command register for controlling all attached SPI devices | 0x20 | true |false |
+//! | RXDATA |  | 0x24 | false |true |
 //! | ERROR_ENABLE | Controls which classes of errors raise an interrupt. | 0x2c | true |true |
 //! | ERROR_STATUS | Indicates that any errors that have occurred.   When an error   occurs, the corresponding bit must be cleared here before   issuing any further commands. | 0x30 | true |true |
 //! | EVENT_ENABLE | Controls which classes of SPI events raise an interrupt. | 0x34 | true |true |
@@ -33,31 +34,33 @@ use super::zermio;
 /// });
 /// ```
 pub struct SpiHost {
-    /// Interrupt State Register  
+    __addr: u32,
+    /// Interrupt State Register
     pub intr_state: intr_state::IntrState,
-    /// Interrupt Enable Register  
+    /// Interrupt Enable Register
     pub intr_enable: intr_enable::IntrEnable,
-    /// Interrupt Test Register  
+    /// Interrupt Test Register
     pub intr_test: intr_test::IntrTest,
-    /// Alert Test Register  
+    /// Alert Test Register
     pub alert_test: alert_test::AlertTest,
-    /// Control register  
+    /// Control register
     pub control: control::Control,
-    /// Status register  
+    /// Status register
     pub status: status::Status,
-    /// Configuration options register.   Contains options for controlling the current peripheral.   Firmware needs to configure the options before the transfer.  
+    /// Configuration options register.   Contains options for controlling each peripheral. One register per   cs_n line
     pub configopts: configopts::Configopts,
-    /// Chip-Select ID   Controls which device to target with the next command.  This register   is passed to the core whenever !!COMMAND is written.  The core then   asserts cio_csb_o[!!CSID] during the execution of the command.  
+    /// Chip-Select ID   Controls which device to target with the next command.  This register   is passed to the core whenever !!COMMAND is written.  The core then   asserts cio_csb_o[!!CSID] during the execution of the command.
     pub csid: csid::Csid,
-    /// Command Register   Parameters specific to each command segment.  Unlike the !!CONFIGOPTS multi-register,   there is only one command register for controlling all attached SPI devices  
+    /// Command Register   Parameters specific to each command segment.  Unlike the !!CONFIGOPTS multi-register,   there is only one command register for controlling all attached SPI devices
     pub command: command::Command,
-    /// Controls which classes of errors raise an interrupt.  
-    pub error_enable: error_enable::ErrorEnable,
-    /// Indicates that any errors that have occurred.   When an error   occurs, the corresponding bit must be cleared here before   issuing any further commands.  
-    pub error_status: error_status::ErrorStatus,
-    /// Controls which classes of SPI events raise an interrupt.  
-    pub event_enable: event_enable::EventEnable,
+    ///
     pub rxdata: rxdata::Rxdata,
+    /// Controls which classes of errors raise an interrupt.
+    pub error_enable: error_enable::ErrorEnable,
+    /// Indicates that any errors that have occurred.   When an error   occurs, the corresponding bit must be cleared here before   issuing any further commands.
+    pub error_status: error_status::ErrorStatus,
+    /// Controls which classes of SPI events raise an interrupt.
+    pub event_enable: event_enable::EventEnable,
     pub txdata: txdata::Txdata,
 }
 
@@ -65,6 +68,7 @@ impl SpiHost {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
+            __addr: addr,
             intr_state: intr_state::IntrState::new(addr),
             intr_enable: intr_enable::IntrEnable::new(addr + 0x4),
             intr_test: intr_test::IntrTest::new(addr + 0x8),
@@ -74,12 +78,16 @@ impl SpiHost {
             configopts: configopts::Configopts::new(addr + 0x18),
             csid: csid::Csid::new(addr + 0x1c),
             command: command::Command::new(addr + 0x20),
+            rxdata: rxdata::Rxdata::new(addr + 0x24),
             error_enable: error_enable::ErrorEnable::new(addr + 0x2c),
             error_status: error_status::ErrorStatus::new(addr + 0x30),
             event_enable: event_enable::EventEnable::new(addr + 0x34),
-            rxdata: rxdata::Rxdata::new(addr + 0x24),
             txdata: txdata::Txdata::new(addr + 0x28),
         }
+    }
+
+    pub fn destroy(self) -> u32 {
+        self.__addr
     }
 }
 
@@ -93,7 +101,7 @@ mod intr_state {
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
     /// | ERROR | Error-related interrupts, see !!ERROR_ENABLE register for more   information. | [0:0] | true |true |
-    /// | SPI_EVENT | Event-related interrupts, see !!EVENT_ENABLE register for more   information. | [1:1] | false |true |
+    /// | SPI_EVENT | Event-related interrupts, see !!EVENT_ENABLE register for more   information. | [1:1] | true |true |
     pub struct IntrState {
         reg: zermio::Register<u32>,
     }
@@ -122,27 +130,38 @@ mod intr_state {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn error(&mut self) -> ErrorField {
-            ErrorField::new(&mut self.reg)
+        pub fn error(&self) -> ErrorField<'_> {
+            ErrorField::new(&self.reg)
         }
 
         /// Hardware description: Event-related interrupts, see !!EVENT_ENABLE register for more   information.
         ///
-        /// Returns a BitField with Read permissions, providing the following functions:
+        /// Returns a BitField with ReadWrite permissions, providing the following functions:
         /// | Method                | Description                                     |
         /// | :---                  | :---                                            |
         /// | **`get()`**           | Returns the current value of the field.         |
         /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
+        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
+        /// | **`clear()`**         | Sets all bits in the field to 0.                |
+        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
+        /// | **`set()`**           | Sets a single-bit field to 1.                   |
+        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
+        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
+        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
         /// | **`mask()`**          | Returns the bitmask for this field.             |
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn spi_event(&mut self) -> SpiEventField {
-            SpiEventField::new(&mut self.reg)
+        pub fn spi_event(&self) -> SpiEventField<'_> {
+            SpiEventField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -169,7 +188,8 @@ mod intr_state {
         }
     }
     type ErrorField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
-    type SpiEventField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::Read>;
+    type SpiEventField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::ReadWrite>;
 }
 
 /// Interrupt Enable Register.  
@@ -211,8 +231,8 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn error(&mut self) -> ErrorField {
-            ErrorField::new(&mut self.reg)
+        pub fn error(&self) -> ErrorField<'_> {
+            ErrorField::new(&self.reg)
         }
 
         /// Hardware description: Enable interrupt when !!INTR_STATE.spi_event is set.
@@ -233,12 +253,16 @@ mod intr_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn spi_event(&mut self) -> SpiEventField {
-            SpiEventField::new(&mut self.reg)
+        pub fn spi_event(&self) -> SpiEventField<'_> {
+            SpiEventField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -266,6 +290,7 @@ mod intr_enable {
     }
     type ErrorField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
     type SpiEventField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::ReadWrite>;
 }
 
 /// Interrupt Test Register.  
@@ -305,8 +330,8 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn error(&mut self) -> ErrorField {
-            ErrorField::new(&mut self.reg)
+        pub fn error(&self) -> ErrorField<'_> {
+            ErrorField::new(&self.reg)
         }
 
         /// Hardware description: Write 1 to force !!INTR_STATE.spi_event to 1.
@@ -325,10 +350,14 @@ mod intr_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn spi_event(&mut self) -> SpiEventField {
-            SpiEventField::new(&mut self.reg)
+        pub fn spi_event(&self) -> SpiEventField<'_> {
+            SpiEventField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a store instruction to write the MMIO
         pub fn commit(&mut self) {
             self.reg.commit()
@@ -344,6 +373,7 @@ mod intr_test {
     }
     type ErrorField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::Write>;
     type SpiEventField<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::Write>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::Write>;
 }
 
 /// Alert Test Register.  
@@ -382,8 +412,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField {
-            FatalFaultField::new(&mut self.reg)
+        pub fn fatal_fault(&self) -> FatalFaultField<'_> {
+            FatalFaultField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO
@@ -414,7 +444,7 @@ mod control {
     /// | RX_WATERMARK | If !!EVENT_ENABLE.RXWM is set, the IP will send   an interrupt when the depth of the RX FIFO reaches   RX_WATERMARK words (32b each). | [7:0] | true |true |
     /// | TX_WATERMARK | If !!EVENT_ENABLE.TXWM is set, the IP will send   an interrupt when the depth of the TX FIFO drops below   TX_WATERMARK words (32b each). | [15:8] | true |true |
     /// | OUTPUT_EN | Enable the SPI host output buffers for the sck, csb, and sd lines.  This allows   the SPI_HOST IP to connect to the same bus as other SPI controllers without   interference. | [29:29] | true |true |
-    /// | SW_RST | Clears the internal state (not registers) to the reset state when set to 1,   including the FIFOs, the CDC's, the core state machine and the shift register.   In the current implementation, the CDC FIFOs are drained not reset.   Therefore software must confirm that both FIFO's empty before releasing   the IP from reset. | [30:30] | true |true |
+    /// | SW_RST | Clears the entire IP to the reset state when set to 1, including   the FIFOs, the CDC's, the core state machine and the shift register.   In the current implementation, the CDC FIFOs are drained not reset.   Therefore software must confirm that both FIFO's empty before releasing   the IP from reset. | [30:30] | true |true |
     /// | SPIEN | Enables the SPI host.  On reset, this field is 0, meaning   that no transactions can proceed. | [31:31] | true |true |
     pub struct Control {
         reg: zermio::Register<u32>,
@@ -439,8 +469,8 @@ mod control {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rx_watermark(&mut self) -> RxWatermarkField {
-            RxWatermarkField::new(&mut self.reg)
+        pub fn rx_watermark(&self) -> RxWatermarkField<'_> {
+            RxWatermarkField::new(&self.reg)
         }
 
         /// Hardware description: If !!EVENT_ENABLE.TXWM is set, the IP will send   an interrupt when the depth of the TX FIFO drops below   TX_WATERMARK words (32b each).
@@ -456,8 +486,8 @@ mod control {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn tx_watermark(&mut self) -> TxWatermarkField {
-            TxWatermarkField::new(&mut self.reg)
+        pub fn tx_watermark(&self) -> TxWatermarkField<'_> {
+            TxWatermarkField::new(&self.reg)
         }
 
         /// Hardware description: Enable the SPI host output buffers for the sck, csb, and sd lines.  This allows   the SPI_HOST IP to connect to the same bus as other SPI controllers without   interference.
@@ -478,11 +508,11 @@ mod control {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn output_en(&mut self) -> OutputEnField {
-            OutputEnField::new(&mut self.reg)
+        pub fn output_en(&self) -> OutputEnField<'_> {
+            OutputEnField::new(&self.reg)
         }
 
-        /// Hardware description: Clears the internal state (not registers) to the reset state when set to 1,   including the FIFOs, the CDC's, the core state machine and the shift register.   In the current implementation, the CDC FIFOs are drained not reset.   Therefore software must confirm that both FIFO's empty before releasing   the IP from reset.
+        /// Hardware description: Clears the entire IP to the reset state when set to 1, including   the FIFOs, the CDC's, the core state machine and the shift register.   In the current implementation, the CDC FIFOs are drained not reset.   Therefore software must confirm that both FIFO's empty before releasing   the IP from reset.
         ///
         /// Returns a BitField with ReadWrite permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -500,8 +530,8 @@ mod control {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn sw_rst(&mut self) -> SwRstField {
-            SwRstField::new(&mut self.reg)
+        pub fn sw_rst(&self) -> SwRstField<'_> {
+            SwRstField::new(&self.reg)
         }
 
         /// Hardware description: Enables the SPI host.  On reset, this field is 0, meaning   that no transactions can proceed.
@@ -522,12 +552,16 @@ mod control {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn spien(&mut self) -> SpienField {
-            SpienField::new(&mut self.reg)
+        pub fn spien(&self) -> SpienField<'_> {
+            SpienField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -558,6 +592,7 @@ mod control {
     type OutputEnField<'a> = zermio::BitField<'a, 29, 1, u32, zermio::access::ReadWrite>;
     type SwRstField<'a> = zermio::BitField<'a, 30, 1, u32, zermio::access::ReadWrite>;
     type SpienField<'a> = zermio::BitField<'a, 31, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::ReadWrite>;
 }
 
 /// Status register.  
@@ -569,7 +604,7 @@ mod status {
     /// # STATUS fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | TXQD | Transmit queue depth.   Indicates how many unsent 32-bit words are currently in the TX FIFO.   When active, this result may be an overestimate due to synchronization delays. | [7:0] | false |true |
+    /// | TXQD | Transmit queue depth.   Indicates how many unsent 32-bit words are currently in the TX FIFO.   When active, this result may be an overestimate due to synchronization delays.   It may also be an underestimate by 1 because of one pending transmit packet in the internal transmit datapath (inside the spi_host_byte_select module). | [7:0] | false |true |
     /// | RXQD | Receive queue depth. Indicates how many unread 32-bit words are   currently in the RX FIFO.  When active, this result may an   underestimate due to synchronization delays. | [15:8] | false |true |
     /// | CMDQD | Command queue depth. Indicates how many unread 32-bit words are   currently in the command segment queue. | [19:16] | false |true |
     /// | RXWM | If high, the number of 32-bits in the RX FIFO now exceeds the   !!CONTROL.RX_WATERMARK entries (32b each). | [20:20] | false |true |
@@ -579,8 +614,8 @@ mod status {
     /// | RXFULL | When high, indicates that the receive fifo is full.  Any   ongoing transactions will stall until firmware reads some   data from !!RXDATA. | [25:25] | false |true |
     /// | TXWM | If high, the amount of data in the TX FIFO has fallen below the   level of !!CONTROL.TX_WATERMARK words (32b each). | [26:26] | false |true |
     /// | TXSTALL | If high, signifies that an ongoing transaction has stalled   due to lack of data in the TX FIFO | [27:27] | false |true |
-    /// | TXEMPTY | When high, indicates that the transmit data fifo is empty. | [28:28] | false |true |
-    /// | TXFULL | When high, indicates that the transmit data fifo is full.   Any further writes to !!TXDATA will create an error interrupt. | [29:29] | false |true |
+    /// | TXEMPTY | When high, indicates that the transmit data fifo is empty.   Note, one transmit item can be pending in the internal transmit datapath (inside the spi_host_byte_select module).   This means the transmit data fifo is empty and TXEMTPY will be high, while there is still one packet that needs to be transmitted. | [28:28] | false |true |
+    /// | TXFULL | When high, indicates that the transmit data fifo is full.   Any further writes to !!RXDATA will create an error interrupt. | [29:29] | false |true |
     /// | ACTIVE | When high, indicates the SPI host is processing a previously   issued command. | [30:30] | false |true |
     /// | READY | When high, indicates the SPI host is ready to receive   commands. Writing to COMMAND when READY is low is   an error, and will trigger an interrupt. | [31:31] | false |true |
     pub struct Status {
@@ -593,7 +628,7 @@ mod status {
                 reg: zermio::Register::<u32>::new(addr as usize),
             }
         }
-        /// Hardware description: Transmit queue depth.   Indicates how many unsent 32-bit words are currently in the TX FIFO.   When active, this result may be an overestimate due to synchronization delays.
+        /// Hardware description: Transmit queue depth.   Indicates how many unsent 32-bit words are currently in the TX FIFO.   When active, this result may be an overestimate due to synchronization delays.   It may also be an underestimate by 1 because of one pending transmit packet in the internal transmit datapath (inside the spi_host_byte_select module).
         ///
         /// Returns a BitField with Read permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -603,8 +638,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txqd(&mut self) -> TxqdField {
-            TxqdField::new(&mut self.reg)
+        pub fn txqd(&self) -> TxqdField<'_> {
+            TxqdField::new(&self.reg)
         }
 
         /// Hardware description: Receive queue depth. Indicates how many unread 32-bit words are   currently in the RX FIFO.  When active, this result may an   underestimate due to synchronization delays.
@@ -617,8 +652,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxqd(&mut self) -> RxqdField {
-            RxqdField::new(&mut self.reg)
+        pub fn rxqd(&self) -> RxqdField<'_> {
+            RxqdField::new(&self.reg)
         }
 
         /// Hardware description: Command queue depth. Indicates how many unread 32-bit words are   currently in the command segment queue.
@@ -631,8 +666,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cmdqd(&mut self) -> CmdqdField {
-            CmdqdField::new(&mut self.reg)
+        pub fn cmdqd(&self) -> CmdqdField<'_> {
+            CmdqdField::new(&self.reg)
         }
 
         /// Hardware description: If high, the number of 32-bits in the RX FIFO now exceeds the   !!CONTROL.RX_WATERMARK entries (32b each).
@@ -646,8 +681,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxwm(&mut self) -> RxwmField {
-            RxwmField::new(&mut self.reg)
+        pub fn rxwm(&self) -> RxwmField<'_> {
+            RxwmField::new(&self.reg)
         }
 
         /// Hardware description: The value of the ByteOrder parameter, provided so that firmware   can confirm proper IP configuration.
@@ -661,8 +696,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn byteorder(&mut self) -> ByteorderField {
-            ByteorderField::new(&mut self.reg)
+        pub fn byteorder(&self) -> ByteorderField<'_> {
+            ByteorderField::new(&self.reg)
         }
 
         /// Hardware description: If high, signifies that an ongoing transaction has stalled   due to lack of available space in the RX FIFO
@@ -676,8 +711,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxstall(&mut self) -> RxstallField {
-            RxstallField::new(&mut self.reg)
+        pub fn rxstall(&self) -> RxstallField<'_> {
+            RxstallField::new(&self.reg)
         }
 
         /// Hardware description: When high, indicates that the receive fifo is empty.   Any reads from RX FIFO will cause an error interrupt.
@@ -691,8 +726,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxempty(&mut self) -> RxemptyField {
-            RxemptyField::new(&mut self.reg)
+        pub fn rxempty(&self) -> RxemptyField<'_> {
+            RxemptyField::new(&self.reg)
         }
 
         /// Hardware description: When high, indicates that the receive fifo is full.  Any   ongoing transactions will stall until firmware reads some   data from !!RXDATA.
@@ -706,8 +741,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxfull(&mut self) -> RxfullField {
-            RxfullField::new(&mut self.reg)
+        pub fn rxfull(&self) -> RxfullField<'_> {
+            RxfullField::new(&self.reg)
         }
 
         /// Hardware description: If high, the amount of data in the TX FIFO has fallen below the   level of !!CONTROL.TX_WATERMARK words (32b each).
@@ -721,8 +756,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txwm(&mut self) -> TxwmField {
-            TxwmField::new(&mut self.reg)
+        pub fn txwm(&self) -> TxwmField<'_> {
+            TxwmField::new(&self.reg)
         }
 
         /// Hardware description: If high, signifies that an ongoing transaction has stalled   due to lack of data in the TX FIFO
@@ -736,11 +771,11 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txstall(&mut self) -> TxstallField {
-            TxstallField::new(&mut self.reg)
+        pub fn txstall(&self) -> TxstallField<'_> {
+            TxstallField::new(&self.reg)
         }
 
-        /// Hardware description: When high, indicates that the transmit data fifo is empty.
+        /// Hardware description: When high, indicates that the transmit data fifo is empty.   Note, one transmit item can be pending in the internal transmit datapath (inside the spi_host_byte_select module).   This means the transmit data fifo is empty and TXEMTPY will be high, while there is still one packet that needs to be transmitted.
         ///
         /// Returns a BitField with Read permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -751,11 +786,11 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txempty(&mut self) -> TxemptyField {
-            TxemptyField::new(&mut self.reg)
+        pub fn txempty(&self) -> TxemptyField<'_> {
+            TxemptyField::new(&self.reg)
         }
 
-        /// Hardware description: When high, indicates that the transmit data fifo is full.   Any further writes to !!TXDATA will create an error interrupt.
+        /// Hardware description: When high, indicates that the transmit data fifo is full.   Any further writes to !!RXDATA will create an error interrupt.
         ///
         /// Returns a BitField with Read permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -766,8 +801,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txfull(&mut self) -> TxfullField {
-            TxfullField::new(&mut self.reg)
+        pub fn txfull(&self) -> TxfullField<'_> {
+            TxfullField::new(&self.reg)
         }
 
         /// Hardware description: When high, indicates the SPI host is processing a previously   issued command.
@@ -781,8 +816,8 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn active(&mut self) -> ActiveField {
-            ActiveField::new(&mut self.reg)
+        pub fn active(&self) -> ActiveField<'_> {
+            ActiveField::new(&self.reg)
         }
 
         /// Hardware description: When high, indicates the SPI host is ready to receive   commands. Writing to COMMAND when READY is low is   an error, and will trigger an interrupt.
@@ -796,12 +831,16 @@ mod status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn ready(&mut self) -> ReadyField {
-            ReadyField::new(&mut self.reg)
+        pub fn ready(&self) -> ReadyField<'_> {
+            ReadyField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -820,9 +859,10 @@ mod status {
     type TxfullField<'a> = zermio::BitField<'a, 29, 1, u32, zermio::access::Read>;
     type ActiveField<'a> = zermio::BitField<'a, 30, 1, u32, zermio::access::Read>;
     type ReadyField<'a> = zermio::BitField<'a, 31, 1, u32, zermio::access::Read>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::Read>;
 }
 
-/// Configuration options register.   Contains options for controlling the current peripheral.   Firmware needs to configure the options before the transfer..  
+/// Configuration options register.   Contains options for controlling each peripheral. One register per   cs_n line.  
 pub use self::configopts::*;
 mod configopts {
 
@@ -831,13 +871,13 @@ mod configopts {
     /// # CONFIGOPTS fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | CLKDIV | Core clock divider.  Slows down subsequent SPI transactions by a    factor of (CLKDIV+1) relative to the core clock frequency.  The    period of sck, T(sck) then becomes 2*(CLK_DIV+1)*T(core) | [15:0] | true |true |
-    /// | CSNIDLE | Minimum idle time between commands. Indicates the minimum    number of sck half-cycles to hold cs_n high between commands.    Setting this register to zero creates a minimally-wide CS_N-high    pulse of one-half sck cycle. | [19:16] | true |true |
-    /// | CSNTRAIL | CS_N Trailing Time.  Indicates the number of half sck cycles,    CSNTRAIL+1, to leave between last edge of sck and the rising    edge of cs_n. Setting this register to zero corresponds    to the minimum delay of one-half sck cycle. | [23:20] | true |true |
-    /// | CSNLEAD | CS_N Leading Time.  Indicates the number of half sck cycles,    CSNLEAD+1, to leave between the falling edge of cs_n and    the first edge of sck.  Setting this register to zero    corresponds to the minimum delay of one-half sck cycle | [27:24] | true |true |
-    /// | FULLCYC | Full cycle.  Modifies the CPHA sampling behaviour to allow    for longer device logic setup times.  Rather than sampling the SD    bus a half cycle after shifting out data, the data is sampled    a full cycle after shifting data out.  This means that if    CPHA = 0, data is shifted out on the trailing edge, and    sampled a full cycle later.  If CPHA = 1, data is shifted and    sampled with the trailing edge, also separated by a    full cycle. | [29:29] | true |true |
-    /// | CPHA | The phase of the sck clock signal relative to the data. When    CPHA = 0, the data changes on the trailing edge of sck    and is typically sampled on the leading edge.  Conversely    if CPHA = 1 high, data lines change on the leading edge of    sck and are typically sampled on the trailing edge.    CPHA should be chosen to match the phase of the selected    device.  The sampling behavior is modified by the    !!CONFIGOPTS.FULLCYC bit. | [30:30] | true |true |
-    /// | CPOL | The polarity of the sck clock signal.  When CPOL is 0,    sck is low when idle, and emits high pulses.   When CPOL    is 1, sck is high when idle, and emits a series of low    pulses. | [31:31] | true |true |
+    /// | CLKDIV | Core clock divider.  Slows down subsequent SPI transactions by a   factor of (CLKDIV+1) relative to the core clock frequency.  The   period of sck, T(sck) then becomes 2*(CLK_DIV+1)*T(core) | [15:0] | true |true |
+    /// | CSNIDLE | Minimum idle time between commands. Indicates the minimum   number of sck half-cycles to hold cs_n high between commands.   Setting this register to zero creates a minimally-wide CS_N-high   pulse of one-half sck cycle. | [19:16] | true |true |
+    /// | CSNTRAIL | CS_N Trailing Time.  Indicates the number of half sck cycles,   CSNTRAIL+1, to leave between last edge of sck and the rising   edge of cs_n. Setting this register to zero corresponds   to the minimum delay of one-half sck cycle. | [23:20] | true |true |
+    /// | CSNLEAD | CS_N Leading Time.  Indicates the number of half sck cycles,   CSNLEAD+1, to leave between the falling edge of cs_n and   the first edge of sck.  Setting this register to zero   corresponds to the minimum delay of one-half sck cycle | [27:24] | true |true |
+    /// | FULLCYC | Full cycle.  Modifies the CPHA sampling behaviour to allow   for longer device logic setup times.  Rather than sampling the SD   bus a half cycle after shifting out data, the data is sampled   a full cycle after shifting data out.  This means that if   CPHA = 0, data is shifted out on the trailing edge, and   sampled a full cycle later.  If CPHA = 1, data is shifted and   sampled with the trailing edge, also separated by a   full cycle. | [29:29] | true |true |
+    /// | CPHA | The phase of the sck clock signal relative to the data. When   CPHA = 0, the data changes on the trailing edge of sck   and is typically sampled on the leading edge.  Conversely   if CPHA = 1 high, data lines change on the leading edge of   sck and are typically sampled on the trailing edge.   CPHA should be chosen to match the phase of the selected   device.  The sampling behavior is modified by the   !!CONFIGOPTS.FULLCYC bit. | [30:30] | true |true |
+    /// | CPOL | The polarity of the sck clock signal.  When CPOL is 0,   sck is low when idle, and emits high pulses.   When CPOL   is 1, sck is high when idle, and emits a series of low   pulses. | [31:31] | true |true |
     pub struct Configopts {
         reg: zermio::Register<u32>,
     }
@@ -848,7 +888,7 @@ mod configopts {
                 reg: zermio::Register::<u32>::new(addr as usize),
             }
         }
-        /// Hardware description: Core clock divider.  Slows down subsequent SPI transactions by a    factor of (CLKDIV+1) relative to the core clock frequency.  The    period of sck, T(sck) then becomes 2*(CLK_DIV+1)*T(core)
+        /// Hardware description: Core clock divider.  Slows down subsequent SPI transactions by a   factor of (CLKDIV+1) relative to the core clock frequency.  The   period of sck, T(sck) then becomes 2*(CLK_DIV+1)*T(core)
         ///
         /// Returns a BitField with ReadWrite permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -861,11 +901,11 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn clkdiv(&mut self) -> ClkdivField {
-            ClkdivField::new(&mut self.reg)
+        pub fn clkdiv(&self) -> ClkdivField<'_> {
+            ClkdivField::new(&self.reg)
         }
 
-        /// Hardware description: Minimum idle time between commands. Indicates the minimum    number of sck half-cycles to hold cs_n high between commands.    Setting this register to zero creates a minimally-wide CS_N-high    pulse of one-half sck cycle.
+        /// Hardware description: Minimum idle time between commands. Indicates the minimum   number of sck half-cycles to hold cs_n high between commands.   Setting this register to zero creates a minimally-wide CS_N-high   pulse of one-half sck cycle.
         ///
         /// Returns a BitField with ReadWrite permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -878,11 +918,11 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csnidle(&mut self) -> CsnidleField {
-            CsnidleField::new(&mut self.reg)
+        pub fn csnidle(&self) -> CsnidleField<'_> {
+            CsnidleField::new(&self.reg)
         }
 
-        /// Hardware description: CS_N Trailing Time.  Indicates the number of half sck cycles,    CSNTRAIL+1, to leave between last edge of sck and the rising    edge of cs_n. Setting this register to zero corresponds    to the minimum delay of one-half sck cycle.
+        /// Hardware description: CS_N Trailing Time.  Indicates the number of half sck cycles,   CSNTRAIL+1, to leave between last edge of sck and the rising   edge of cs_n. Setting this register to zero corresponds   to the minimum delay of one-half sck cycle.
         ///
         /// Returns a BitField with ReadWrite permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -895,11 +935,11 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csntrail(&mut self) -> CsntrailField {
-            CsntrailField::new(&mut self.reg)
+        pub fn csntrail(&self) -> CsntrailField<'_> {
+            CsntrailField::new(&self.reg)
         }
 
-        /// Hardware description: CS_N Leading Time.  Indicates the number of half sck cycles,    CSNLEAD+1, to leave between the falling edge of cs_n and    the first edge of sck.  Setting this register to zero    corresponds to the minimum delay of one-half sck cycle
+        /// Hardware description: CS_N Leading Time.  Indicates the number of half sck cycles,   CSNLEAD+1, to leave between the falling edge of cs_n and   the first edge of sck.  Setting this register to zero   corresponds to the minimum delay of one-half sck cycle
         ///
         /// Returns a BitField with ReadWrite permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -912,33 +952,11 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csnlead(&mut self) -> CsnleadField {
-            CsnleadField::new(&mut self.reg)
+        pub fn csnlead(&self) -> CsnleadField<'_> {
+            CsnleadField::new(&self.reg)
         }
 
-        /// Hardware description: Full cycle.  Modifies the CPHA sampling behaviour to allow    for longer device logic setup times.  Rather than sampling the SD    bus a half cycle after shifting out data, the data is sampled    a full cycle after shifting data out.  This means that if    CPHA = 0, data is shifted out on the trailing edge, and    sampled a full cycle later.  If CPHA = 1, data is shifted and    sampled with the trailing edge, also separated by a    full cycle.
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn fullcyc(&mut self) -> FullcycField {
-            FullcycField::new(&mut self.reg)
-        }
-
-        /// Hardware description: The phase of the sck clock signal relative to the data. When    CPHA = 0, the data changes on the trailing edge of sck    and is typically sampled on the leading edge.  Conversely    if CPHA = 1 high, data lines change on the leading edge of    sck and are typically sampled on the trailing edge.    CPHA should be chosen to match the phase of the selected    device.  The sampling behavior is modified by the    !!CONFIGOPTS.FULLCYC bit.
+        /// Hardware description: Full cycle.  Modifies the CPHA sampling behaviour to allow   for longer device logic setup times.  Rather than sampling the SD   bus a half cycle after shifting out data, the data is sampled   a full cycle after shifting data out.  This means that if   CPHA = 0, data is shifted out on the trailing edge, and   sampled a full cycle later.  If CPHA = 1, data is shifted and   sampled with the trailing edge, also separated by a   full cycle.
         ///
         /// Returns a BitField with ReadWrite permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -956,11 +974,11 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cpha(&mut self) -> CphaField {
-            CphaField::new(&mut self.reg)
+        pub fn fullcyc(&self) -> FullcycField<'_> {
+            FullcycField::new(&self.reg)
         }
 
-        /// Hardware description: The polarity of the sck clock signal.  When CPOL is 0,    sck is low when idle, and emits high pulses.   When CPOL    is 1, sck is high when idle, and emits a series of low    pulses.
+        /// Hardware description: The phase of the sck clock signal relative to the data. When   CPHA = 0, the data changes on the trailing edge of sck   and is typically sampled on the leading edge.  Conversely   if CPHA = 1 high, data lines change on the leading edge of   sck and are typically sampled on the trailing edge.   CPHA should be chosen to match the phase of the selected   device.  The sampling behavior is modified by the   !!CONFIGOPTS.FULLCYC bit.
         ///
         /// Returns a BitField with ReadWrite permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -978,12 +996,38 @@ mod configopts {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cpol(&mut self) -> CpolField {
-            CpolField::new(&mut self.reg)
+        pub fn cpha(&self) -> CphaField<'_> {
+            CphaField::new(&self.reg)
         }
 
+        /// Hardware description: The polarity of the sck clock signal.  When CPOL is 0,   sck is low when idle, and emits high pulses.   When CPOL   is 1, sck is high when idle, and emits a series of low   pulses.
+        ///
+        /// Returns a BitField with ReadWrite permissions, providing the following functions:
+        /// | Method                | Description                                     |
+        /// | :---                  | :---                                            |
+        /// | **`get()`**           | Returns the current value of the field.         |
+        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
+        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
+        /// | **`clear()`**         | Sets all bits in the field to 0.                |
+        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
+        /// | **`set()`**           | Sets a single-bit field to 1.                   |
+        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
+        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
+        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
+        /// | **`mask()`**          | Returns the bitmask for this field.             |
+        /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
+        ///
+        pub fn cpol(&self) -> CpolField<'_> {
+            CpolField::new(&self.reg)
+        }
+
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1016,6 +1060,7 @@ mod configopts {
     type FullcycField<'a> = zermio::BitField<'a, 29, 1, u32, zermio::access::ReadWrite>;
     type CphaField<'a> = zermio::BitField<'a, 30, 1, u32, zermio::access::ReadWrite>;
     type CpolField<'a> = zermio::BitField<'a, 31, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::ReadWrite>;
 }
 
 /// Chip-Select ID   Controls which device to target with the next command.  This register   is passed to the core whenever !!COMMAND is written.  The core then   asserts cio_csb_o[!!CSID] during the execution of the command..  
@@ -1051,12 +1096,12 @@ mod csid {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csid(&mut self) -> CsidField {
-            CsidField::new(&mut self.reg)
+        pub fn csid(&self) -> CsidField<'_> {
+            CsidField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1094,10 +1139,10 @@ mod command {
     /// # COMMAND fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | CSAAT | **C**hip **S**elect **A**ctive **A**fter **T**ransaction.   If !!COMMAND.CSAAT = 0, the chip select line is raised immediately   at the end of the command segment.   If !!COMMAND.CSAAT = 1, the chip select line is left low at the   end of the current transaction segment.   This allows the creation of longer, more complete SPI transactions,   consisting of several separate segments for issuing instructions,   pausing for dummy cycles, and transmitting or receiving data from   the device. | [0:0] | true |false |
-    /// | SPEED | The speed for this command segment: "0" = Standard SPI. "1" = Dual SPI.   "2"=Quad SPI,  "3": RESERVED. | [2:1] | true |false |
-    /// | DIRECTION | The direction for the following command: "0" = Dummy cycles   (no TX/RX). "1" = Rx only, "2" = Tx only, "3" = Bidirectional   Tx/Rx (Standard SPI mode only). | [4:3] | true |false |
-    /// | LEN | Segment Length.   For read or write segments, this field controls the   number of 1-byte bursts to transmit and or receive in   this command segment.  The number of cycles required   to send or received a byte will depend on !!COMMAND.SPEED.   For dummy segments, (!!COMMAND.DIRECTION == 0), this register   controls the number of dummy cycles to issue.   The number of bytes (or dummy cycles) in the segment will be   equal to !!COMMAND.LEN + 1. | [24:5] | true |false |
+    /// | LEN | Segment Length.   For read or write segments, this field controls the   number of 1-byte bursts to transmit and or receive in   this command segment.  The number of cyles required   to send or received a byte will depend on !!COMMAND.SPEED.   For dummy segments, (!!COMMAND.DIRECTION == 0), this register   controls the number of dummy cycles to issue.   The number of bytes (or dummy cycles) in the segment will be   equal to !!COMMAND.LEN + 1. | [8:0] | true |false |
+    /// | CSAAT | Chip select active after transaction.  If CSAAT = 0, the   chip select line is raised immediately at the end of the   command segment.   If !!COMMAND.CSAAT = 1, the chip select   line is left low at the end of the current transaction   segment.  This allows the creation longer, more   complete SPI transactions, consisting of several separate   segments for issuing instructions, pausing for dummy cycles,   and transmitting or receiving data from the device. | [9:9] | true |false |
+    /// | SPEED | The speed for this command segment: "0" = Standard SPI. "1" = Dual SPI.   "2"=Quad SPI,  "3": RESERVED. | [11:10] | true |false |
+    /// | DIRECTION | The direction for the following command: "0" = Dummy cycles   (no TX/RX). "1" = Rx only, "2" = Tx only, "3" = Bidirectional   Tx/Rx (Standard SPI mode only). | [13:12] | true |false |
     pub struct Command {
         reg: zermio::Register<u32>,
     }
@@ -1108,7 +1153,23 @@ mod command {
                 reg: zermio::Register::<u32>::new(addr as usize),
             }
         }
-        /// Hardware description: **C**hip **S**elect **A**ctive **A**fter **T**ransaction.   If !!COMMAND.CSAAT = 0, the chip select line is raised immediately   at the end of the command segment.   If !!COMMAND.CSAAT = 1, the chip select line is left low at the   end of the current transaction segment.   This allows the creation of longer, more complete SPI transactions,   consisting of several separate segments for issuing instructions,   pausing for dummy cycles, and transmitting or receiving data from   the device.
+        /// Hardware description: Segment Length.   For read or write segments, this field controls the   number of 1-byte bursts to transmit and or receive in   this command segment.  The number of cyles required   to send or received a byte will depend on !!COMMAND.SPEED.   For dummy segments, (!!COMMAND.DIRECTION == 0), this register   controls the number of dummy cycles to issue.   The number of bytes (or dummy cycles) in the segment will be   equal to !!COMMAND.LEN + 1.
+        ///
+        /// Returns a BitField with Write permissions, providing the following functions:
+        /// | Method                | Description                                     |
+        /// | :---                  | :---                                            |
+        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
+        /// | **`clear()`**         | Sets all bits in the field to 0.                |
+        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
+        /// | **`mask()`**          | Returns the bitmask for this field.             |
+        /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
+        ///
+        pub fn len(&self) -> LenField<'_> {
+            LenField::new(&self.reg)
+        }
+
+        /// Hardware description: Chip select active after transaction.  If CSAAT = 0, the   chip select line is raised immediately at the end of the   command segment.   If !!COMMAND.CSAAT = 1, the chip select   line is left low at the end of the current transaction   segment.  This allows the creation longer, more   complete SPI transactions, consisting of several separate   segments for issuing instructions, pausing for dummy cycles,   and transmitting or receiving data from the device.
         ///
         /// Returns a BitField with Write permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -1124,8 +1185,8 @@ mod command {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csaat(&mut self) -> CsaatField {
-            CsaatField::new(&mut self.reg)
+        pub fn csaat(&self) -> CsaatField<'_> {
+            CsaatField::new(&self.reg)
         }
 
         /// Hardware description: The speed for this command segment: "0" = Standard SPI. "1" = Dual SPI.   "2"=Quad SPI,  "3": RESERVED.
@@ -1140,8 +1201,8 @@ mod command {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn speed(&mut self) -> SpeedField {
-            SpeedField::new(&mut self.reg)
+        pub fn speed(&self) -> SpeedField<'_> {
+            SpeedField::new(&self.reg)
         }
 
         /// Hardware description: The direction for the following command: "0" = Dummy cycles   (no TX/RX). "1" = Rx only, "2" = Tx only, "3" = Bidirectional   Tx/Rx (Standard SPI mode only).
@@ -1156,26 +1217,14 @@ mod command {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn direction(&mut self) -> DirectionField {
-            DirectionField::new(&mut self.reg)
+        pub fn direction(&self) -> DirectionField<'_> {
+            DirectionField::new(&self.reg)
         }
 
-        /// Hardware description: Segment Length.   For read or write segments, this field controls the   number of 1-byte bursts to transmit and or receive in   this command segment.  The number of cycles required   to send or received a byte will depend on !!COMMAND.SPEED.   For dummy segments, (!!COMMAND.DIRECTION == 0), this register   controls the number of dummy cycles to issue.   The number of bytes (or dummy cycles) in the segment will be   equal to !!COMMAND.LEN + 1.
-        ///
-        /// Returns a BitField with Write permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn len(&mut self) -> LenField {
-            LenField::new(&mut self.reg)
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
         }
-
         /// Run a store instruction to write the MMIO
         pub fn commit(&mut self) {
             self.reg.commit()
@@ -1189,10 +1238,54 @@ mod command {
             self.reg.commit();
         }
     }
-    type CsaatField<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::Write>;
-    type SpeedField<'a> = zermio::BitField<'a, 1, 2, u32, zermio::access::Write>;
-    type DirectionField<'a> = zermio::BitField<'a, 3, 2, u32, zermio::access::Write>;
-    type LenField<'a> = zermio::BitField<'a, 5, 20, u32, zermio::access::Write>;
+    type LenField<'a> = zermio::BitField<'a, 0, 9, u32, zermio::access::Write>;
+    type CsaatField<'a> = zermio::BitField<'a, 9, 1, u32, zermio::access::Write>;
+    type SpeedField<'a> = zermio::BitField<'a, 10, 2, u32, zermio::access::Write>;
+    type DirectionField<'a> = zermio::BitField<'a, 12, 2, u32, zermio::access::Write>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 14, u32, zermio::access::Write>;
+}
+
+/// .  
+pub use self::rxdata::*;
+mod rxdata {
+
+    use super::*;
+
+    /// # RXDATA fields.  
+    /// | Field name      | Description  | Offset | Write | Read|
+    /// | :---               | :---         | :---   | :--   | :-- |
+    /// | val | Receive data buffer. | [31:0] | false |true |
+    pub struct Rxdata {
+        reg: zermio::Register<u32>,
+    }
+
+    impl Rxdata {
+        pub fn new(addr: u32) -> Self {
+            Self {
+                reg: zermio::Register::<u32>::new(addr as usize),
+            }
+        }
+        /// Hardware description: Receive data buffer.
+        ///
+        /// Returns a BitField with Read permissions, providing the following functions:
+        /// | Method                | Description                                     |
+        /// | :---                  | :---                                            |
+        /// | **`get()`**           | Returns the current value of the field.         |
+        /// | **`mask()`**          | Returns the bitmask for this field.             |
+        /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
+        ///
+        pub fn val(&self) -> ValField<'_> {
+            ValField::new(&self.reg)
+        }
+
+        /// Run a load instruction to read from MMIO
+        pub fn fetch(&self) -> &Self {
+            self.reg.fetch();
+            self
+        }
+    }
+    type ValField<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::Read>;
 }
 
 /// Controls which classes of errors raise an interrupt..  
@@ -1237,8 +1330,8 @@ mod error_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cmdbusy(&mut self) -> CmdbusyField {
-            CmdbusyField::new(&mut self.reg)
+        pub fn cmdbusy(&self) -> CmdbusyField<'_> {
+            CmdbusyField::new(&self.reg)
         }
 
         /// Hardware description: Overflow Errors: If this bit is set, the block sends an   error interrupt whenever the TX FIFO overflows.
@@ -1259,8 +1352,8 @@ mod error_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn overflow(&mut self) -> OverflowField {
-            OverflowField::new(&mut self.reg)
+        pub fn overflow(&self) -> OverflowField<'_> {
+            OverflowField::new(&self.reg)
         }
 
         /// Hardware description: Underflow Errors: If this bit is set, the block sends an   error interrupt whenever there is a read from !!RXDATA   but the RX FIFO is empty.
@@ -1281,8 +1374,8 @@ mod error_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn underflow(&mut self) -> UnderflowField {
-            UnderflowField::new(&mut self.reg)
+        pub fn underflow(&self) -> UnderflowField<'_> {
+            UnderflowField::new(&self.reg)
         }
 
         /// Hardware description: Invalid Command Errors: If this bit is set, the block sends an   error interrupt whenever a command is sent with invalid values for   !!COMMAND.SPEED or !!COMMAND.DIRECTION.
@@ -1303,8 +1396,8 @@ mod error_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cmdinval(&mut self) -> CmdinvalField {
-            CmdinvalField::new(&mut self.reg)
+        pub fn cmdinval(&self) -> CmdinvalField<'_> {
+            CmdinvalField::new(&self.reg)
         }
 
         /// Hardware description: Invalid CSID: If this bit is set, the block sends an error interrupt whenever   a command is submitted, but CSID exceeds NumCS.
@@ -1325,12 +1418,16 @@ mod error_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csidinval(&mut self) -> CsidinvalField {
-            CsidinvalField::new(&mut self.reg)
+        pub fn csidinval(&self) -> CsidinvalField<'_> {
+            CsidinvalField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1361,6 +1458,7 @@ mod error_enable {
     type UnderflowField<'a> = zermio::BitField<'a, 2, 1, u32, zermio::access::ReadWrite>;
     type CmdinvalField<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::ReadWrite>;
     type CsidinvalField<'a> = zermio::BitField<'a, 4, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 5, u32, zermio::access::ReadWrite>;
 }
 
 /// Indicates that any errors that have occurred.   When an error   occurs, the corresponding bit must be cleared here before   issuing any further commands..  
@@ -1406,8 +1504,8 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cmdbusy(&mut self) -> CmdbusyField {
-            CmdbusyField::new(&mut self.reg)
+        pub fn cmdbusy(&self) -> CmdbusyField<'_> {
+            CmdbusyField::new(&self.reg)
         }
 
         /// Hardware description: Indicates that firmware has overflowed the TX FIFO
@@ -1428,8 +1526,8 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn overflow(&mut self) -> OverflowField {
-            OverflowField::new(&mut self.reg)
+        pub fn overflow(&self) -> OverflowField<'_> {
+            OverflowField::new(&self.reg)
         }
 
         /// Hardware description: Indicates that firmware has attempted to read from   !!RXDATA when the RX FIFO is empty.
@@ -1450,8 +1548,8 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn underflow(&mut self) -> UnderflowField {
-            UnderflowField::new(&mut self.reg)
+        pub fn underflow(&self) -> UnderflowField<'_> {
+            UnderflowField::new(&self.reg)
         }
 
         /// Hardware description: Indicates an invalid command segment, meaning either an invalid value of   !!COMMAND.SPEED or a request for bidirectional data transfer at dual or quad   speed
@@ -1472,8 +1570,8 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cmdinval(&mut self) -> CmdinvalField {
-            CmdinvalField::new(&mut self.reg)
+        pub fn cmdinval(&self) -> CmdinvalField<'_> {
+            CmdinvalField::new(&self.reg)
         }
 
         /// Hardware description: Indicates a command was attempted with an invalid value for !!CSID.
@@ -1494,8 +1592,8 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn csidinval(&mut self) -> CsidinvalField {
-            CsidinvalField::new(&mut self.reg)
+        pub fn csidinval(&self) -> CsidinvalField<'_> {
+            CsidinvalField::new(&self.reg)
         }
 
         /// Hardware description: Indicates that TLUL attempted to write to TXDATA with no bytes enabled. Such   'zero byte' writes are not supported.
@@ -1516,12 +1614,16 @@ mod error_status {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn accessinval(&mut self) -> AccessinvalField {
-            AccessinvalField::new(&mut self.reg)
+        pub fn accessinval(&self) -> AccessinvalField<'_> {
+            AccessinvalField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1553,6 +1655,7 @@ mod error_status {
     type CmdinvalField<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::ReadWrite>;
     type CsidinvalField<'a> = zermio::BitField<'a, 4, 1, u32, zermio::access::ReadWrite>;
     type AccessinvalField<'a> = zermio::BitField<'a, 5, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 6, u32, zermio::access::ReadWrite>;
 }
 
 /// Controls which classes of SPI events raise an interrupt..  
@@ -1598,8 +1701,8 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxfull(&mut self) -> RxfullField {
-            RxfullField::new(&mut self.reg)
+        pub fn rxfull(&self) -> RxfullField<'_> {
+            RxfullField::new(&self.reg)
         }
 
         /// Hardware description: Assert to send a spi_event interrupt whenever !!STATUS.TXEMPTY   goes high
@@ -1620,8 +1723,8 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txempty(&mut self) -> TxemptyField {
-            TxemptyField::new(&mut self.reg)
+        pub fn txempty(&self) -> TxemptyField<'_> {
+            TxemptyField::new(&self.reg)
         }
 
         /// Hardware description: Assert to send a spi_event interrupt whenever the number of 32-bit words in   the RX FIFO is greater than !!CONTROL.RX_WATERMARK. To prevent the   reassertion of this interrupt, read more data from the RX FIFO, or   increase !!CONTROL.RX_WATERMARK.
@@ -1642,8 +1745,8 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn rxwm(&mut self) -> RxwmField {
-            RxwmField::new(&mut self.reg)
+        pub fn rxwm(&self) -> RxwmField<'_> {
+            RxwmField::new(&self.reg)
         }
 
         /// Hardware description: Assert to send a spi_event interrupt whenever the number of 32-bit words in   the TX FIFO is less than !!CONTROL.TX_WATERMARK.  To prevent the   reassertion of this interrupt add more data to the TX FIFO, or   reduce !!CONTROL.TX_WATERMARK.
@@ -1664,8 +1767,8 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn txwm(&mut self) -> TxwmField {
-            TxwmField::new(&mut self.reg)
+        pub fn txwm(&self) -> TxwmField<'_> {
+            TxwmField::new(&self.reg)
         }
 
         /// Hardware description: Assert to send a spi_event interrupt whenever !!STATUS.READY   goes high
@@ -1686,8 +1789,8 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn ready(&mut self) -> ReadyField {
-            ReadyField::new(&mut self.reg)
+        pub fn ready(&self) -> ReadyField<'_> {
+            ReadyField::new(&self.reg)
         }
 
         /// Hardware description: Assert to send a spi_event interrupt whenever !!STATUS.ACTIVE   goes low
@@ -1708,12 +1811,16 @@ mod event_enable {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn idle(&mut self) -> IdleField {
-            IdleField::new(&mut self.reg)
+        pub fn idle(&self) -> IdleField<'_> {
+            IdleField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1745,33 +1852,7 @@ mod event_enable {
     type TxwmField<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::ReadWrite>;
     type ReadyField<'a> = zermio::BitField<'a, 4, 1, u32, zermio::access::ReadWrite>;
     type IdleField<'a> = zermio::BitField<'a, 5, 1, u32, zermio::access::ReadWrite>;
-}
-
-/// RXDATA.  
-pub use self::rxdata::*;
-mod rxdata {
-
-    use super::*;
-
-    pub struct Rxdata {
-        window: zermio::Memory<u32>,
-    }
-
-    impl Rxdata {
-        pub fn new(addr: u32) -> Self {
-            Self {
-                window: zermio::Memory::<u32>::new(addr as usize, 4),
-            }
-        }
-
-        pub fn read(&mut self, dst: &mut [u8]) {
-            self.window.read(dst)
-        }
-
-        pub fn write_fifo(&mut self, src: &[u8]) {
-            self.window.write_fifo(src)
-        }
-    }
+    type AllFields<'a> = zermio::BitField<'a, 0, 6, u32, zermio::access::ReadWrite>;
 }
 
 /// TXDATA.  

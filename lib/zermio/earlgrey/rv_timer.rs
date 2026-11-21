@@ -31,25 +31,26 @@ use super::zermio;
 /// });
 /// ```
 pub struct RvTimer {
-    /// Alert Test Register  
+    __addr: u32,
+    /// Alert Test Register
     pub alert_test: alert_test::AlertTest,
-    /// Control register  
+    /// Control register
     pub ctrl: ctrl::Ctrl,
-    /// Interrupt Enable  
+    /// Interrupt Enable
     pub intr_enable0: intr_enable0::IntrEnable0,
-    /// Interrupt Status  
+    /// Interrupt Status
     pub intr_state0: intr_state0::IntrState0,
-    /// Interrupt test register  
+    /// Interrupt test register
     pub intr_test0: intr_test0::IntrTest0,
-    /// Configuration for Hart 0  
+    /// Configuration for Hart 0
     pub cfg0: cfg0::Cfg0,
-    /// Timer value Lower  
+    /// Timer value Lower
     pub timer_v_lower0: timer_v_lower0::TimerVLower0,
-    /// Timer value Upper  
+    /// Timer value Upper
     pub timer_v_upper0: timer_v_upper0::TimerVUpper0,
-    /// Timer value Lower  
+    /// Timer value Lower
     pub compare_lower0_0: compare_lower0_0::CompareLower00,
-    /// Timer value Upper  
+    /// Timer value Upper
     pub compare_upper0_0: compare_upper0_0::CompareUpper00,
 }
 
@@ -57,6 +58,7 @@ impl RvTimer {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
+            __addr: addr,
             alert_test: alert_test::AlertTest::new(addr),
             ctrl: ctrl::Ctrl::new(addr + 0x4),
             intr_enable0: intr_enable0::IntrEnable0::new(addr + 0x100),
@@ -68,6 +70,10 @@ impl RvTimer {
             compare_lower0_0: compare_lower0_0::CompareLower00::new(addr + 0x118),
             compare_upper0_0: compare_upper0_0::CompareUpper00::new(addr + 0x11c),
         }
+    }
+
+    pub fn destroy(self) -> u32 {
+        self.__addr
     }
 }
 
@@ -107,8 +113,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField {
-            FatalFaultField::new(&mut self.reg)
+        pub fn fatal_fault(&self) -> FatalFaultField<'_> {
+            FatalFaultField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO
@@ -165,12 +171,12 @@ mod ctrl {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn active(&mut self) -> ActiveField {
-            ActiveField::new(&mut self.reg)
+        pub fn active(&self) -> ActiveField<'_> {
+            ActiveField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -237,12 +243,12 @@ mod intr_enable0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn ie(&mut self) -> IeField {
-            IeField::new(&mut self.reg)
+        pub fn ie(&self) -> IeField<'_> {
+            IeField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -309,12 +315,12 @@ mod intr_state0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn is(&mut self) -> IsField {
-            IsField::new(&mut self.reg)
+        pub fn is(&self) -> IsField<'_> {
+            IsField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -379,8 +385,8 @@ mod intr_test0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn t(&mut self) -> TField {
-            TField::new(&mut self.reg)
+        pub fn t(&self) -> TField<'_> {
+            TField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO
@@ -433,8 +439,8 @@ mod cfg0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn prescale(&mut self) -> PrescaleField {
-            PrescaleField::new(&mut self.reg)
+        pub fn prescale(&self) -> PrescaleField<'_> {
+            PrescaleField::new(&self.reg)
         }
 
         /// Hardware description: Incremental value for each tick
@@ -450,12 +456,16 @@ mod cfg0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn step(&mut self) -> StepField {
-            StepField::new(&mut self.reg)
+        pub fn step(&self) -> StepField<'_> {
+            StepField::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -483,6 +493,7 @@ mod cfg0 {
     }
     type PrescaleField<'a> = zermio::BitField<'a, 0, 12, u32, zermio::access::ReadWrite>;
     type StepField<'a> = zermio::BitField<'a, 16, 8, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 24, u32, zermio::access::ReadWrite>;
 }
 
 /// Timer value Lower.  
@@ -518,12 +529,12 @@ mod timer_v_lower0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn v(&mut self) -> VField {
-            VField::new(&mut self.reg)
+        pub fn v(&self) -> VField<'_> {
+            VField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -585,12 +596,12 @@ mod timer_v_upper0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn v(&mut self) -> VField {
-            VField::new(&mut self.reg)
+        pub fn v(&self) -> VField<'_> {
+            VField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -652,12 +663,12 @@ mod compare_lower0_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn v(&mut self) -> VField {
-            VField::new(&mut self.reg)
+        pub fn v(&self) -> VField<'_> {
+            VField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -719,12 +730,12 @@ mod compare_upper0_0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn v(&mut self) -> VField {
-            VField::new(&mut self.reg)
+        pub fn v(&self) -> VField<'_> {
+            VField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }

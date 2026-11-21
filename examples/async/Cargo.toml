@@ -1,0 +1,24 @@
+cargo-features = ["per-package-target"]
+
+[package]
+name = "async"
+version = "0.1.0"
+edition = "2024"
+forced-target = "riscv32imc-unknown-none-elf"
+
+[dependencies]
+embedded-hal = "1.0.0"
+hal = { version = "0.1.0", path = "../../lib/hal" }
+embedtrait = { version = "0.1.0", path = "../../lib/embedtrait" }
+bsp = { version = "0.1.0", path = "../../lib/bsp" }
+riscv = { version = "0.16.0", features = ["critical-section-single-hart"] }
+riscv-rt = {version = "0.17.0", features = ["v-trap"]}
+zermio = { version = "0.1.0", path = "../../lib/zermio/earlgrey" }
+embedded-graphics = "0.8.2"
+embedded-menu = "0.6.1"
+fugit = "0.4.0"
+embedded-layout = "0.4.2"
+heapless = { version = "0.9.3", features = ["portable-atomic", "portable-atomic-critical-section"] }
+critical-section = "1.2.0"
+futures = { version = "0.3.32", default-features = false, features = ["async-await"] }
+

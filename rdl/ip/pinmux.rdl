@@ -1,0 +1,1121 @@
+`include "udp.rdl"
+
+addrmap pinmux #(
+    longint AttrDw = 13,
+    longint NMioPeriphIn = 57,
+    longint NMioPeriphOut = 75,
+    longint NMioPads = 47,
+    longint NDioPads = 16,
+    longint NWkupDetect = 8,
+    longint WkupCntWidth = 8,
+    longint NumAlerts = 1
+){
+    bus_interface_cfg = BusInterfaceCfg'{
+        racl_support : false,
+        direction : BusDirection::Device,
+        protocol : BusProtocol::TlUl,
+        hier_path : "u_reg"
+    };
+    signal {
+        desc = "Debug enable qualifier coming from life cycle controller, used for HW strap qualification.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "lc_tx";
+        inter_mod_package = "lc_ctrl_pkg";
+    } LC_HW_DEBUG_EN;
+
+    signal {
+        desc = "Test enable qualifier coming from life cycle controller, used for HW strap qualification.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "lc_tx";
+        inter_mod_package = "lc_ctrl_pkg";
+    } LC_DFT_EN;
+
+    signal {
+        desc = "Escalation enable signal coming from life cycle controller, used for invalidatingthe latched lc_hw_debug_en state inside the strap sampling logic.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "lc_tx";
+        inter_mod_package = "lc_ctrl_pkg";
+    } LC_ESCALATE_EN;
+
+    signal {
+        desc = "Check bypass enable signal coming from life cycle controller, used for invalidatingthe latched lc_hw_debug_en state inside the strap sampling logic. This signal is assertedwhenever the life cycle controller performs a life cycle transition. Its main use isto skip any background checks inside the life cycle partition of the OTP controller whilea life cycle transition is in progress.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "lc_tx";
+        inter_mod_package = "lc_ctrl_pkg";
+    } LC_CHECK_BYP_EN;
+
+    signal {
+        desc = "This is the latched version of lc_hw_debug_en_i. We use it exclusively to gate the JTAGsignals and TAP side of the RV_DM so that RV_DM can remain live during an NDM reset cycle.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "lc_tx";
+        inter_mod_package = "lc_ctrl_pkg";
+    } PINMUX_HW_DEBUG_EN;
+
+    signal {
+        desc = "Qualified JTAG signals for life cycle controller TAP.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReqRsp;
+        inter_mod_struct = "jtag";
+        inter_mod_package = "jtag_pkg";
+    } LC_JTAG;
+
+    signal {
+        desc = "Qualified JTAG signals for RISC-V processor TAP.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReqRsp;
+        inter_mod_struct = "jtag";
+        inter_mod_package = "jtag_pkg";
+    } RV_JTAG;
+
+    signal {
+        desc = "Qualified JTAG signals for DFT TAP.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReqRsp;
+        inter_mod_struct = "jtag";
+        inter_mod_package = "jtag_pkg";
+    } DFT_JTAG;
+
+    signal {
+        desc = "Sampled DFT strap values, going to the DFT TAP.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "dft_strap_test_req";
+        inter_mod_package = "pinmux_pkg";
+    } DFT_STRAP_TEST;
+
+    signal {
+        desc = "TAP selection hold indication, asserted by the DFT TAP during boundary scan.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } DFT_HOLD_TAP_SEL;
+
+    signal {
+        desc = "Level signal that is asserted when the power manager enters sleep.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } SLEEP_EN;
+
+    signal {
+        desc = "This signal is pulsed high by the power manager after reset in order to sample the HW straps.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } STRAP_EN;
+
+    signal {
+        desc = "This signal transitions from 0 -> 1 by the lc_ctrl manager after volatile RAW_UNLOCK in order to re-sample the HW straps.The signal must stay at 1 until reset.Note that this is only used in test chips when SecVolatileRawUnlockEn = 1.Otherwise this signal is unused.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } STRAP_EN_OVERRIDE;
+
+    signal {
+        desc = "Wakeup request from wakeup detectors, to the power manager, running on the AON clock.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "logic";
+    } PIN_WKUP_REQ;
+
+    signal {
+        desc = "Pullup enable signal coming from the USB IP.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } USBDEV_DPPULLUP_EN;
+
+    signal {
+        desc = "Pullup enable signal coming from the USB IP.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } USBDEV_DNPULLUP_EN;
+
+    signal {
+        desc = " Pullup enable signal going to USB PHY, needs to be maintained in low-power mode.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "logic";
+    } USB_DPPULLUP_EN;
+
+    signal {
+        desc = "Pullup enable signal going to USB PHY, needs to be maintained in low-power mode.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "logic";
+    } USB_DNPULLUP_EN;
+
+    signal {
+        desc = "Wakeup request from USB wakeup detector, going to the power manager, running on the AON clock.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "logic";
+    } USB_WKUP_REQ;
+
+    signal {
+        desc = "Indicates whether USB is in suspended state, coming from the USB device.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } USBDEV_SUSPEND_REQ;
+
+    signal {
+        desc = "Acknowledges the USB wakeup request, coming from the USB device.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModRecv;
+        inter_mod_struct = "logic";
+    } USBDEV_WAKE_ACK;
+
+    signal {
+        desc = "Event signal that indicates what happened while monitoring.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "logic";
+    } USBDEV_BUS_RESET;
+
+    signal {
+        desc = "Event signal that indicates what happened while monitoring.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "logic";
+    } USBDEV_SENSE_LOST;
+
+    signal {
+        desc = "State debug information.";
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReq;
+        inter_mod_struct = "logic";
+    } USBDEV_WAKE_DETECT_ACTIVE;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::InterModReqRsp;
+        inter_mod_struct = "tl";
+        inter_mod_package = "tlul_pkg";
+    } TL;
+
+    signal {
+        desc = "This fatal alert is triggered when a fatal TL-UL bus integrity fault is detected.";
+        signalwidth = 0x1;
+        sigtype = SigType::Alert;
+    } FATAL_FAULT;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } CLK_I;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } RST_NI;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } CLK_AON_I;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } RST_AON_NI;
+
+    signal {
+        signalwidth = 0x1;
+        sigtype = SigType::Sync;
+    } RST_SYS_NI;
+
+    external reg {
+        desc = "Alert Test Register";
+        field {
+            sw = w;
+            hw = r;
+            reset = 0x0;
+            swmod = true;
+            desc = "Write 1 to trigger one alert event of this kind.";
+        } FATAL_FAULT[0:0];
+    } ALERT_TEST @ 0x0;
+
+    reg {
+        desc = "Register write enable for MIO peripheral input selects.";
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = na;
+            reset = true;
+            desc = "Register write enable bit.If this is cleared to 0, the corresponding MIO_PERIPH_INSELis not writable anymore.";
+        } EN[0:0];
+    } MIO_PERIPH_INSEL_REGWEN[57] @ 0x4;
+
+    reg {
+        desc = "For each peripheral input, this selects the muxable pad input.";
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "0: tie constantly to zero, 1: tie constantly to 1,>=2: MIO pads (i.e., add 2 to the native MIO pad index).";
+            swwe = true;
+        } INSEL[5:0];
+    } MIO_PERIPH_INSEL[57] @ 0xE8;
+
+    reg {
+        desc = "Register write enable for MIO output selects.";
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = na;
+            reset = true;
+            desc = "Register write enable bit.If this is cleared to 0, the corresponding MIO_OUTSELis not writable anymore.";
+        } EN[0:0];
+    } MIO_OUTSEL_REGWEN[47] @ 0x1CC;
+
+    reg {
+        desc = "For each muxable pad, this selects the peripheral output.";
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x2;
+            desc = "0: tie constantly to zero, 1: tie constantly to 1, 2: high-Z,>=3: peripheral outputs (i.e., add 3 to the native peripheral pad index).";
+            swwe = true;
+        } OUT[6:0];
+    } MIO_OUTSEL[47] @ 0x288;
+
+    reg {
+        desc = "Register write enable for MIO PAD attributes.";
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = na;
+            reset = true;
+            desc = "Register write enable bit.If this is cleared to 0, the corresponding !!MIO_PAD_ATTRis not writable anymore.";
+        } EN[0:0];
+    } MIO_PAD_ATTR_REGWEN[47] @ 0x344;
+
+    external reg {
+        desc = "Muxed pad attributes.This register has WARL behavior since not each pad type may supportall attributes.";
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Invert input and output levels.";
+            swwe = true;
+        } INVERT[0:0];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Enable virtual open drain.";
+            swwe = true;
+        } VIRTUAL_OD_EN[1:1];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Enable pull-up or pull-down resistor.";
+            swwe = true;
+        } PULL_EN[2:2];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Pull select (0: pull-down, 1: pull-up).";
+            swwe = true;
+        } PULL_SELECT[3:3];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Enable pull-up or pull-down resistor.";
+            swwe = true;
+        } KEEPER_EN[4:4];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Enable the schmitt trigger.";
+            swwe = true;
+        } SCHMITT_EN[5:5];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Enable open drain.";
+            swwe = true;
+        } OD_EN[6:6];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Slew rate (0x0: slowest, 0x3: fastest).";
+            swwe = true;
+        } SLEW_RATE[17:16];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Drive strength (0x0: weakest, 0xf: strongest)";
+            swwe = true;
+        } DRIVE_STRENGTH[23:20];
+    } MIO_PAD_ATTR[47] @ 0x400;
+
+    reg {
+        desc = "Register write enable for DIO PAD attributes.";
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = na;
+            reset = true;
+            desc = "Register write enable bit.If this is cleared to 0, the corresponding !!DIO_PAD_ATTRis not writable anymore.";
+        } EN[0:0];
+    } DIO_PAD_ATTR_REGWEN[16] @ 0x4BC;
+
+    external reg {
+        desc = "Dedicated pad attributes.This register has WARL behavior since not each pad type may supportall attributes.";
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Invert input and output levels.";
+            swwe = true;
+        } INVERT[0:0];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Enable virtual open drain.";
+            swwe = true;
+        } VIRTUAL_OD_EN[1:1];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Enable pull-up or pull-down resistor.";
+            swwe = true;
+        } PULL_EN[2:2];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Pull select (0: pull-down, 1: pull-up).";
+            swwe = true;
+        } PULL_SELECT[3:3];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Enable pull-up or pull-down resistor.";
+            swwe = true;
+        } KEEPER_EN[4:4];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Enable the schmitt trigger.";
+            swwe = true;
+        } SCHMITT_EN[5:5];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Enable open drain.";
+            swwe = true;
+        } OD_EN[6:6];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Slew rate (0x0: slowest, 0x3: fastest).";
+            swwe = true;
+        } SLEW_RATE[17:16];
+        field {
+            sw = rw;
+            hw = rw;
+            reset = 0x0;
+            swmod = true;
+            desc = "Drive strength (0x0: weakest, 0xf: strongest)";
+            swwe = true;
+        } DRIVE_STRENGTH[23:20];
+    } DIO_PAD_ATTR[16] @ 0x4FC;
+
+    reg {
+        desc = "Register indicating whether the corresponding pad is in sleep mode.";
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_0[0:0];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_1[1:1];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_2[2:2];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_3[3:3];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_4[4:4];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_5[5:5];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_6[6:6];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_7[7:7];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_8[8:8];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_9[9:9];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_10[10:10];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_11[11:11];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_12[12:12];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_13[13:13];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_14[14:14];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_15[15:15];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_16[16:16];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_17[17:17];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_18[18:18];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_19[19:19];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_20[20:20];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_21[21:21];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_22[22:22];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_23[23:23];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_24[24:24];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_25[25:25];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_26[26:26];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_27[27:27];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_28[28:28];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_29[29:29];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_30[30:30];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!MIO_PAD_SLEEP_EN) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_31[31:31];
+    } MIO_PAD_SLEEP_STATUS_0 @ 0x53C;
+
+    reg {
+        desc = "Register indicating whether the corresponding pad is in sleep mode.";
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_32[0:0];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_33[1:1];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_34[2:2];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_35[3:3];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_36[4:4];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_37[5:5];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_38[6:6];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_39[7:7];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_40[8:8];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_41[9:9];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_42[10:10];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_43[11:11];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_44[12:12];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_45[13:13];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "For MIO_PAD1";
+        } EN_46[14:14];
+    } MIO_PAD_SLEEP_STATUS_1 @ 0x540;
+
+    reg {
+        desc = "Register write enable for MIO sleep value configuration.";
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = na;
+            reset = true;
+            desc = "Register write enable bit.If this is cleared to 0, the corresponding !!MIO_PAD_SLEEP_MODEis not writable anymore.";
+        } EN[0:0];
+    } MIO_PAD_SLEEP_REGWEN[47] @ 0x544;
+
+    reg {
+        desc = "Enables the sleep mode of the corresponding muxed pad.";
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "Deep sleep mode enable.If this bit is set to 1 the corresponding pad will enable the sleep behaviorspecified in !!MIO_PAD_SLEEP_MODE upon deep sleep entry, and the corresponding bitin !!MIO_PAD_SLEEP_STATUS will be set to 1.The pad remains in deep sleep mode until the corresponding bit in!!MIO_PAD_SLEEP_STATUS is cleared by SW.Note that if an always on peripheral is connected to a specific MIO pad,the corresponding !!MIO_PAD_SLEEP_EN bit should be set to 0.";
+            swwe = true;
+        } EN[0:0];
+    } MIO_PAD_SLEEP_EN[47] @ 0x600;
+
+    reg {
+        desc = "Defines sleep behavior of the corresponding muxed pad.";
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x2;
+            desc = "Value to drive in deep sleep.";
+            swwe = true;
+        } OUT[1:0];
+    } MIO_PAD_SLEEP_MODE[47] @ 0x6BC;
+
+    reg {
+        compacted = true;
+        desc = "Register indicating whether the corresponding pad is in sleep mode.";
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_0[0:0];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_1[1:1];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_2[2:2];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_3[3:3];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_4[4:4];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_5[5:5];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_6[6:6];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_7[7:7];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_8[8:8];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_9[9:9];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_10[10:10];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_11[11:11];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_12[12:12];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_13[13:13];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_14[14:14];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = false;
+            desc = "This register is set to 1 if the deep sleep mode of the correspondingpad has been enabled (!!DIO_PAD_SLEEP_MODE) upon deep sleep entry.The sleep mode of the corresponding pad will remain active until SWclears this bit.";
+        } EN_15[15:15];
+    } DIO_PAD_SLEEP_STATUS[1] @ 0x778;
+
+    reg {
+        desc = "Register write enable for DIO sleep value configuration.";
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = na;
+            reset = true;
+            desc = "Register write enable bit.If this is cleared to 0, the corresponding !!DIO_PAD_SLEEP_MODEis not writable anymore.";
+        } EN[0:0];
+    } DIO_PAD_SLEEP_REGWEN[16] @ 0x77C;
+
+    reg {
+        desc = "Enables the sleep mode of the corresponding dedicated pad.";
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "Deep sleep mode enable.If this bit is set to 1 the corresponding pad will enable the sleep behaviorspecified in !!DIO_PAD_SLEEP_MODE upon deep sleep entry, and the corresponding bitin !!DIO_PAD_SLEEP_STATUS will be set to 1.The pad remains in deep sleep mode until the corresponding bit in!!DIO_PAD_SLEEP_STATUS is cleared by SW.Note that if an always on peripheral is connected to a specific DIO pad,the corresponding !!DIO_PAD_SLEEP_EN bit should be set to 0.";
+            swwe = true;
+        } EN[0:0];
+    } DIO_PAD_SLEEP_EN[16] @ 0x7BC;
+
+    reg {
+        desc = "Defines sleep behavior of the corresponding dedicated pad.";
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x2;
+            desc = "Value to drive in deep sleep.";
+            swwe = true;
+        } OUT[1:0];
+    } DIO_PAD_SLEEP_MODE[16] @ 0x7FC;
+
+    reg {
+        desc = "Register write enable for wakeup detectors.";
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = na;
+            reset = true;
+            desc = "Register write enable bit.If this is cleared to 0, the corresponding WKUP_DETECTORconfiguration is not writable anymore.";
+        } EN[0:0];
+    } WKUP_DETECTOR_REGWEN[8] @ 0x83C;
+
+    reg {
+        desc = "Enables for the wakeup detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed.";
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "Setting this bit activates the corresponding wakeup detector.The behavior is as specified in !!WKUP_DETECTOR,!!WKUP_DETECTOR_CNT_TH and !!WKUP_DETECTOR_PADSEL.";
+            swwe = true;
+        } EN[0:0];
+    } WKUP_DETECTOR_EN[8] @ 0x85C;
+
+    reg {
+        desc = "Configuration of wakeup condition detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed.Note that the wkup detector should be disabled by setting !!WKUP_DETECTOR_EN_0 before changing the detection mode.The reason for that is that the pulse width counter is NOT cleared upon a mode change while the detector is enabled.";
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "Wakeup detection mode. Out of range values default to Posedge.";
+            swwe = true;
+        } MODE[2:0];
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "0: signal filter disabled, 1: signal filter enabled. the signal mustbe stable for 4 always-on clock cycles before the value is being forwarded.can be used for debouncing.";
+            swwe = true;
+        } FILTER[3:3];
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "0: select index !!WKUP_DETECTOR_PADSEL from MIO pads,1: select index !!WKUP_DETECTOR_PADSEL from DIO pads.";
+            swwe = true;
+        } MIODIO[4:4];
+    } WKUP_DETECTOR[8] @ 0x87C;
+
+    reg {
+        desc = "Counter thresholds for wakeup condition detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed.";
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "Counter threshold for TimedLow and TimedHigh wakeup detector modes (see !!WKUP_DETECTOR).The threshold is in terms of always-on clock cycles.";
+            swwe = true;
+        } TH[7:0];
+    } WKUP_DETECTOR_CNT_TH[8] @ 0x89C;
+
+    reg {
+        desc = "Pad selects for pad wakeup condition detectors.This register is NOT synced to the AON domain since the muxing mechanism is implemented in the same way as the pinmux muxing matrix.";
+        field {
+            sw = rw;
+            hw = r;
+            reset = 0x0;
+            desc = "Selects a specific MIO or DIO pad (depending on !!WKUP_DETECTOR configuration).In case of MIO, the pad select index is the same as used for !!MIO_PERIPH_INSEL, meaning that index0 and 1 just select constants 0 and 1, and the MIO pads live at indices >= 2. In case of DIO pads,the pad select index corresponds 1:1 to the DIO pad to be selected.";
+            swwe = true;
+        } SEL[5:0];
+    } WKUP_DETECTOR_PADSEL[8] @ 0x8BC;
+
+    reg {
+        compacted = true;
+        desc = "Cause registers for wakeup detectors.Note that these registers are synced to the always-on clock.The first write access always completes immediately.However, read/write accesses following a write will block until that write has completed.";
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = 0x0;
+            desc = "Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.";
+        } CAUSE_0[0:0];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = 0x0;
+            desc = "Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.";
+        } CAUSE_1[1:1];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = 0x0;
+            desc = "Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.";
+        } CAUSE_2[2:2];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = 0x0;
+            desc = "Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.";
+        } CAUSE_3[3:3];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = 0x0;
+            desc = "Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.";
+        } CAUSE_4[4:4];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = 0x0;
+            desc = "Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.";
+        } CAUSE_5[5:5];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = 0x0;
+            desc = "Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.";
+        } CAUSE_6[6:6];
+        field {
+            sw = rw;
+            onwrite = wzc;
+            hw = rw;
+            reset = 0x0;
+            desc = "Set to 1 if the corresponding detector has detected a wakeup pattern. Write 0 to clear.";
+        } CAUSE_7[7:7];
+    } WKUP_CAUSE[1] @ 0x8DC;
+
+    WKUP_DETECTOR_EN -> async_clk = CLK_AON_I;
+    WKUP_DETECTOR_EN -> async_rst = RST_AON_NI;
+    WKUP_DETECTOR -> async_clk = CLK_AON_I;
+    WKUP_DETECTOR -> async_rst = RST_AON_NI;
+    WKUP_DETECTOR_CNT_TH -> async_clk = CLK_AON_I;
+    WKUP_DETECTOR_CNT_TH -> async_rst = RST_AON_NI;
+    WKUP_CAUSE -> async_clk = CLK_AON_I;
+    WKUP_CAUSE -> async_rst = RST_AON_NI;
+};

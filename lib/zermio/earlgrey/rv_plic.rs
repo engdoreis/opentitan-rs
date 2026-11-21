@@ -11,47 +11,14 @@
 //! These are the registers present in the rv_plic
 //! | Register name      | Description  | Offset | Write | Read|
 //! | :---               | :---         | :---   | :--   | :-- |
-//! | PRIO0 | Interrupt Source Priority | 0x0 | true |true |
-//! | PRIO1 | Interrupt Source Priority | 0x4 | true |true |
-//! | PRIO2 | Interrupt Source Priority | 0x8 | true |true |
-//! | PRIO3 | Interrupt Source Priority | 0xc | true |true |
-//! | PRIO4 | Interrupt Source Priority | 0x10 | true |true |
-//! | PRIO5 | Interrupt Source Priority | 0x14 | true |true |
-//! | PRIO6 | Interrupt Source Priority | 0x18 | true |true |
-//! | PRIO7 | Interrupt Source Priority | 0x1c | true |true |
-//! | PRIO8 | Interrupt Source Priority | 0x20 | true |true |
-//! | PRIO9 | Interrupt Source Priority | 0x24 | true |true |
-//! | PRIO10 | Interrupt Source Priority | 0x28 | true |true |
-//! | PRIO11 | Interrupt Source Priority | 0x2c | true |true |
-//! | PRIO12 | Interrupt Source Priority | 0x30 | true |true |
-//! | PRIO13 | Interrupt Source Priority | 0x34 | true |true |
-//! | PRIO14 | Interrupt Source Priority | 0x38 | true |true |
-//! | PRIO15 | Interrupt Source Priority | 0x3c | true |true |
-//! | PRIO16 | Interrupt Source Priority | 0x40 | true |true |
-//! | PRIO17 | Interrupt Source Priority | 0x44 | true |true |
-//! | PRIO18 | Interrupt Source Priority | 0x48 | true |true |
-//! | PRIO19 | Interrupt Source Priority | 0x4c | true |true |
-//! | PRIO20 | Interrupt Source Priority | 0x50 | true |true |
-//! | PRIO21 | Interrupt Source Priority | 0x54 | true |true |
-//! | PRIO22 | Interrupt Source Priority | 0x58 | true |true |
-//! | PRIO23 | Interrupt Source Priority | 0x5c | true |true |
-//! | PRIO24 | Interrupt Source Priority | 0x60 | true |true |
-//! | PRIO25 | Interrupt Source Priority | 0x64 | true |true |
-//! | PRIO26 | Interrupt Source Priority | 0x68 | true |true |
-//! | PRIO27 | Interrupt Source Priority | 0x6c | true |true |
-//! | PRIO28 | Interrupt Source Priority | 0x70 | true |true |
-//! | PRIO29 | Interrupt Source Priority | 0x74 | true |true |
-//! | PRIO30 | Interrupt Source Priority | 0x78 | true |true |
-//! | PRIO31 | Interrupt Source Priority | 0x7c | true |true |
-//! | IP | Interrupt Pending | 0x1000 | false |true |
-//! | IE0 | Interrupt Enable for Target 0 | 0x2000 | true |true |
-//! | IE1 | Interrupt Enable for Target 1 | 0x2100 | true |true |
+//! | PRIO[0..185] | Interrupt Source Priority | 0x0 | true |true |
+//! | IP_0[0..5] | Interrupt Pending | 0x1000 | false |true |
+//! | IP_1 | Interrupt Pending | 0x1014 | false |true |
+//! | IE_0[0..4] | Interrupt Enable for Target 0 | 0x2000 | true |true |
+//! | IE_1 | Interrupt Enable for Target 0 | 0x2014 | true |true |
 //! | THRESHOLD0 | Threshold of priority for Target 0 | 0x200000 | true |true |
 //! | CC0 | Claim interrupt by read, complete interrupt by write for Target 0.Value read/written is interrupt ID. Reading a value of 0 means no pending interrupts. | 0x200004 | true |true |
-//! | THRESHOLD1 | Threshold of priority for Target 1 | 0x201000 | true |true |
-//! | CC1 | Claim interrupt by read, complete interrupt by write for Target 1.Value read/written is interrupt ID. Reading a value of 0 means no pending interrupts. | 0x201004 | true |true |
 //! | MSIP0 | msip for Hart 0.Write 1 to here asserts software interrupt for Hart msip_o[0], write 0 to clear. | 0x4000000 | true |true |
-//! | MSIP1 | msip for Hart 1.Write 1 to here asserts software interrupt for Hart msip_o[1], write 0 to clear. | 0x4000004 | true |true |
 //! | ALERT_TEST | Alert Test Register. | 0x4004000 | true |false |
 
 use super::zermio;
@@ -63,89 +30,24 @@ use super::zermio;
 /// });
 /// ```
 pub struct RvPlic {
-    /// Interrupt Source Priority  
-    pub prio0: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio1: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio2: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio3: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio4: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio5: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio6: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio7: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio8: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio9: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio10: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio11: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio12: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio13: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio14: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio15: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio16: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio17: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio18: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio19: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio20: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio21: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio22: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio23: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio24: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio25: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio26: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio27: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio28: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio29: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio30: prio::Prio,
-    /// Interrupt Source Priority  
-    pub prio31: prio::Prio,
-    /// Interrupt Pending  
-    pub ip: ip::Ip,
-    /// Interrupt Enable for Target 0  
-    pub ie0: ie0::Ie0,
-    /// Interrupt Enable for Target 1  
-    pub ie1: ie1::Ie1,
-    /// Threshold of priority for Target 0  
+    __addr: u32,
+    /// Interrupt Source Priority
+    pub prio: [prio::Prio; 185],
+    /// Interrupt Pending
+    pub ip_0: [ip_0::Ip0; 5],
+    /// Interrupt Pending
+    pub ip_1: ip_1::Ip1,
+    /// Interrupt Enable for Target 0
+    pub ie_0: [ie_0::Ie0; 4],
+    /// Interrupt Enable for Target 0
+    pub ie_1: ie_1::Ie1,
+    /// Threshold of priority for Target 0
     pub threshold0: threshold0::Threshold0,
-    /// Claim interrupt by read, complete interrupt by write for Target 0.Value read/written is interrupt ID. Reading a value of 0 means no pending interrupts.  
+    /// Claim interrupt by read, complete interrupt by write for Target 0.Value read/written is interrupt ID. Reading a value of 0 means no pending interrupts.
     pub cc0: cc0::Cc0,
-    /// Threshold of priority for Target 1  
-    pub threshold1: threshold1::Threshold1,
-    /// Claim interrupt by read, complete interrupt by write for Target 1.Value read/written is interrupt ID. Reading a value of 0 means no pending interrupts.  
-    pub cc1: cc1::Cc1,
-    /// msip for Hart 0.Write 1 to here asserts software interrupt for Hart msip_o[0], write 0 to clear.  
+    /// msip for Hart 0.Write 1 to here asserts software interrupt for Hart msip_o[0], write 0 to clear.
     pub msip0: msip0::Msip0,
-    /// msip for Hart 1.Write 1 to here asserts software interrupt for Hart msip_o[1], write 0 to clear.  
-    pub msip1: msip1::Msip1,
-    /// Alert Test Register.  
+    /// Alert Test Register.
     pub alert_test: alert_test::AlertTest,
 }
 
@@ -153,49 +55,218 @@ impl RvPlic {
     pub fn new(instance: u32) -> Self {
         let addr = instance;
         Self {
-            prio0: prio::Prio::new(addr),
-            prio1: prio::Prio::new(addr + 0x4),
-            prio2: prio::Prio::new(addr + 0x8),
-            prio3: prio::Prio::new(addr + 0xc),
-            prio4: prio::Prio::new(addr + 0x10),
-            prio5: prio::Prio::new(addr + 0x14),
-            prio6: prio::Prio::new(addr + 0x18),
-            prio7: prio::Prio::new(addr + 0x1c),
-            prio8: prio::Prio::new(addr + 0x20),
-            prio9: prio::Prio::new(addr + 0x24),
-            prio10: prio::Prio::new(addr + 0x28),
-            prio11: prio::Prio::new(addr + 0x2c),
-            prio12: prio::Prio::new(addr + 0x30),
-            prio13: prio::Prio::new(addr + 0x34),
-            prio14: prio::Prio::new(addr + 0x38),
-            prio15: prio::Prio::new(addr + 0x3c),
-            prio16: prio::Prio::new(addr + 0x40),
-            prio17: prio::Prio::new(addr + 0x44),
-            prio18: prio::Prio::new(addr + 0x48),
-            prio19: prio::Prio::new(addr + 0x4c),
-            prio20: prio::Prio::new(addr + 0x50),
-            prio21: prio::Prio::new(addr + 0x54),
-            prio22: prio::Prio::new(addr + 0x58),
-            prio23: prio::Prio::new(addr + 0x5c),
-            prio24: prio::Prio::new(addr + 0x60),
-            prio25: prio::Prio::new(addr + 0x64),
-            prio26: prio::Prio::new(addr + 0x68),
-            prio27: prio::Prio::new(addr + 0x6c),
-            prio28: prio::Prio::new(addr + 0x70),
-            prio29: prio::Prio::new(addr + 0x74),
-            prio30: prio::Prio::new(addr + 0x78),
-            prio31: prio::Prio::new(addr + 0x7c),
-            ip: ip::Ip::new(addr + 0x1000),
-            ie0: ie0::Ie0::new(addr + 0x2000),
-            ie1: ie1::Ie1::new(addr + 0x2100),
+            __addr: addr,
+            prio: [
+                prio::Prio::new(addr),
+                prio::Prio::new(addr + 0x4),
+                prio::Prio::new(addr + 0x8),
+                prio::Prio::new(addr + 0xc),
+                prio::Prio::new(addr + 0x10),
+                prio::Prio::new(addr + 0x14),
+                prio::Prio::new(addr + 0x18),
+                prio::Prio::new(addr + 0x1c),
+                prio::Prio::new(addr + 0x20),
+                prio::Prio::new(addr + 0x24),
+                prio::Prio::new(addr + 0x28),
+                prio::Prio::new(addr + 0x2c),
+                prio::Prio::new(addr + 0x30),
+                prio::Prio::new(addr + 0x34),
+                prio::Prio::new(addr + 0x38),
+                prio::Prio::new(addr + 0x3c),
+                prio::Prio::new(addr + 0x40),
+                prio::Prio::new(addr + 0x44),
+                prio::Prio::new(addr + 0x48),
+                prio::Prio::new(addr + 0x4c),
+                prio::Prio::new(addr + 0x50),
+                prio::Prio::new(addr + 0x54),
+                prio::Prio::new(addr + 0x58),
+                prio::Prio::new(addr + 0x5c),
+                prio::Prio::new(addr + 0x60),
+                prio::Prio::new(addr + 0x64),
+                prio::Prio::new(addr + 0x68),
+                prio::Prio::new(addr + 0x6c),
+                prio::Prio::new(addr + 0x70),
+                prio::Prio::new(addr + 0x74),
+                prio::Prio::new(addr + 0x78),
+                prio::Prio::new(addr + 0x7c),
+                prio::Prio::new(addr + 0x80),
+                prio::Prio::new(addr + 0x84),
+                prio::Prio::new(addr + 0x88),
+                prio::Prio::new(addr + 0x8c),
+                prio::Prio::new(addr + 0x90),
+                prio::Prio::new(addr + 0x94),
+                prio::Prio::new(addr + 0x98),
+                prio::Prio::new(addr + 0x9c),
+                prio::Prio::new(addr + 0xa0),
+                prio::Prio::new(addr + 0xa4),
+                prio::Prio::new(addr + 0xa8),
+                prio::Prio::new(addr + 0xac),
+                prio::Prio::new(addr + 0xb0),
+                prio::Prio::new(addr + 0xb4),
+                prio::Prio::new(addr + 0xb8),
+                prio::Prio::new(addr + 0xbc),
+                prio::Prio::new(addr + 0xc0),
+                prio::Prio::new(addr + 0xc4),
+                prio::Prio::new(addr + 0xc8),
+                prio::Prio::new(addr + 0xcc),
+                prio::Prio::new(addr + 0xd0),
+                prio::Prio::new(addr + 0xd4),
+                prio::Prio::new(addr + 0xd8),
+                prio::Prio::new(addr + 0xdc),
+                prio::Prio::new(addr + 0xe0),
+                prio::Prio::new(addr + 0xe4),
+                prio::Prio::new(addr + 0xe8),
+                prio::Prio::new(addr + 0xec),
+                prio::Prio::new(addr + 0xf0),
+                prio::Prio::new(addr + 0xf4),
+                prio::Prio::new(addr + 0xf8),
+                prio::Prio::new(addr + 0xfc),
+                prio::Prio::new(addr + 0x100),
+                prio::Prio::new(addr + 0x104),
+                prio::Prio::new(addr + 0x108),
+                prio::Prio::new(addr + 0x10c),
+                prio::Prio::new(addr + 0x110),
+                prio::Prio::new(addr + 0x114),
+                prio::Prio::new(addr + 0x118),
+                prio::Prio::new(addr + 0x11c),
+                prio::Prio::new(addr + 0x120),
+                prio::Prio::new(addr + 0x124),
+                prio::Prio::new(addr + 0x128),
+                prio::Prio::new(addr + 0x12c),
+                prio::Prio::new(addr + 0x130),
+                prio::Prio::new(addr + 0x134),
+                prio::Prio::new(addr + 0x138),
+                prio::Prio::new(addr + 0x13c),
+                prio::Prio::new(addr + 0x140),
+                prio::Prio::new(addr + 0x144),
+                prio::Prio::new(addr + 0x148),
+                prio::Prio::new(addr + 0x14c),
+                prio::Prio::new(addr + 0x150),
+                prio::Prio::new(addr + 0x154),
+                prio::Prio::new(addr + 0x158),
+                prio::Prio::new(addr + 0x15c),
+                prio::Prio::new(addr + 0x160),
+                prio::Prio::new(addr + 0x164),
+                prio::Prio::new(addr + 0x168),
+                prio::Prio::new(addr + 0x16c),
+                prio::Prio::new(addr + 0x170),
+                prio::Prio::new(addr + 0x174),
+                prio::Prio::new(addr + 0x178),
+                prio::Prio::new(addr + 0x17c),
+                prio::Prio::new(addr + 0x180),
+                prio::Prio::new(addr + 0x184),
+                prio::Prio::new(addr + 0x188),
+                prio::Prio::new(addr + 0x18c),
+                prio::Prio::new(addr + 0x190),
+                prio::Prio::new(addr + 0x194),
+                prio::Prio::new(addr + 0x198),
+                prio::Prio::new(addr + 0x19c),
+                prio::Prio::new(addr + 0x1a0),
+                prio::Prio::new(addr + 0x1a4),
+                prio::Prio::new(addr + 0x1a8),
+                prio::Prio::new(addr + 0x1ac),
+                prio::Prio::new(addr + 0x1b0),
+                prio::Prio::new(addr + 0x1b4),
+                prio::Prio::new(addr + 0x1b8),
+                prio::Prio::new(addr + 0x1bc),
+                prio::Prio::new(addr + 0x1c0),
+                prio::Prio::new(addr + 0x1c4),
+                prio::Prio::new(addr + 0x1c8),
+                prio::Prio::new(addr + 0x1cc),
+                prio::Prio::new(addr + 0x1d0),
+                prio::Prio::new(addr + 0x1d4),
+                prio::Prio::new(addr + 0x1d8),
+                prio::Prio::new(addr + 0x1dc),
+                prio::Prio::new(addr + 0x1e0),
+                prio::Prio::new(addr + 0x1e4),
+                prio::Prio::new(addr + 0x1e8),
+                prio::Prio::new(addr + 0x1ec),
+                prio::Prio::new(addr + 0x1f0),
+                prio::Prio::new(addr + 0x1f4),
+                prio::Prio::new(addr + 0x1f8),
+                prio::Prio::new(addr + 0x1fc),
+                prio::Prio::new(addr + 0x200),
+                prio::Prio::new(addr + 0x204),
+                prio::Prio::new(addr + 0x208),
+                prio::Prio::new(addr + 0x20c),
+                prio::Prio::new(addr + 0x210),
+                prio::Prio::new(addr + 0x214),
+                prio::Prio::new(addr + 0x218),
+                prio::Prio::new(addr + 0x21c),
+                prio::Prio::new(addr + 0x220),
+                prio::Prio::new(addr + 0x224),
+                prio::Prio::new(addr + 0x228),
+                prio::Prio::new(addr + 0x22c),
+                prio::Prio::new(addr + 0x230),
+                prio::Prio::new(addr + 0x234),
+                prio::Prio::new(addr + 0x238),
+                prio::Prio::new(addr + 0x23c),
+                prio::Prio::new(addr + 0x240),
+                prio::Prio::new(addr + 0x244),
+                prio::Prio::new(addr + 0x248),
+                prio::Prio::new(addr + 0x24c),
+                prio::Prio::new(addr + 0x250),
+                prio::Prio::new(addr + 0x254),
+                prio::Prio::new(addr + 0x258),
+                prio::Prio::new(addr + 0x25c),
+                prio::Prio::new(addr + 0x260),
+                prio::Prio::new(addr + 0x264),
+                prio::Prio::new(addr + 0x268),
+                prio::Prio::new(addr + 0x26c),
+                prio::Prio::new(addr + 0x270),
+                prio::Prio::new(addr + 0x274),
+                prio::Prio::new(addr + 0x278),
+                prio::Prio::new(addr + 0x27c),
+                prio::Prio::new(addr + 0x280),
+                prio::Prio::new(addr + 0x284),
+                prio::Prio::new(addr + 0x288),
+                prio::Prio::new(addr + 0x28c),
+                prio::Prio::new(addr + 0x290),
+                prio::Prio::new(addr + 0x294),
+                prio::Prio::new(addr + 0x298),
+                prio::Prio::new(addr + 0x29c),
+                prio::Prio::new(addr + 0x2a0),
+                prio::Prio::new(addr + 0x2a4),
+                prio::Prio::new(addr + 0x2a8),
+                prio::Prio::new(addr + 0x2ac),
+                prio::Prio::new(addr + 0x2b0),
+                prio::Prio::new(addr + 0x2b4),
+                prio::Prio::new(addr + 0x2b8),
+                prio::Prio::new(addr + 0x2bc),
+                prio::Prio::new(addr + 0x2c0),
+                prio::Prio::new(addr + 0x2c4),
+                prio::Prio::new(addr + 0x2c8),
+                prio::Prio::new(addr + 0x2cc),
+                prio::Prio::new(addr + 0x2d0),
+                prio::Prio::new(addr + 0x2d4),
+                prio::Prio::new(addr + 0x2d8),
+                prio::Prio::new(addr + 0x2dc),
+                prio::Prio::new(addr + 0x2e0),
+            ],
+            ip_0: [
+                ip_0::Ip0::new(addr + 0x1000),
+                ip_0::Ip0::new(addr + 0x1004),
+                ip_0::Ip0::new(addr + 0x1008),
+                ip_0::Ip0::new(addr + 0x100c),
+                ip_0::Ip0::new(addr + 0x1010),
+            ],
+            ip_1: ip_1::Ip1::new(addr + 0x1014),
+            ie_0: [
+                ie_0::Ie0::new(addr + 0x2000),
+                ie_0::Ie0::new(addr + 0x2004),
+                ie_0::Ie0::new(addr + 0x2008),
+                ie_0::Ie0::new(addr + 0x200c),
+            ],
+            ie_1: ie_1::Ie1::new(addr + 0x2014),
             threshold0: threshold0::Threshold0::new(addr + 0x200000),
             cc0: cc0::Cc0::new(addr + 0x200004),
-            threshold1: threshold1::Threshold1::new(addr + 0x201000),
-            cc1: cc1::Cc1::new(addr + 0x201004),
             msip0: msip0::Msip0::new(addr + 0x4000000),
-            msip1: msip1::Msip1::new(addr + 0x4000004),
             alert_test: alert_test::AlertTest::new(addr + 0x4004000),
         }
+    }
+
+    pub fn destroy(self) -> u32 {
+        self.__addr
     }
 }
 
@@ -232,12 +303,12 @@ mod prio {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn prio(&mut self) -> PrioField {
-            PrioField::new(&mut self.reg)
+        pub fn prio(&self) -> PrioField<'_> {
+            PrioField::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -267,51 +338,20 @@ mod prio {
 }
 
 /// Interrupt Pending.  
-pub use self::ip::*;
-mod ip {
+pub use self::ip_0::*;
+mod ip_0 {
 
     use super::*;
 
-    /// # IP fields.  
+    /// # IP_0 fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | P_0 | Interrupt Pending of Source | [0:0] | false |true |
-    /// | P_1 | Interrupt Pending of Source | [1:1] | false |true |
-    /// | P_2 | Interrupt Pending of Source | [2:2] | false |true |
-    /// | P_3 | Interrupt Pending of Source | [3:3] | false |true |
-    /// | P_4 | Interrupt Pending of Source | [4:4] | false |true |
-    /// | P_5 | Interrupt Pending of Source | [5:5] | false |true |
-    /// | P_6 | Interrupt Pending of Source | [6:6] | false |true |
-    /// | P_7 | Interrupt Pending of Source | [7:7] | false |true |
-    /// | P_8 | Interrupt Pending of Source | [8:8] | false |true |
-    /// | P_9 | Interrupt Pending of Source | [9:9] | false |true |
-    /// | P_10 | Interrupt Pending of Source | [10:10] | false |true |
-    /// | P_11 | Interrupt Pending of Source | [11:11] | false |true |
-    /// | P_12 | Interrupt Pending of Source | [12:12] | false |true |
-    /// | P_13 | Interrupt Pending of Source | [13:13] | false |true |
-    /// | P_14 | Interrupt Pending of Source | [14:14] | false |true |
-    /// | P_15 | Interrupt Pending of Source | [15:15] | false |true |
-    /// | P_16 | Interrupt Pending of Source | [16:16] | false |true |
-    /// | P_17 | Interrupt Pending of Source | [17:17] | false |true |
-    /// | P_18 | Interrupt Pending of Source | [18:18] | false |true |
-    /// | P_19 | Interrupt Pending of Source | [19:19] | false |true |
-    /// | P_20 | Interrupt Pending of Source | [20:20] | false |true |
-    /// | P_21 | Interrupt Pending of Source | [21:21] | false |true |
-    /// | P_22 | Interrupt Pending of Source | [22:22] | false |true |
-    /// | P_23 | Interrupt Pending of Source | [23:23] | false |true |
-    /// | P_24 | Interrupt Pending of Source | [24:24] | false |true |
-    /// | P_25 | Interrupt Pending of Source | [25:25] | false |true |
-    /// | P_26 | Interrupt Pending of Source | [26:26] | false |true |
-    /// | P_27 | Interrupt Pending of Source | [27:27] | false |true |
-    /// | P_28 | Interrupt Pending of Source | [28:28] | false |true |
-    /// | P_29 | Interrupt Pending of Source | [29:29] | false |true |
-    /// | P_30 | Interrupt Pending of Source | [30:30] | false |true |
-    /// | P_31 | Interrupt Pending of Source | [31:31] | false |true |
-    pub struct Ip {
+    /// | P 0:31| Interrupt Pending of Source | [0:31] | false |true |
+    pub struct Ip0 {
         reg: zermio::Register<u32>,
     }
 
-    impl Ip {
+    impl Ip0 {
         pub fn new(addr: u32) -> Self {
             Self {
                 reg: zermio::Register::<u32>::new(addr as usize),
@@ -328,477 +368,140 @@ mod ip {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn p_0(&mut self) -> P0Field {
-            P0Field::new(&mut self.reg)
+        pub fn p_0(&self) -> P0Field<'_> {
+            P0Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_1(&mut self) -> P1Field {
-            P1Field::new(&mut self.reg)
+        pub fn p_1(&self) -> P1Field<'_> {
+            P1Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_2(&mut self) -> P2Field {
-            P2Field::new(&mut self.reg)
+        pub fn p_2(&self) -> P2Field<'_> {
+            P2Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_3(&mut self) -> P3Field {
-            P3Field::new(&mut self.reg)
+        pub fn p_3(&self) -> P3Field<'_> {
+            P3Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_4(&mut self) -> P4Field {
-            P4Field::new(&mut self.reg)
+        pub fn p_4(&self) -> P4Field<'_> {
+            P4Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_5(&mut self) -> P5Field {
-            P5Field::new(&mut self.reg)
+        pub fn p_5(&self) -> P5Field<'_> {
+            P5Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_6(&mut self) -> P6Field {
-            P6Field::new(&mut self.reg)
+        pub fn p_6(&self) -> P6Field<'_> {
+            P6Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_7(&mut self) -> P7Field {
-            P7Field::new(&mut self.reg)
+        pub fn p_7(&self) -> P7Field<'_> {
+            P7Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_8(&mut self) -> P8Field {
-            P8Field::new(&mut self.reg)
+        pub fn p_8(&self) -> P8Field<'_> {
+            P8Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_9(&mut self) -> P9Field {
-            P9Field::new(&mut self.reg)
+        pub fn p_9(&self) -> P9Field<'_> {
+            P9Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_10(&mut self) -> P10Field {
-            P10Field::new(&mut self.reg)
+        pub fn p_10(&self) -> P10Field<'_> {
+            P10Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_11(&mut self) -> P11Field {
-            P11Field::new(&mut self.reg)
+        pub fn p_11(&self) -> P11Field<'_> {
+            P11Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_12(&mut self) -> P12Field {
-            P12Field::new(&mut self.reg)
+        pub fn p_12(&self) -> P12Field<'_> {
+            P12Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_13(&mut self) -> P13Field {
-            P13Field::new(&mut self.reg)
+        pub fn p_13(&self) -> P13Field<'_> {
+            P13Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_14(&mut self) -> P14Field {
-            P14Field::new(&mut self.reg)
+        pub fn p_14(&self) -> P14Field<'_> {
+            P14Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_15(&mut self) -> P15Field {
-            P15Field::new(&mut self.reg)
+        pub fn p_15(&self) -> P15Field<'_> {
+            P15Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_16(&mut self) -> P16Field {
-            P16Field::new(&mut self.reg)
+        pub fn p_16(&self) -> P16Field<'_> {
+            P16Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_17(&mut self) -> P17Field {
-            P17Field::new(&mut self.reg)
+        pub fn p_17(&self) -> P17Field<'_> {
+            P17Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_18(&mut self) -> P18Field {
-            P18Field::new(&mut self.reg)
+        pub fn p_18(&self) -> P18Field<'_> {
+            P18Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_19(&mut self) -> P19Field {
-            P19Field::new(&mut self.reg)
+        pub fn p_19(&self) -> P19Field<'_> {
+            P19Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_20(&mut self) -> P20Field {
-            P20Field::new(&mut self.reg)
+        pub fn p_20(&self) -> P20Field<'_> {
+            P20Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_21(&mut self) -> P21Field {
-            P21Field::new(&mut self.reg)
+        pub fn p_21(&self) -> P21Field<'_> {
+            P21Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_22(&mut self) -> P22Field {
-            P22Field::new(&mut self.reg)
+        pub fn p_22(&self) -> P22Field<'_> {
+            P22Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_23(&mut self) -> P23Field {
-            P23Field::new(&mut self.reg)
+        pub fn p_23(&self) -> P23Field<'_> {
+            P23Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_24(&mut self) -> P24Field {
-            P24Field::new(&mut self.reg)
+        pub fn p_24(&self) -> P24Field<'_> {
+            P24Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_25(&mut self) -> P25Field {
-            P25Field::new(&mut self.reg)
+        pub fn p_25(&self) -> P25Field<'_> {
+            P25Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_26(&mut self) -> P26Field {
-            P26Field::new(&mut self.reg)
+        pub fn p_26(&self) -> P26Field<'_> {
+            P26Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_27(&mut self) -> P27Field {
-            P27Field::new(&mut self.reg)
+        pub fn p_27(&self) -> P27Field<'_> {
+            P27Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_28(&mut self) -> P28Field {
-            P28Field::new(&mut self.reg)
+        pub fn p_28(&self) -> P28Field<'_> {
+            P28Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_29(&mut self) -> P29Field {
-            P29Field::new(&mut self.reg)
+        pub fn p_29(&self) -> P29Field<'_> {
+            P29Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_30(&mut self) -> P30Field {
-            P30Field::new(&mut self.reg)
+        pub fn p_30(&self) -> P30Field<'_> {
+            P30Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Pending of Source
-        ///
-        /// Returns a BitField with Read permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn p_31(&mut self) -> P31Field {
-            P31Field::new(&mut self.reg)
+        pub fn p_31(&self) -> P31Field<'_> {
+            P31Field::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -835,49 +538,193 @@ mod ip {
     type P29Field<'a> = zermio::BitField<'a, 29, 1, u32, zermio::access::Read>;
     type P30Field<'a> = zermio::BitField<'a, 30, 1, u32, zermio::access::Read>;
     type P31Field<'a> = zermio::BitField<'a, 31, 1, u32, zermio::access::Read>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::Read>;
 }
 
-/// Interrupt Enable for Target 0.  
-pub use self::ie0::*;
-mod ie0 {
+/// Interrupt Pending.  
+pub use self::ip_1::*;
+mod ip_1 {
 
     use super::*;
 
-    /// # IE0 fields.  
+    /// # IP_1 fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | E_0 | Interrupt Enable of Source | [0:0] | true |true |
-    /// | E_1 | Interrupt Enable of Source | [1:1] | true |true |
-    /// | E_2 | Interrupt Enable of Source | [2:2] | true |true |
-    /// | E_3 | Interrupt Enable of Source | [3:3] | true |true |
-    /// | E_4 | Interrupt Enable of Source | [4:4] | true |true |
-    /// | E_5 | Interrupt Enable of Source | [5:5] | true |true |
-    /// | E_6 | Interrupt Enable of Source | [6:6] | true |true |
-    /// | E_7 | Interrupt Enable of Source | [7:7] | true |true |
-    /// | E_8 | Interrupt Enable of Source | [8:8] | true |true |
-    /// | E_9 | Interrupt Enable of Source | [9:9] | true |true |
-    /// | E_10 | Interrupt Enable of Source | [10:10] | true |true |
-    /// | E_11 | Interrupt Enable of Source | [11:11] | true |true |
-    /// | E_12 | Interrupt Enable of Source | [12:12] | true |true |
-    /// | E_13 | Interrupt Enable of Source | [13:13] | true |true |
-    /// | E_14 | Interrupt Enable of Source | [14:14] | true |true |
-    /// | E_15 | Interrupt Enable of Source | [15:15] | true |true |
-    /// | E_16 | Interrupt Enable of Source | [16:16] | true |true |
-    /// | E_17 | Interrupt Enable of Source | [17:17] | true |true |
-    /// | E_18 | Interrupt Enable of Source | [18:18] | true |true |
-    /// | E_19 | Interrupt Enable of Source | [19:19] | true |true |
-    /// | E_20 | Interrupt Enable of Source | [20:20] | true |true |
-    /// | E_21 | Interrupt Enable of Source | [21:21] | true |true |
-    /// | E_22 | Interrupt Enable of Source | [22:22] | true |true |
-    /// | E_23 | Interrupt Enable of Source | [23:23] | true |true |
-    /// | E_24 | Interrupt Enable of Source | [24:24] | true |true |
-    /// | E_25 | Interrupt Enable of Source | [25:25] | true |true |
-    /// | E_26 | Interrupt Enable of Source | [26:26] | true |true |
-    /// | E_27 | Interrupt Enable of Source | [27:27] | true |true |
-    /// | E_28 | Interrupt Enable of Source | [28:28] | true |true |
-    /// | E_29 | Interrupt Enable of Source | [29:29] | true |true |
-    /// | E_30 | Interrupt Enable of Source | [30:30] | true |true |
-    /// | E_31 | Interrupt Enable of Source | [31:31] | true |true |
+    /// | P 0:25| Interrupt Pending of Source | [0:25] | false |true |
+    pub struct Ip1 {
+        reg: zermio::Register<u32>,
+    }
+
+    impl Ip1 {
+        pub fn new(addr: u32) -> Self {
+            Self {
+                reg: zermio::Register::<u32>::new(addr as usize),
+            }
+        }
+        /// Hardware description: Interrupt Pending of Source
+        ///
+        /// Returns a BitField with Read permissions, providing the following functions:
+        /// | Method                | Description                                     |
+        /// | :---                  | :---                                            |
+        /// | **`get()`**           | Returns the current value of the field.         |
+        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
+        /// | **`mask()`**          | Returns the bitmask for this field.             |
+        /// | **`max()`**           | Returns the maximum value this field can hold.  |
+        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
+        ///
+        pub fn p_160(&self) -> P160Field<'_> {
+            P160Field::new(&self.reg)
+        }
+
+        pub fn p_161(&self) -> P161Field<'_> {
+            P161Field::new(&self.reg)
+        }
+
+        pub fn p_162(&self) -> P162Field<'_> {
+            P162Field::new(&self.reg)
+        }
+
+        pub fn p_163(&self) -> P163Field<'_> {
+            P163Field::new(&self.reg)
+        }
+
+        pub fn p_164(&self) -> P164Field<'_> {
+            P164Field::new(&self.reg)
+        }
+
+        pub fn p_165(&self) -> P165Field<'_> {
+            P165Field::new(&self.reg)
+        }
+
+        pub fn p_166(&self) -> P166Field<'_> {
+            P166Field::new(&self.reg)
+        }
+
+        pub fn p_167(&self) -> P167Field<'_> {
+            P167Field::new(&self.reg)
+        }
+
+        pub fn p_168(&self) -> P168Field<'_> {
+            P168Field::new(&self.reg)
+        }
+
+        pub fn p_169(&self) -> P169Field<'_> {
+            P169Field::new(&self.reg)
+        }
+
+        pub fn p_170(&self) -> P170Field<'_> {
+            P170Field::new(&self.reg)
+        }
+
+        pub fn p_171(&self) -> P171Field<'_> {
+            P171Field::new(&self.reg)
+        }
+
+        pub fn p_172(&self) -> P172Field<'_> {
+            P172Field::new(&self.reg)
+        }
+
+        pub fn p_173(&self) -> P173Field<'_> {
+            P173Field::new(&self.reg)
+        }
+
+        pub fn p_174(&self) -> P174Field<'_> {
+            P174Field::new(&self.reg)
+        }
+
+        pub fn p_175(&self) -> P175Field<'_> {
+            P175Field::new(&self.reg)
+        }
+
+        pub fn p_176(&self) -> P176Field<'_> {
+            P176Field::new(&self.reg)
+        }
+
+        pub fn p_177(&self) -> P177Field<'_> {
+            P177Field::new(&self.reg)
+        }
+
+        pub fn p_178(&self) -> P178Field<'_> {
+            P178Field::new(&self.reg)
+        }
+
+        pub fn p_179(&self) -> P179Field<'_> {
+            P179Field::new(&self.reg)
+        }
+
+        pub fn p_270(&self) -> P270Field<'_> {
+            P270Field::new(&self.reg)
+        }
+
+        pub fn p_281(&self) -> P281Field<'_> {
+            P281Field::new(&self.reg)
+        }
+
+        pub fn p_282(&self) -> P282Field<'_> {
+            P282Field::new(&self.reg)
+        }
+
+        pub fn p_283(&self) -> P283Field<'_> {
+            P283Field::new(&self.reg)
+        }
+
+        pub fn p_284(&self) -> P284Field<'_> {
+            P284Field::new(&self.reg)
+        }
+
+        pub fn p_285(&self) -> P285Field<'_> {
+            P285Field::new(&self.reg)
+        }
+
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
+        /// Run a load instruction to read from MMIO
+        pub fn fetch(&self) -> &Self {
+            self.reg.fetch();
+            self
+        }
+    }
+    type P160Field<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::Read>;
+    type P161Field<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::Read>;
+    type P162Field<'a> = zermio::BitField<'a, 2, 1, u32, zermio::access::Read>;
+    type P163Field<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::Read>;
+    type P164Field<'a> = zermio::BitField<'a, 4, 1, u32, zermio::access::Read>;
+    type P165Field<'a> = zermio::BitField<'a, 5, 1, u32, zermio::access::Read>;
+    type P166Field<'a> = zermio::BitField<'a, 6, 1, u32, zermio::access::Read>;
+    type P167Field<'a> = zermio::BitField<'a, 7, 1, u32, zermio::access::Read>;
+    type P168Field<'a> = zermio::BitField<'a, 8, 1, u32, zermio::access::Read>;
+    type P169Field<'a> = zermio::BitField<'a, 9, 1, u32, zermio::access::Read>;
+    type P170Field<'a> = zermio::BitField<'a, 10, 1, u32, zermio::access::Read>;
+    type P171Field<'a> = zermio::BitField<'a, 11, 1, u32, zermio::access::Read>;
+    type P172Field<'a> = zermio::BitField<'a, 12, 1, u32, zermio::access::Read>;
+    type P173Field<'a> = zermio::BitField<'a, 13, 1, u32, zermio::access::Read>;
+    type P174Field<'a> = zermio::BitField<'a, 14, 1, u32, zermio::access::Read>;
+    type P175Field<'a> = zermio::BitField<'a, 15, 1, u32, zermio::access::Read>;
+    type P176Field<'a> = zermio::BitField<'a, 16, 1, u32, zermio::access::Read>;
+    type P177Field<'a> = zermio::BitField<'a, 17, 1, u32, zermio::access::Read>;
+    type P178Field<'a> = zermio::BitField<'a, 18, 1, u32, zermio::access::Read>;
+    type P179Field<'a> = zermio::BitField<'a, 19, 1, u32, zermio::access::Read>;
+    type P270Field<'a> = zermio::BitField<'a, 20, 1, u32, zermio::access::Read>;
+    type P281Field<'a> = zermio::BitField<'a, 21, 1, u32, zermio::access::Read>;
+    type P282Field<'a> = zermio::BitField<'a, 22, 1, u32, zermio::access::Read>;
+    type P283Field<'a> = zermio::BitField<'a, 23, 1, u32, zermio::access::Read>;
+    type P284Field<'a> = zermio::BitField<'a, 24, 1, u32, zermio::access::Read>;
+    type P285Field<'a> = zermio::BitField<'a, 25, 1, u32, zermio::access::Read>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 26, u32, zermio::access::Read>;
+}
+
+/// Interrupt Enable for Target 0.  
+pub use self::ie_0::*;
+mod ie_0 {
+
+    use super::*;
+
+    /// # IE_0 fields.  
+    /// | Field name      | Description  | Offset | Write | Read|
+    /// | :---               | :---         | :---   | :--   | :-- |
+    /// | E 0:31| Interrupt Enable of Source | [0:31] | true |true |
     pub struct Ie0 {
         reg: zermio::Register<u32>,
     }
@@ -906,694 +753,140 @@ mod ie0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_0(&mut self) -> E0Field {
-            E0Field::new(&mut self.reg)
+        pub fn e_0(&self) -> E0Field<'_> {
+            E0Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_1(&mut self) -> E1Field {
-            E1Field::new(&mut self.reg)
+        pub fn e_1(&self) -> E1Field<'_> {
+            E1Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_2(&mut self) -> E2Field {
-            E2Field::new(&mut self.reg)
+        pub fn e_2(&self) -> E2Field<'_> {
+            E2Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_3(&mut self) -> E3Field {
-            E3Field::new(&mut self.reg)
+        pub fn e_3(&self) -> E3Field<'_> {
+            E3Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_4(&mut self) -> E4Field {
-            E4Field::new(&mut self.reg)
+        pub fn e_4(&self) -> E4Field<'_> {
+            E4Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_5(&mut self) -> E5Field {
-            E5Field::new(&mut self.reg)
+        pub fn e_5(&self) -> E5Field<'_> {
+            E5Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_6(&mut self) -> E6Field {
-            E6Field::new(&mut self.reg)
+        pub fn e_6(&self) -> E6Field<'_> {
+            E6Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_7(&mut self) -> E7Field {
-            E7Field::new(&mut self.reg)
+        pub fn e_7(&self) -> E7Field<'_> {
+            E7Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_8(&mut self) -> E8Field {
-            E8Field::new(&mut self.reg)
+        pub fn e_8(&self) -> E8Field<'_> {
+            E8Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_9(&mut self) -> E9Field {
-            E9Field::new(&mut self.reg)
+        pub fn e_9(&self) -> E9Field<'_> {
+            E9Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_10(&mut self) -> E10Field {
-            E10Field::new(&mut self.reg)
+        pub fn e_10(&self) -> E10Field<'_> {
+            E10Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_11(&mut self) -> E11Field {
-            E11Field::new(&mut self.reg)
+        pub fn e_11(&self) -> E11Field<'_> {
+            E11Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_12(&mut self) -> E12Field {
-            E12Field::new(&mut self.reg)
+        pub fn e_12(&self) -> E12Field<'_> {
+            E12Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_13(&mut self) -> E13Field {
-            E13Field::new(&mut self.reg)
+        pub fn e_13(&self) -> E13Field<'_> {
+            E13Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_14(&mut self) -> E14Field {
-            E14Field::new(&mut self.reg)
+        pub fn e_14(&self) -> E14Field<'_> {
+            E14Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_15(&mut self) -> E15Field {
-            E15Field::new(&mut self.reg)
+        pub fn e_15(&self) -> E15Field<'_> {
+            E15Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_16(&mut self) -> E16Field {
-            E16Field::new(&mut self.reg)
+        pub fn e_16(&self) -> E16Field<'_> {
+            E16Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_17(&mut self) -> E17Field {
-            E17Field::new(&mut self.reg)
+        pub fn e_17(&self) -> E17Field<'_> {
+            E17Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_18(&mut self) -> E18Field {
-            E18Field::new(&mut self.reg)
+        pub fn e_18(&self) -> E18Field<'_> {
+            E18Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_19(&mut self) -> E19Field {
-            E19Field::new(&mut self.reg)
+        pub fn e_19(&self) -> E19Field<'_> {
+            E19Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_20(&mut self) -> E20Field {
-            E20Field::new(&mut self.reg)
+        pub fn e_20(&self) -> E20Field<'_> {
+            E20Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_21(&mut self) -> E21Field {
-            E21Field::new(&mut self.reg)
+        pub fn e_21(&self) -> E21Field<'_> {
+            E21Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_22(&mut self) -> E22Field {
-            E22Field::new(&mut self.reg)
+        pub fn e_22(&self) -> E22Field<'_> {
+            E22Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_23(&mut self) -> E23Field {
-            E23Field::new(&mut self.reg)
+        pub fn e_23(&self) -> E23Field<'_> {
+            E23Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_24(&mut self) -> E24Field {
-            E24Field::new(&mut self.reg)
+        pub fn e_24(&self) -> E24Field<'_> {
+            E24Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_25(&mut self) -> E25Field {
-            E25Field::new(&mut self.reg)
+        pub fn e_25(&self) -> E25Field<'_> {
+            E25Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_26(&mut self) -> E26Field {
-            E26Field::new(&mut self.reg)
+        pub fn e_26(&self) -> E26Field<'_> {
+            E26Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_27(&mut self) -> E27Field {
-            E27Field::new(&mut self.reg)
+        pub fn e_27(&self) -> E27Field<'_> {
+            E27Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_28(&mut self) -> E28Field {
-            E28Field::new(&mut self.reg)
+        pub fn e_28(&self) -> E28Field<'_> {
+            E28Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_29(&mut self) -> E29Field {
-            E29Field::new(&mut self.reg)
+        pub fn e_29(&self) -> E29Field<'_> {
+            E29Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_30(&mut self) -> E30Field {
-            E30Field::new(&mut self.reg)
+        pub fn e_30(&self) -> E30Field<'_> {
+            E30Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_31(&mut self) -> E31Field {
-            E31Field::new(&mut self.reg)
+        pub fn e_31(&self) -> E31Field<'_> {
+            E31Field::new(&self.reg)
         }
 
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
+        }
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -1651,49 +944,19 @@ mod ie0 {
     type E29Field<'a> = zermio::BitField<'a, 29, 1, u32, zermio::access::ReadWrite>;
     type E30Field<'a> = zermio::BitField<'a, 30, 1, u32, zermio::access::ReadWrite>;
     type E31Field<'a> = zermio::BitField<'a, 31, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 32, u32, zermio::access::ReadWrite>;
 }
 
-/// Interrupt Enable for Target 1.  
-pub use self::ie1::*;
-mod ie1 {
+/// Interrupt Enable for Target 0.  
+pub use self::ie_1::*;
+mod ie_1 {
 
     use super::*;
 
-    /// # IE1 fields.  
+    /// # IE_1 fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | E_0 | Interrupt Enable of Source | [0:0] | true |true |
-    /// | E_1 | Interrupt Enable of Source | [1:1] | true |true |
-    /// | E_2 | Interrupt Enable of Source | [2:2] | true |true |
-    /// | E_3 | Interrupt Enable of Source | [3:3] | true |true |
-    /// | E_4 | Interrupt Enable of Source | [4:4] | true |true |
-    /// | E_5 | Interrupt Enable of Source | [5:5] | true |true |
-    /// | E_6 | Interrupt Enable of Source | [6:6] | true |true |
-    /// | E_7 | Interrupt Enable of Source | [7:7] | true |true |
-    /// | E_8 | Interrupt Enable of Source | [8:8] | true |true |
-    /// | E_9 | Interrupt Enable of Source | [9:9] | true |true |
-    /// | E_10 | Interrupt Enable of Source | [10:10] | true |true |
-    /// | E_11 | Interrupt Enable of Source | [11:11] | true |true |
-    /// | E_12 | Interrupt Enable of Source | [12:12] | true |true |
-    /// | E_13 | Interrupt Enable of Source | [13:13] | true |true |
-    /// | E_14 | Interrupt Enable of Source | [14:14] | true |true |
-    /// | E_15 | Interrupt Enable of Source | [15:15] | true |true |
-    /// | E_16 | Interrupt Enable of Source | [16:16] | true |true |
-    /// | E_17 | Interrupt Enable of Source | [17:17] | true |true |
-    /// | E_18 | Interrupt Enable of Source | [18:18] | true |true |
-    /// | E_19 | Interrupt Enable of Source | [19:19] | true |true |
-    /// | E_20 | Interrupt Enable of Source | [20:20] | true |true |
-    /// | E_21 | Interrupt Enable of Source | [21:21] | true |true |
-    /// | E_22 | Interrupt Enable of Source | [22:22] | true |true |
-    /// | E_23 | Interrupt Enable of Source | [23:23] | true |true |
-    /// | E_24 | Interrupt Enable of Source | [24:24] | true |true |
-    /// | E_25 | Interrupt Enable of Source | [25:25] | true |true |
-    /// | E_26 | Interrupt Enable of Source | [26:26] | true |true |
-    /// | E_27 | Interrupt Enable of Source | [27:27] | true |true |
-    /// | E_28 | Interrupt Enable of Source | [28:28] | true |true |
-    /// | E_29 | Interrupt Enable of Source | [29:29] | true |true |
-    /// | E_30 | Interrupt Enable of Source | [30:30] | true |true |
-    /// | E_31 | Interrupt Enable of Source | [31:31] | true |true |
+    /// | E 0:24| For RV_PLIC5 | [0:24] | true |true |
     pub struct Ie1 {
         reg: zermio::Register<u32>,
     }
@@ -1704,7 +967,7 @@ mod ie1 {
                 reg: zermio::Register::<u32>::new(addr as usize),
             }
         }
-        /// Hardware description: Interrupt Enable of Source
+        /// Hardware description: For RV_PLIC5
         ///
         /// Returns a BitField with ReadWrite permissions, providing the following functions:
         /// | Method                | Description                                     |
@@ -1722,694 +985,112 @@ mod ie1 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn e_0(&mut self) -> E0Field {
-            E0Field::new(&mut self.reg)
+        pub fn e_160(&self) -> E160Field<'_> {
+            E160Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_1(&mut self) -> E1Field {
-            E1Field::new(&mut self.reg)
+        pub fn e_161(&self) -> E161Field<'_> {
+            E161Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_2(&mut self) -> E2Field {
-            E2Field::new(&mut self.reg)
+        pub fn e_162(&self) -> E162Field<'_> {
+            E162Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_3(&mut self) -> E3Field {
-            E3Field::new(&mut self.reg)
+        pub fn e_163(&self) -> E163Field<'_> {
+            E163Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_4(&mut self) -> E4Field {
-            E4Field::new(&mut self.reg)
+        pub fn e_164(&self) -> E164Field<'_> {
+            E164Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_5(&mut self) -> E5Field {
-            E5Field::new(&mut self.reg)
+        pub fn e_165(&self) -> E165Field<'_> {
+            E165Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_6(&mut self) -> E6Field {
-            E6Field::new(&mut self.reg)
+        pub fn e_166(&self) -> E166Field<'_> {
+            E166Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_7(&mut self) -> E7Field {
-            E7Field::new(&mut self.reg)
+        pub fn e_167(&self) -> E167Field<'_> {
+            E167Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_8(&mut self) -> E8Field {
-            E8Field::new(&mut self.reg)
+        pub fn e_168(&self) -> E168Field<'_> {
+            E168Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_9(&mut self) -> E9Field {
-            E9Field::new(&mut self.reg)
+        pub fn e_169(&self) -> E169Field<'_> {
+            E169Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_10(&mut self) -> E10Field {
-            E10Field::new(&mut self.reg)
+        pub fn e_170(&self) -> E170Field<'_> {
+            E170Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_11(&mut self) -> E11Field {
-            E11Field::new(&mut self.reg)
+        pub fn e_171(&self) -> E171Field<'_> {
+            E171Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_12(&mut self) -> E12Field {
-            E12Field::new(&mut self.reg)
+        pub fn e_172(&self) -> E172Field<'_> {
+            E172Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_13(&mut self) -> E13Field {
-            E13Field::new(&mut self.reg)
+        pub fn e_173(&self) -> E173Field<'_> {
+            E173Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_14(&mut self) -> E14Field {
-            E14Field::new(&mut self.reg)
+        pub fn e_174(&self) -> E174Field<'_> {
+            E174Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_15(&mut self) -> E15Field {
-            E15Field::new(&mut self.reg)
+        pub fn e_175(&self) -> E175Field<'_> {
+            E175Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_16(&mut self) -> E16Field {
-            E16Field::new(&mut self.reg)
+        pub fn e_176(&self) -> E176Field<'_> {
+            E176Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_17(&mut self) -> E17Field {
-            E17Field::new(&mut self.reg)
+        pub fn e_177(&self) -> E177Field<'_> {
+            E177Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_18(&mut self) -> E18Field {
-            E18Field::new(&mut self.reg)
+        pub fn e_178(&self) -> E178Field<'_> {
+            E178Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_19(&mut self) -> E19Field {
-            E19Field::new(&mut self.reg)
+        pub fn e_179(&self) -> E179Field<'_> {
+            E179Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_20(&mut self) -> E20Field {
-            E20Field::new(&mut self.reg)
+        pub fn e_180(&self) -> E180Field<'_> {
+            E180Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_21(&mut self) -> E21Field {
-            E21Field::new(&mut self.reg)
+        pub fn e_181(&self) -> E181Field<'_> {
+            E181Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_22(&mut self) -> E22Field {
-            E22Field::new(&mut self.reg)
+        pub fn e_182(&self) -> E182Field<'_> {
+            E182Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_23(&mut self) -> E23Field {
-            E23Field::new(&mut self.reg)
+        pub fn e_183(&self) -> E183Field<'_> {
+            E183Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_24(&mut self) -> E24Field {
-            E24Field::new(&mut self.reg)
+        pub fn e_184(&self) -> E184Field<'_> {
+            E184Field::new(&self.reg)
         }
 
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_25(&mut self) -> E25Field {
-            E25Field::new(&mut self.reg)
+        /// All fields.
+        pub fn all_fields(&self) -> AllFields<'_> {
+            AllFields::new(&self.reg)
         }
-
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_26(&mut self) -> E26Field {
-            E26Field::new(&mut self.reg)
-        }
-
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_27(&mut self) -> E27Field {
-            E27Field::new(&mut self.reg)
-        }
-
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_28(&mut self) -> E28Field {
-            E28Field::new(&mut self.reg)
-        }
-
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_29(&mut self) -> E29Field {
-            E29Field::new(&mut self.reg)
-        }
-
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_30(&mut self) -> E30Field {
-            E30Field::new(&mut self.reg)
-        }
-
-        /// Hardware description: Interrupt Enable of Source
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn e_31(&mut self) -> E31Field {
-            E31Field::new(&mut self.reg)
-        }
-
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2435,38 +1116,32 @@ mod ie1 {
             self.write(action);
         }
     }
-    type E0Field<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
-    type E1Field<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::ReadWrite>;
-    type E2Field<'a> = zermio::BitField<'a, 2, 1, u32, zermio::access::ReadWrite>;
-    type E3Field<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::ReadWrite>;
-    type E4Field<'a> = zermio::BitField<'a, 4, 1, u32, zermio::access::ReadWrite>;
-    type E5Field<'a> = zermio::BitField<'a, 5, 1, u32, zermio::access::ReadWrite>;
-    type E6Field<'a> = zermio::BitField<'a, 6, 1, u32, zermio::access::ReadWrite>;
-    type E7Field<'a> = zermio::BitField<'a, 7, 1, u32, zermio::access::ReadWrite>;
-    type E8Field<'a> = zermio::BitField<'a, 8, 1, u32, zermio::access::ReadWrite>;
-    type E9Field<'a> = zermio::BitField<'a, 9, 1, u32, zermio::access::ReadWrite>;
-    type E10Field<'a> = zermio::BitField<'a, 10, 1, u32, zermio::access::ReadWrite>;
-    type E11Field<'a> = zermio::BitField<'a, 11, 1, u32, zermio::access::ReadWrite>;
-    type E12Field<'a> = zermio::BitField<'a, 12, 1, u32, zermio::access::ReadWrite>;
-    type E13Field<'a> = zermio::BitField<'a, 13, 1, u32, zermio::access::ReadWrite>;
-    type E14Field<'a> = zermio::BitField<'a, 14, 1, u32, zermio::access::ReadWrite>;
-    type E15Field<'a> = zermio::BitField<'a, 15, 1, u32, zermio::access::ReadWrite>;
-    type E16Field<'a> = zermio::BitField<'a, 16, 1, u32, zermio::access::ReadWrite>;
-    type E17Field<'a> = zermio::BitField<'a, 17, 1, u32, zermio::access::ReadWrite>;
-    type E18Field<'a> = zermio::BitField<'a, 18, 1, u32, zermio::access::ReadWrite>;
-    type E19Field<'a> = zermio::BitField<'a, 19, 1, u32, zermio::access::ReadWrite>;
-    type E20Field<'a> = zermio::BitField<'a, 20, 1, u32, zermio::access::ReadWrite>;
-    type E21Field<'a> = zermio::BitField<'a, 21, 1, u32, zermio::access::ReadWrite>;
-    type E22Field<'a> = zermio::BitField<'a, 22, 1, u32, zermio::access::ReadWrite>;
-    type E23Field<'a> = zermio::BitField<'a, 23, 1, u32, zermio::access::ReadWrite>;
-    type E24Field<'a> = zermio::BitField<'a, 24, 1, u32, zermio::access::ReadWrite>;
-    type E25Field<'a> = zermio::BitField<'a, 25, 1, u32, zermio::access::ReadWrite>;
-    type E26Field<'a> = zermio::BitField<'a, 26, 1, u32, zermio::access::ReadWrite>;
-    type E27Field<'a> = zermio::BitField<'a, 27, 1, u32, zermio::access::ReadWrite>;
-    type E28Field<'a> = zermio::BitField<'a, 28, 1, u32, zermio::access::ReadWrite>;
-    type E29Field<'a> = zermio::BitField<'a, 29, 1, u32, zermio::access::ReadWrite>;
-    type E30Field<'a> = zermio::BitField<'a, 30, 1, u32, zermio::access::ReadWrite>;
-    type E31Field<'a> = zermio::BitField<'a, 31, 1, u32, zermio::access::ReadWrite>;
+    type E160Field<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
+    type E161Field<'a> = zermio::BitField<'a, 1, 1, u32, zermio::access::ReadWrite>;
+    type E162Field<'a> = zermio::BitField<'a, 2, 1, u32, zermio::access::ReadWrite>;
+    type E163Field<'a> = zermio::BitField<'a, 3, 1, u32, zermio::access::ReadWrite>;
+    type E164Field<'a> = zermio::BitField<'a, 4, 1, u32, zermio::access::ReadWrite>;
+    type E165Field<'a> = zermio::BitField<'a, 5, 1, u32, zermio::access::ReadWrite>;
+    type E166Field<'a> = zermio::BitField<'a, 6, 1, u32, zermio::access::ReadWrite>;
+    type E167Field<'a> = zermio::BitField<'a, 7, 1, u32, zermio::access::ReadWrite>;
+    type E168Field<'a> = zermio::BitField<'a, 8, 1, u32, zermio::access::ReadWrite>;
+    type E169Field<'a> = zermio::BitField<'a, 9, 1, u32, zermio::access::ReadWrite>;
+    type E170Field<'a> = zermio::BitField<'a, 10, 1, u32, zermio::access::ReadWrite>;
+    type E171Field<'a> = zermio::BitField<'a, 11, 1, u32, zermio::access::ReadWrite>;
+    type E172Field<'a> = zermio::BitField<'a, 12, 1, u32, zermio::access::ReadWrite>;
+    type E173Field<'a> = zermio::BitField<'a, 13, 1, u32, zermio::access::ReadWrite>;
+    type E174Field<'a> = zermio::BitField<'a, 14, 1, u32, zermio::access::ReadWrite>;
+    type E175Field<'a> = zermio::BitField<'a, 15, 1, u32, zermio::access::ReadWrite>;
+    type E176Field<'a> = zermio::BitField<'a, 16, 1, u32, zermio::access::ReadWrite>;
+    type E177Field<'a> = zermio::BitField<'a, 17, 1, u32, zermio::access::ReadWrite>;
+    type E178Field<'a> = zermio::BitField<'a, 18, 1, u32, zermio::access::ReadWrite>;
+    type E179Field<'a> = zermio::BitField<'a, 19, 1, u32, zermio::access::ReadWrite>;
+    type E180Field<'a> = zermio::BitField<'a, 20, 1, u32, zermio::access::ReadWrite>;
+    type E181Field<'a> = zermio::BitField<'a, 21, 1, u32, zermio::access::ReadWrite>;
+    type E182Field<'a> = zermio::BitField<'a, 22, 1, u32, zermio::access::ReadWrite>;
+    type E183Field<'a> = zermio::BitField<'a, 23, 1, u32, zermio::access::ReadWrite>;
+    type E184Field<'a> = zermio::BitField<'a, 24, 1, u32, zermio::access::ReadWrite>;
+    type AllFields<'a> = zermio::BitField<'a, 0, 25, u32, zermio::access::ReadWrite>;
 }
 
 /// Threshold of priority for Target 0.  
@@ -2502,12 +1177,12 @@ mod threshold0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn threshold0(&mut self) -> Threshold0Field {
-            Threshold0Field::new(&mut self.reg)
+        pub fn threshold0(&self) -> Threshold0Field<'_> {
+            Threshold0Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2545,7 +1220,7 @@ mod cc0 {
     /// # CC0 fields.  
     /// | Field name      | Description  | Offset | Write | Read|
     /// | :---               | :---         | :---   | :--   | :-- |
-    /// | CC0 |  | [4:0] | true |true |
+    /// | CC0 |  | [7:0] | true |true |
     pub struct Cc0 {
         reg: zermio::Register<u32>,
     }
@@ -2569,12 +1244,12 @@ mod cc0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn cc0(&mut self) -> Cc0Field {
-            Cc0Field::new(&mut self.reg)
+        pub fn cc0(&self) -> Cc0Field<'_> {
+            Cc0Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2600,141 +1275,7 @@ mod cc0 {
             self.write(action);
         }
     }
-    type Cc0Field<'a> = zermio::BitField<'a, 0, 5, u32, zermio::access::ReadWrite>;
-}
-
-/// Threshold of priority for Target 1.  
-pub use self::threshold1::*;
-mod threshold1 {
-
-    use super::*;
-
-    /// # THRESHOLD1 fields.  
-    /// | Field name      | Description  | Offset | Write | Read|
-    /// | :---               | :---         | :---   | :--   | :-- |
-    /// | THRESHOLD1 |  | [1:0] | true |true |
-    pub struct Threshold1 {
-        reg: zermio::Register<u32>,
-    }
-
-    impl Threshold1 {
-        pub fn new(addr: u32) -> Self {
-            Self {
-                reg: zermio::Register::<u32>::new(addr as usize),
-            }
-        }
-        /// Hardware description:
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn threshold1(&mut self) -> Threshold1Field {
-            Threshold1Field::new(&mut self.reg)
-        }
-
-        /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
-            self.reg.fetch();
-            self
-        }
-        /// Run a store instruction to write the MMIO
-        pub fn commit(&mut self) {
-            self.reg.commit()
-        }
-        /// Call action to update the inner self, then run a store instruction to write it to the MMIO
-        pub fn write<F>(&mut self, action: F)
-        where
-            F: FnOnce(&mut Self),
-        {
-            action(self);
-            self.reg.commit();
-        }
-        /// Run a load instruction to read from the MMIO, call action, then run a store instruction
-        /// to write it to the MMIO
-        pub fn update<F>(&mut self, action: F)
-        where
-            F: FnOnce(&mut Self),
-        {
-            self.reg.fetch();
-            self.write(action);
-        }
-    }
-    type Threshold1Field<'a> = zermio::BitField<'a, 0, 2, u32, zermio::access::ReadWrite>;
-}
-
-/// Claim interrupt by read, complete interrupt by write for Target 1.Value read/written is interrupt ID. Reading a value of 0 means no pending interrupts..  
-pub use self::cc1::*;
-mod cc1 {
-
-    use super::*;
-
-    /// # CC1 fields.  
-    /// | Field name      | Description  | Offset | Write | Read|
-    /// | :---               | :---         | :---   | :--   | :-- |
-    /// | CC1 |  | [4:0] | true |true |
-    pub struct Cc1 {
-        reg: zermio::Register<u32>,
-    }
-
-    impl Cc1 {
-        pub fn new(addr: u32) -> Self {
-            Self {
-                reg: zermio::Register::<u32>::new(addr as usize),
-            }
-        }
-        /// Hardware description:
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn cc1(&mut self) -> Cc1Field {
-            Cc1Field::new(&mut self.reg)
-        }
-
-        /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
-            self.reg.fetch();
-            self
-        }
-        /// Run a store instruction to write the MMIO
-        pub fn commit(&mut self) {
-            self.reg.commit()
-        }
-        /// Call action to update the inner self, then run a store instruction to write it to the MMIO
-        pub fn write<F>(&mut self, action: F)
-        where
-            F: FnOnce(&mut Self),
-        {
-            action(self);
-            self.reg.commit();
-        }
-        /// Run a load instruction to read from the MMIO, call action, then run a store instruction
-        /// to write it to the MMIO
-        pub fn update<F>(&mut self, action: F)
-        where
-            F: FnOnce(&mut Self),
-        {
-            self.reg.fetch();
-            self.write(action);
-        }
-    }
-    type Cc1Field<'a> = zermio::BitField<'a, 0, 5, u32, zermio::access::ReadWrite>;
+    type Cc0Field<'a> = zermio::BitField<'a, 0, 8, u32, zermio::access::ReadWrite>;
 }
 
 /// msip for Hart 0.Write 1 to here asserts software interrupt for Hart msip_o[0], write 0 to clear..  
@@ -2775,12 +1316,12 @@ mod msip0 {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn msip0(&mut self) -> Msip0Field {
-            Msip0Field::new(&mut self.reg)
+        pub fn msip0(&self) -> Msip0Field<'_> {
+            Msip0Field::new(&self.reg)
         }
 
         /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
+        pub fn fetch(&self) -> &Self {
             self.reg.fetch();
             self
         }
@@ -2807,78 +1348,6 @@ mod msip0 {
         }
     }
     type Msip0Field<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
-}
-
-/// msip for Hart 1.Write 1 to here asserts software interrupt for Hart msip_o[1], write 0 to clear..  
-pub use self::msip1::*;
-mod msip1 {
-
-    use super::*;
-
-    /// # MSIP1 fields.  
-    /// | Field name      | Description  | Offset | Write | Read|
-    /// | :---               | :---         | :---   | :--   | :-- |
-    /// | MSIP1 | Software Interrupt Pending register | [0:0] | true |true |
-    pub struct Msip1 {
-        reg: zermio::Register<u32>,
-    }
-
-    impl Msip1 {
-        pub fn new(addr: u32) -> Self {
-            Self {
-                reg: zermio::Register::<u32>::new(addr as usize),
-            }
-        }
-        /// Hardware description: Software Interrupt Pending register
-        ///
-        /// Returns a BitField with ReadWrite permissions, providing the following functions:
-        /// | Method                | Description                                     |
-        /// | :---                  | :---                                            |
-        /// | **`get()`**           | Returns the current value of the field.         |
-        /// | **`is_set()`**        | Returns `true` if the bit is 1.                 |
-        /// | **`write(val)`**      | Writes a multi-bit `val` to the field.          |
-        /// | **`clear()`**         | Sets all bits in the field to 0.                |
-        /// | **`write_mask(val)`** | Sets only the bits that are high (1) in `val`.  |
-        /// | **`set()`**           | Sets a single-bit field to 1.                   |
-        /// | **`reset()`**         | Sets a single-bit field to 0.                   |
-        /// | **`toggle()`**        | Inverts the current state of a single-bit field.|
-        /// | **`assign(val)`**     | Sets a single-bit field to the boolean `val`.   |
-        /// | **`mask()`**          | Returns the bitmask for this field.             |
-        /// | **`max()`**           | Returns the maximum value this field can hold.  |
-        /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
-        ///
-        pub fn msip1(&mut self) -> Msip1Field {
-            Msip1Field::new(&mut self.reg)
-        }
-
-        /// Run a load instruction to read from MMIO
-        pub fn fetch(&mut self) -> &mut Self {
-            self.reg.fetch();
-            self
-        }
-        /// Run a store instruction to write the MMIO
-        pub fn commit(&mut self) {
-            self.reg.commit()
-        }
-        /// Call action to update the inner self, then run a store instruction to write it to the MMIO
-        pub fn write<F>(&mut self, action: F)
-        where
-            F: FnOnce(&mut Self),
-        {
-            action(self);
-            self.reg.commit();
-        }
-        /// Run a load instruction to read from the MMIO, call action, then run a store instruction
-        /// to write it to the MMIO
-        pub fn update<F>(&mut self, action: F)
-        where
-            F: FnOnce(&mut Self),
-        {
-            self.reg.fetch();
-            self.write(action);
-        }
-    }
-    type Msip1Field<'a> = zermio::BitField<'a, 0, 1, u32, zermio::access::ReadWrite>;
 }
 
 /// Alert Test Register..  
@@ -2917,8 +1386,8 @@ mod alert_test {
         /// | **`max()`**           | Returns the maximum value this field can hold.  |
         /// | **`in_range(val)`**   | Returns true if val fits in the field.          |
         ///
-        pub fn fatal_fault(&mut self) -> FatalFaultField {
-            FatalFaultField::new(&mut self.reg)
+        pub fn fatal_fault(&self) -> FatalFaultField<'_> {
+            FatalFaultField::new(&self.reg)
         }
 
         /// Run a store instruction to write the MMIO

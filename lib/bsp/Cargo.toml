@@ -1,0 +1,25 @@
+# Copyright (c) Douglas Reis.
+# Licensed under the Apache License, Version 2.0, see LICENSE for details.
+# SPDX-License-Identifier: Apache-2.0
+
+[package]
+name = "bsp"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+riscv = { version = "0.16.0", features = ["critical-section-single-hart"] }
+embedtrait = { version = "0.1.0", path = "../embedtrait" }
+hal = { version = "0.1.0", path = "../../lib/hal" }
+zermio = { version = "0.1.0", path = "../../lib/zermio/earlgrey" }
+manifest = { version = "0.1.0", path = "../../lib/manifest" }
+test-utils-macros = { version = "0.1.0", path = "../test-utils-macros" }
+embedded-hal = "1.0.0"
+st7735-lcd = "0.10.0"
+riscv-rt = "0.17.1"
+fugit = "0.4.0"
+
+[lib]
+name = "bsp"
+path = "lib.rs"
+test = false
