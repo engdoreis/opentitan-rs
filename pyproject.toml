@@ -6,7 +6,7 @@
 name = "opentitan-rs"
 version = "0.0.0"
 description = "Opentitan-rs"
-requires-python = ">=3.10"
+requires-python = ">=3.13"
 
 dependencies = [
     "rdl2ot>=0.4.0",

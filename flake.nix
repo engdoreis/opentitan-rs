@@ -27,7 +27,7 @@
       url = "github:oxalica/rust-overlay";
     };
     zermio = {
-      url = "github:engdoreis/zermio";
+      url = "github:engdoreis/zermio/v0.3.0";
     };
   };
 
@@ -59,7 +59,7 @@
 
       pythonSet =
         (pkgs.callPackage inputs.pyproject-nix.build.packages {
-          python = pkgs.python310;
+          python = pkgs.python315;
         }).overrideScope
         (
           pkgs.lib.composeManyExtensions [
@@ -103,6 +103,7 @@
             pythonEnv
             zermio-cli
             cargo-binutils
+            cargo-expand
             llvmPackages_20.bintools
             libudev-zero
             libftdi1
